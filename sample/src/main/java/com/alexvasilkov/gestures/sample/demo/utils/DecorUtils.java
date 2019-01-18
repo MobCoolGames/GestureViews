@@ -2,7 +2,6 @@ package com.alexvasilkov.gestures.sample.demo.utils;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
@@ -10,47 +9,35 @@ import android.view.ViewConfiguration;
 
 import com.alexvasilkov.android.commons.ui.Views;
 
-@SuppressWarnings({ "SameParameterValue", "unused" }) // Public API
+@SuppressWarnings({"SameParameterValue", "unused"}) // Public API
 public class DecorUtils {
 
-    private DecorUtils() {}
+    private DecorUtils() {
+    }
 
     public static void paddingForStatusBar(View view, boolean isFixedSize) {
-        if (isCanHaveTransparentDecor()) {
-            int height = getStatusBarHeight(view.getContext());
+        int height = getStatusBarHeight(view.getContext());
 
-            view.setPadding(view.getPaddingLeft(), view.getPaddingTop() + height,
-                    view.getPaddingRight(), view.getPaddingBottom());
+        view.setPadding(view.getPaddingLeft(), view.getPaddingTop() + height,
+                view.getPaddingRight(), view.getPaddingBottom());
 
-            if (isFixedSize) {
-                Views.getParams(view).height += height;
-            }
+        if (isFixedSize) {
+            Views.getParams(view).height += height;
         }
     }
 
     public static void marginForStatusBar(View view) {
-        if (isCanHaveTransparentDecor()) {
-            Views.getMarginParams(view).topMargin += getStatusBarHeight(view.getContext());
-        }
+        Views.getMarginParams(view).topMargin += getStatusBarHeight(view.getContext());
     }
 
     public static void paddingForNavBar(View view) {
-        if (isCanHaveTransparentDecor()) {
-            int height = getNavBarHeight(view.getContext());
-            view.setPadding(view.getPaddingLeft(), view.getPaddingTop(),
-                    view.getPaddingRight(), view.getPaddingBottom() + height);
-        }
+        int height = getNavBarHeight(view.getContext());
+        view.setPadding(view.getPaddingLeft(), view.getPaddingTop(),
+                view.getPaddingRight(), view.getPaddingBottom() + height);
     }
 
     public static void marginForNavBar(View view) {
-        if (isCanHaveTransparentDecor()) {
-            Views.getMarginParams(view).bottomMargin += getNavBarHeight(view.getContext());
-        }
-    }
-
-
-    public static boolean isCanHaveTransparentDecor() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        Views.getMarginParams(view).bottomMargin += getNavBarHeight(view.getContext());
     }
 
     public static int getStatusBarHeight(Context context) {

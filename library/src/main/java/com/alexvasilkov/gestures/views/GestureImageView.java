@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
@@ -133,7 +132,7 @@ public class GestureImageView extends ImageView
      * @param listener Snapshot listener
      * @deprecated Use {@link #crop()} method instead.
      */
-    @SuppressWarnings({ "deprecation", "unused" }) // Public API
+    @SuppressWarnings({"deprecation", "unused"}) // Public API
     @Deprecated
     public void getSnapshot(OnSnapshotLoadedListener listener) {
         if (getDrawable() != null) {
@@ -219,11 +218,7 @@ public class GestureImageView extends ImageView
 
     @SuppressWarnings("deprecation")
     private static Drawable getDrawable(Context context, @DrawableRes int id) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return context.getDrawable(id);
-        } else {
-            return context.getResources().getDrawable(id);
-        }
+        return context.getDrawable(id);
     }
 
 

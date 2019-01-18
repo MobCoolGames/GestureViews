@@ -9,7 +9,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -336,12 +335,7 @@ public class CropAreaView extends View {
         paint.setColor(backColor);
 
         // Punching hole in background color requires offscreen drawing
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            canvas.saveLayer(0, 0, canvas.getWidth(), canvas.getHeight(), null);
-        } else {
-            canvas.saveLayer(0, 0, canvas.getWidth(), canvas.getHeight(), null, 0);
-        }
-
+        canvas.saveLayer(0, 0, canvas.getWidth(), canvas.getHeight(), null);
         canvas.drawPaint(paint);
 
         final float rx = rounding * 0.5f * areaRect.width();

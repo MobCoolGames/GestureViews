@@ -3,7 +3,6 @@ package com.alexvasilkov.gestures;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.Gravity;
 
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
@@ -62,11 +61,6 @@ public class Settings {
      * Overzoom factor.
      */
     private float overzoomFactor = OVERZOOM_FACTOR;
-
-    /*
-     * Image gravity inside viewport area.
-     */
-    private int gravity = Gravity.CENTER;
 
     /*
      * Whether fling (inertial motion after scroll) is enabled or not.
@@ -133,8 +127,6 @@ public class Settings {
                 R.styleable.GestureView_gest_doubleTapZoom, doubleTapZoom);
         overzoomFactor = arr.getFloat(
                 R.styleable.GestureView_gest_overzoomFactor, overzoomFactor);
-        gravity = arr.getInt(
-                R.styleable.GestureView_gest_gravity, gravity);
 
         isFlingEnabled = arr.getBoolean(
                 R.styleable.GestureView_gest_flingEnabled, isFlingEnabled);
@@ -263,19 +255,6 @@ public class Settings {
             throw new IllegalArgumentException("Overzoom factor cannot be < 1");
         }
         overzoomFactor = factor;
-        return this;
-    }
-
-    /**
-     * Setting image gravity inside viewport area.
-     * <p>
-     * Default value is {@link android.view.Gravity#CENTER}.
-     *
-     * @param gravity Image gravity, one of {@link android.view.Gravity} constants
-     * @return Current settings object for calls chaining
-     */
-    public Settings setGravity(int gravity) {
-        this.gravity = gravity;
         return this;
     }
 
@@ -491,10 +470,6 @@ public class Settings {
 
     public float getOverzoomFactor() {
         return overzoomFactor;
-    }
-
-    public int getGravity() {
-        return gravity;
     }
 
     public boolean isFlingEnabled() {

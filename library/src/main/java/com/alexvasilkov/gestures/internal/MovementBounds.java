@@ -11,8 +11,7 @@ import com.alexvasilkov.gestures.utils.GravityUtils;
 import com.alexvasilkov.gestures.utils.MathUtils;
 
 /**
- * Encapsulates logic related to movement bounds restriction. It will also apply image gravity
- * provided by {@link Settings#getGravity()} method.
+ * Encapsulates logic related to movement bounds restriction.
  * <p>
  * Movement bounds can be represented using regular rectangle most of the time.
  */
@@ -38,7 +37,7 @@ public class MovementBounds {
 
     /**
      * Calculating bounds for {@link State#x} &amp; {@link State#y} values to keep image within
-     * viewport and taking image gravity into account (see {@link Settings#setGravity(int)}).
+     * viewport.
      *
      * @param state State for which to calculate movement bounds.
      * @return Current movement bounds object for calls chaining.

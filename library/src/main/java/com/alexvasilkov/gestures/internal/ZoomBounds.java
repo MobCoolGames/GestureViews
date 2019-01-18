@@ -8,8 +8,7 @@ import com.alexvasilkov.gestures.State;
 import com.alexvasilkov.gestures.utils.MathUtils;
 
 /**
- * Encapsulates logic related to movement bounds restriction. It will also apply image gravity
- * provided by {@link Settings#getGravity()} method.
+ * Encapsulates logic related to movement bounds restriction.
  * <p>
  * Movement bounds can be represented using regular rectangle most of the time.
  */

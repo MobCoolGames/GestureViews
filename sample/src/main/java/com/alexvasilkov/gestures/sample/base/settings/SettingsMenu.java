@@ -1,10 +1,8 @@
 package com.alexvasilkov.gestures.sample.base.settings;
 
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 
 import com.alexvasilkov.android.commons.state.InstanceState;
 import com.alexvasilkov.android.commons.state.InstanceStateManager;
@@ -24,14 +22,11 @@ public class SettingsMenu implements SettingsController {
     private boolean isRestrictRotation = false;
     @InstanceState
     private boolean isOverzoomEnabled = true;
-    @InstanceState
-    private int gravity = Gravity.CENTER;
 
     public void setValuesFrom(Settings settings) {
         isZoomEnabled = settings.isZoomEnabled();
         isRotationEnabled = settings.isRotationEnabled();
         isRestrictRotation = settings.isRestrictRotation();
-        gravity = settings.getGravity();
     }
 
     public void onSaveInstanceState(Bundle outState) {
@@ -47,24 +42,12 @@ public class SettingsMenu implements SettingsController {
         addBoolMenu(menu, isRotationEnabled, R.string.menu_enable_rotation);
         addBoolMenu(menu, isRestrictRotation, R.string.menu_restrict_rotation);
         addBoolMenu(menu, isOverzoomEnabled, R.string.menu_enable_overzoom);
-        addSubMenu(menu, GravityType.values(), GravityType.find(gravity), R.string.menu_gravity);
     }
 
     private void addBoolMenu(Menu menu, boolean checked, @StringRes int titleId) {
         MenuItem item = menu.add(Menu.NONE, titleId, 0, titleId);
         item.setCheckable(true);
         item.setChecked(checked);
-    }
-
-    private <T> void addSubMenu(Menu menu, T[] items, T selected, @StringRes int titleId) {
-        SubMenu sub = menu.addSubMenu(titleId);
-        sub.setGroupCheckable(Menu.NONE, true, true);
-
-        for (int i = 0; i < items.length; i++) {
-            MenuItem item = sub.add(Menu.NONE, titleId, i, items[i].toString());
-            item.setCheckable(true);
-            item.setChecked(items[i] == selected);
-        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -80,9 +63,6 @@ public class SettingsMenu implements SettingsController {
                 break;
             case R.string.menu_enable_overzoom:
                 isOverzoomEnabled = !isOverzoomEnabled;
-                break;
-            case R.string.menu_gravity:
-                gravity = GravityType.values()[item.getOrder()].gravity;
                 break;
             default:
                 return false;
@@ -100,32 +80,6 @@ public class SettingsMenu implements SettingsController {
                 .setRotationEnabled(isRotationEnabled)
                 .setRestrictRotation(isRestrictRotation)
                 .setOverzoomFactor(overzoom)
-                .setGravity(gravity)
                 .setAnimationsDuration(Settings.ANIMATIONS_DURATION);
-    }
-
-    private enum GravityType {
-        CENTER(Gravity.CENTER),
-        TOP(Gravity.TOP),
-        BOTTOM(Gravity.BOTTOM),
-        START(Gravity.START),
-        END(Gravity.END),
-        TOP_START(Gravity.TOP | Gravity.START),
-        BOTTOM_END(Gravity.BOTTOM | Gravity.END);
-
-        public final int gravity;
-
-        GravityType(int gravity) {
-            this.gravity = gravity;
-        }
-
-        public static GravityType find(int gravity) {
-            for (GravityType type : values()) {
-                if (type.gravity == gravity) {
-                    return type;
-                }
-            }
-            return null;
-        }
     }
 }

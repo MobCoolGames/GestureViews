@@ -9,18 +9,6 @@
         <attr name="gest_doubleTapZoom" format="reference|float" />
         <attr name="gest_overzoomFactor" format="reference|float" />
         <attr name="gest_fillViewport" format="reference|boolean" />
-        <attr name="gest_gravity">
-            <!-- Values are copied from system "gravity" attribute -->
-            <flag name="top" value="0x30" />
-            <flag name="bottom" value="0x50" />
-            <flag name="left" value="0x03" />
-            <flag name="right" value="0x05" />
-            <flag name="center_vertical" value="0x10" />
-            <flag name="center_horizontal" value="0x01" />
-            <flag name="center" value="0x11" />
-            <flag name="start" value="0x00800003" />
-            <flag name="end" value="0x00800005" />
-        </attr>
         <attr name="gest_flingEnabled" format="reference|boolean" />
         <attr name="gest_zoomEnabled" format="reference|boolean" />
         <attr name="gest_rotationEnabled" format="reference|boolean" />
@@ -41,7 +29,6 @@
         <attr name="gest_doubleTapZoom" />
         <attr name="gest_overzoomFactor" />
         <attr name="gest_fillViewport" />
-        <attr name="gest_gravity" />
         <attr name="gest_fitMethod" />
         <attr name="gest_boundsType" />
         <attr name="gest_flingEnabled" />
@@ -64,7 +51,6 @@
         <attr name="gest_doubleTapZoom" />
         <attr name="gest_overzoomFactor" />
         <attr name="gest_fillViewport" />
-        <attr name="gest_gravity" />
         <attr name="gest_fitMethod" />
         <attr name="gest_boundsType" />
         <attr name="gest_flingEnabled" />

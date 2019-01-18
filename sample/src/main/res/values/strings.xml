@@ -6,7 +6,6 @@
     <string name="menu_enable_rotation">Rotation</string>
     <string name="menu_restrict_rotation">Restrict rotation</string>
     <string name="menu_enable_overzoom">Overzoom</string>
-    <string name="menu_gravity">Gravity</string>
 
     <string name="menu_info">Info</string>
 

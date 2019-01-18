@@ -160,17 +160,6 @@ public class RotationGestureDetector {
         return currAngle - prevAngle;
     }
 
-
-    /**
-     * The listener for receiving notifications when gestures occur.
-     * <p>
-     * An application will receive events in the following order:
-     * <ul>
-     * <li>One {@link OnRotationGestureListener#onRotationBegin(RotationGestureDetector)}
-     * <li>Zero or more {@link OnRotationGestureListener#onRotate(RotationGestureDetector)}
-     * <li>One {@link OnRotationGestureListener#onRotationEnd(RotationGestureDetector)}
-     * </ul>
-     */
     public interface OnRotationGestureListener {
         /**
          * Responds to rotation events for a gesture in progress. Reported by pointer motion.

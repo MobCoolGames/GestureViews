@@ -2,10 +2,6 @@ package com.alexvasilkov.gestures;
 
 import android.graphics.Matrix;
 
-/**
- * Represents 2d transformation state.
- */
-@SuppressWarnings("WeakerAccess") // Public API (fields and methods)
 public class State {
 
     public static final float EPSILON = 0.001f;
@@ -35,13 +31,6 @@ public class State {
      */
     public float getRotation() {
         return rotation;
-    }
-
-    /**
-     * @return {@code true} if {@code x == 0f && y == 0f && zoom == 1f && rotation == 0f}
-     */
-    public boolean isEmpty() {
-        return x == 0f && y == 0f && zoom == 1f && rotation == 0f;
     }
 
     /**
@@ -106,16 +95,6 @@ public class State {
             matrix.postRotate(rotation);
         }
         matrix.postTranslate(x, y);
-    }
-
-    /**
-     * Applying state from given matrix. Matrix should contain correct translation/scale/rotation.
-     *
-     * @param matrix Source matrix
-     */
-    public void set(Matrix matrix) {
-        this.matrix.set(matrix);
-        updateFromMatrix(true, true);
     }
 
     public void set(State other) {

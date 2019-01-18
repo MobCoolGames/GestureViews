@@ -14,7 +14,6 @@ import com.alexvasilkov.gestures.GestureController;
 import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.State;
 import com.alexvasilkov.gestures.utils.ClipHelper;
-import com.alexvasilkov.gestures.views.interfaces.ClipBounds;
 import com.alexvasilkov.gestures.views.interfaces.ClipView;
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
@@ -27,7 +26,7 @@ import androidx.annotation.Nullable;
  * ({@link #getController()}).
  * <p>
  */
-public class GestureImageView extends ImageView implements GestureView, ClipView, ClipBounds {
+public class GestureImageView extends ImageView implements GestureView, ClipView {
 
     private GestureController controller;
     private final ClipHelper clipViewHelper = new ClipHelper(this);
@@ -93,12 +92,7 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
         clipViewHelper.clipView(rect, rotation);
     }
 
-    @Override
-    public void clipBounds(@Nullable RectF rect) {
-        clipBoundsHelper.clipView(rect, 0f);
-    }
-
-    @SuppressLint("ClickableViewAccessibility") // performClick() will be called by controller
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         return controller.onTouch(this, event);

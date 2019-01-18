@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
-import com.alexvasilkov.gestures.views.interfaces.GestureView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -57,8 +55,6 @@ public class Settings {
 
     /**
      * Setting viewport size.
-     * <p>
-     * Should only be used when implementing custom {@link GestureView}.
      *
      * @param width  Viewport width
      * @param height Viewport height
@@ -72,8 +68,6 @@ public class Settings {
 
     /**
      * Setting full image size.
-     * <p>
-     * Should only be used when implementing custom {@link GestureView}.
      *
      * @param width  Image width
      * @param height Image height

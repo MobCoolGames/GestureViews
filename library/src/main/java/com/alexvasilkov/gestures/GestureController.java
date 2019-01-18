@@ -321,7 +321,7 @@ public class GestureController implements View.OnTouchListener {
     public void stopStateAnimation() {
         if (isAnimatingState()) {
             stateScroller.forceFinished();
-            onStateAnimationFinished(true);
+            onStateAnimationFinished();
         }
     }
 
@@ -338,7 +338,7 @@ public class GestureController implements View.OnTouchListener {
         stopFlingAnimation();
     }
 
-    protected void onStateAnimationFinished(boolean forced) {
+    protected void onStateAnimationFinished() {
         isAnimatingInBounds = false;
         pivotX = Float.NaN;
         pivotY = Float.NaN;
@@ -361,7 +361,6 @@ public class GestureController implements View.OnTouchListener {
         }
     }
 
-    @SuppressWarnings("WeakerAccess") // Public API (can be overridden)
     protected void notifyStateReset() {
         for (OnStateChangeListener listener : stateListeners) {
             listener.onStateReset(prevState, state);
@@ -729,7 +728,7 @@ public class GestureController implements View.OnTouchListener {
                 shouldProceed = true;
 
                 if (!isAnimatingState()) {
-                    onStateAnimationFinished(false);
+                    onStateAnimationFinished();
                 }
             }
 

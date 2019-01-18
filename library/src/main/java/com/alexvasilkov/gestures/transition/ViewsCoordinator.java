@@ -53,10 +53,6 @@ public class ViewsCoordinator<ID> {
         toListener = listener;
     }
 
-    public void setReadyListener(@Nullable OnViewsReadyListener<ID> listener) {
-        readyListener = listener;
-    }
-
     public void request(@NonNull ID id) {
         if (fromListener == null) {
             throw new RuntimeException("'from' listener is not set");

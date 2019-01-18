@@ -5,15 +5,10 @@ import android.util.TypedValue;
 
 public class UnitsUtils {
 
-    private UnitsUtils() {}
+    private UnitsUtils() {
+    }
 
     public static float toPixels(Context context, float value) {
-        return toPixels(context, TypedValue.COMPLEX_UNIT_DIP, value);
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, context.getResources().getDisplayMetrics());
     }
-
-    public static float toPixels(Context context, int type, float value) {
-        return TypedValue.applyDimension(type, value,
-                context.getResources().getDisplayMetrics());
-    }
-
 }

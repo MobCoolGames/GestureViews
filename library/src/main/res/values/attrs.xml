@@ -41,26 +41,4 @@
         <attr name="gest_disableGestures" />
         <attr name="gest_disableBounds" />
     </declare-styleable>
-
-    <!-- Added copy with GestureFrameLayout name to enable autocomplete in AS -->
-    <declare-styleable name="GestureFrameLayout">
-        <attr name="gest_movementAreaWidth" />
-        <attr name="gest_movementAreaHeight" />
-        <attr name="gest_minZoom" />
-        <attr name="gest_maxZoom" />
-        <attr name="gest_doubleTapZoom" />
-        <attr name="gest_overzoomFactor" />
-        <attr name="gest_fillViewport" />
-        <attr name="gest_fitMethod" />
-        <attr name="gest_boundsType" />
-        <attr name="gest_flingEnabled" />
-        <attr name="gest_zoomEnabled" />
-        <attr name="gest_rotationEnabled" />
-        <attr name="gest_restrictRotation" />
-        <attr name="gest_doubleTapEnabled" />
-        <attr name="gest_exitEnabled" />
-        <attr name="gest_animationDuration" />
-        <attr name="gest_disableGestures" />
-        <attr name="gest_disableBounds" />
-    </declare-styleable>
 </resources>

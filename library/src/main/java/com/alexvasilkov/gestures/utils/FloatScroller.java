@@ -35,22 +35,11 @@ public class FloatScroller {
 
     /**
      * Force the finished field to a particular value.<br>
-     * Unlike {@link #abortAnimation()} the current value isn't set to the final value.
      *
      * @see android.widget.Scroller#forceFinished(boolean)
      */
     public void forceFinished() {
         finished = true;
-    }
-
-    /**
-     * Aborts the animation, setting the current value to the final value.
-     *
-     * @see android.widget.Scroller#abortAnimation()
-     */
-    public void abortAnimation() {
-        finished = true;
-        currValue = finalValue;
     }
 
     /**
@@ -100,14 +89,6 @@ public class FloatScroller {
      */
     public boolean isFinished() {
         return finished;
-    }
-
-    /**
-     * @return Starting value
-     * @see android.widget.Scroller#getStartX()
-     */
-    public float getStart() {
-        return startValue;
     }
 
     /**

@@ -111,7 +111,6 @@ public class SettingsMenu implements SettingsController {
 
         view.getController().getSettings()
                 .setZoomEnabled(isZoomEnabled)
-                .setDoubleTapEnabled(isZoomEnabled)
                 .setRotationEnabled(isRotationEnabled)
                 .setRestrictRotation(isRestrictRotation)
                 .setOverzoomFactor(overzoom)

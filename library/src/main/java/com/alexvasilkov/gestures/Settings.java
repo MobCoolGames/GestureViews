@@ -64,13 +64,6 @@ public class Settings {
     private float overzoomFactor = OVERZOOM_FACTOR;
 
     /*
-     * If isFillViewport is true:
-     * Small images will be scaled to fit viewport even if it will require zooming above max zoom.
-     * Big images will be scaled to fit viewport even if it will require zooming below min zoom.
-     */
-    private boolean isFillViewport = false;
-
-    /*
      * Image gravity inside viewport area.
      */
     private int gravity = Gravity.CENTER;
@@ -104,11 +97,6 @@ public class Settings {
      * Whether image rotation should stick to 90 degrees or can be free.
      */
     private boolean isRestrictRotation = false;
-
-    /*
-     * Whether zooming by double tap is enabled or not.
-     */
-    private boolean isDoubleTapEnabled = true;
 
     /*
      * Which gestures to use to detect exit.
@@ -174,8 +162,6 @@ public class Settings {
                 R.styleable.GestureView_gest_rotationEnabled, isRotationEnabled);
         isRestrictRotation = arr.getBoolean(
                 R.styleable.GestureView_gest_restrictRotation, isRestrictRotation);
-        isDoubleTapEnabled = arr.getBoolean(
-                R.styleable.GestureView_gest_doubleTapEnabled, isDoubleTapEnabled);
         exitType = arr.getBoolean(
                 R.styleable.GestureView_gest_exitEnabled, true) ? exitType : ExitType.NONE;
         animationsDuration = arr.getInt(
@@ -391,19 +377,6 @@ public class Settings {
     }
 
     /**
-     * Sets whether zooming by double tap is enabled or not.
-     * <p>
-     * Default value is true.
-     *
-     * @param enabled Whether double tap should be enabled or not
-     * @return Current settings object for calls chaining
-     */
-    public Settings setDoubleTapEnabled(boolean enabled) {
-        isDoubleTapEnabled = enabled;
-        return this;
-    }
-
-    /**
      * Sets whether to detect and animate exit from gesture views.
      * <p>
      * Default value is true.
@@ -593,7 +566,7 @@ public class Settings {
     }
 
     public boolean isDoubleTapEnabled() {
-        return isGesturesEnabled() && isDoubleTapEnabled;
+        return isGesturesEnabled() && isZoomEnabled;
     }
 
     public boolean isExitEnabled() {
@@ -616,13 +589,11 @@ public class Settings {
         return animationsDuration;
     }
 
-
     /**
      * @return Whether at least one of pan, zoom, rotation or double tap are enabled or not
      */
     public boolean isEnabled() {
-        return isGesturesEnabled()
-                && (isZoomEnabled || isRotationEnabled || isDoubleTapEnabled);
+        return isGesturesEnabled() && (isZoomEnabled || isRotationEnabled);
     }
 
 

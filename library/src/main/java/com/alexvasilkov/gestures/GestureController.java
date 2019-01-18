@@ -331,7 +331,6 @@ public class GestureController implements View.OnTouchListener {
             endPivotY = tmpPointArr[1];
         }
 
-        stateScroller.setDuration(settings.getAnimationsDuration());
         stateScroller.startScroll(0f, 1f);
         animationEngine.start();
 

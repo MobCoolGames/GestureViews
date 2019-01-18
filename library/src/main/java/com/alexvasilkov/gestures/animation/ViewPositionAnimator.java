@@ -376,45 +376,8 @@ public class ViewPositionAnimator {
     }
 
     /**
-     * @return Animation duration
-     * @deprecated Use {@link Settings#getAnimationsDuration()} instead.
-     */
-    @SuppressWarnings("unused") // Public API
-    @Deprecated
-    public long getDuration() {
-        return toController.getSettings().getAnimationsDuration();
-    }
-
-    /**
-     * @param duration Animation duration
-     * @deprecated Use {@link Settings#setAnimationsDuration(long)} instead.
-     */
-    @SuppressWarnings("unused") // Public API
-    @Deprecated
-    public void setDuration(long duration) {
-        toController.getSettings().setAnimationsDuration(duration);
-    }
-
-
-    /**
-     * @return Target (to) position as set by {@link #setToState(State, float)}.
-     * Maybe useful to determine real animation position during exit gesture.
-     * <p>
-     * I.e. {@link #getPosition()} / {@link #getToPosition()} (changes from 0 to ∞)
-     * represents interpolated position used to calculate intermediate state and bounds.
-     */
-    @SuppressWarnings("JavaDoc") // We really need this method to point to itself
-    public float getToPosition() {
-        return toPosition;
-    }
-
-    /**
      * @return Current position within range {@code [0, 1]}, where {@code 0} is for
      * initial (from) position and {@code 1} is for final (to) position.
-     * <p>
-     * Note, that final position can be changed by {@link #setToState(State, float)}, so if you
-     * need to have real value of final position (instead of {@code 1}) then you need to use
-     * {@link #getToPosition()} method.
      */
     public float getPosition() {
         return position;
@@ -449,7 +412,6 @@ public class ViewPositionAnimator {
      *
      * @param state Target ('to') state
      * @param position Target ('to') position
-     * @see #getToPosition()
      */
     public void setToState(State state, @FloatRange(from = 0f, to = 1f) float position) {
         if (position <= 0) {
@@ -588,12 +550,6 @@ public class ViewPositionAnimator {
      * direction ({@link #isLeaving}).
      */
     private void startAnimationInternal() {
-        long duration = toController.getSettings().getAnimationsDuration();
-        float durationFraction = toPosition == 1f
-                ? (isLeaving ? position : 1f - position)
-                : (isLeaving ? position / toPosition : (1f - position) / (1f - toPosition));
-
-        positionScroller.setDuration((long) (duration * durationFraction));
         positionScroller.startScroll(position, isLeaving ? 0f : 1f);
         animationEngine.start();
         onAnimationStarted();

@@ -79,7 +79,6 @@ public class SettingsMenu implements SettingsController {
                 .setZoomEnabled(isZoomEnabled)
                 .setRotationEnabled(isRotationEnabled)
                 .setRestrictRotation(isRestrictRotation)
-                .setOverzoomFactor(overzoom)
-                .setAnimationsDuration(Settings.ANIMATIONS_DURATION);
+                .setOverzoomFactor(overzoom);
     }
 }

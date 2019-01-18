@@ -4,13 +4,13 @@ import android.os.SystemClock;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import com.alexvasilkov.gestures.Settings;
+
 /**
  * A simple class that animates float values.Functionally similar to a
  * {@link android.widget.Scroller}.
  */
 public class FloatScroller {
-
-    private static final long DEFAULT_DURATION = 250L;
 
     private final Interpolator interpolator;
 
@@ -29,19 +29,8 @@ public class FloatScroller {
      */
     private long startRtc;
 
-    private long duration = DEFAULT_DURATION;
-
     public FloatScroller() {
         interpolator = new AccelerateDecelerateInterpolator();
-    }
-
-    @SuppressWarnings("unused") // Public API
-    public long getDuration() {
-        return duration;
-    }
-
-    public void setDuration(long duration) {
-        this.duration = duration;
     }
 
     /**
@@ -94,6 +83,7 @@ public class FloatScroller {
         }
 
         long elapsed = SystemClock.elapsedRealtime() - startRtc;
+        long duration = Settings.ANIMATIONS_DURATION;
         if (elapsed >= duration) {
             finished = true;
             currValue = finalValue;
@@ -140,5 +130,4 @@ public class FloatScroller {
     private static float interpolate(float x1, float x2, float state) {
         return x1 + (x2 - x1) * state;
     }
-
 }

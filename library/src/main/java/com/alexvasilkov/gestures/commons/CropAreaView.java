@@ -54,7 +54,7 @@ public class CropAreaView extends View {
     private static final RectF tmpRectF = new RectF();
 
     private final RectF areaRect = new RectF();
-    private float rounding = 0f;
+    private float rounding;
 
     private final RectF strokeRect = new RectF();
 
@@ -239,7 +239,6 @@ public class CropAreaView extends View {
             stateScroller.forceFinished();
 
             if (animate) {
-                stateScroller.setDuration(settings.getAnimationsDuration());
                 stateScroller.startScroll(0f, 1f);
                 animationEngine.start();
             } else {

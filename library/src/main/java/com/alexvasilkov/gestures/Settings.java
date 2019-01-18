@@ -508,10 +508,6 @@ public class Settings {
         return boundsDisableCount <= 0;
     }
 
-    public long getAnimationsDuration() {
-        return animationsDuration;
-    }
-
     /**
      * @return Whether at least one of pan, zoom, rotation or double tap are enabled or not
      */

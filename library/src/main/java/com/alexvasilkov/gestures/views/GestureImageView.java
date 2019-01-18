@@ -152,7 +152,7 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
         if (drawable == null) {
             settings.setImage(0, 0);
         } else if (drawable.getIntrinsicWidth() == -1 || drawable.getIntrinsicHeight() == -1) {
-            settings.setImage(settings.getMovementAreaW(), settings.getMovementAreaH());
+            settings.setImage(settings.getViewportW(), settings.getViewportH());
         } else {
             settings.setImage(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }

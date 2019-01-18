@@ -39,8 +39,8 @@ public class ZoomBounds {
         float imageWidth = settings.getImageW();
         float imageHeight = settings.getImageH();
 
-        float areaWidth = settings.getMovementAreaW();
-        float areaHeight = settings.getMovementAreaH();
+        float areaWidth = settings.getViewportW();
+        float areaHeight = settings.getViewportH();
 
         if (imageWidth == 0f || imageHeight == 0f || areaWidth == 0f || areaHeight == 0f) {
             minZoom = maxZoom = fitZoom = 1f;

@@ -61,7 +61,7 @@ public class GravityUtils {
      */
     public static void getMovementAreaPosition(Settings settings, Rect out) {
         tmpRect1.set(0, 0, settings.getViewportW(), settings.getViewportH());
-        Gravity.apply(Gravity.CENTER, settings.getMovementAreaW(), settings.getMovementAreaH(), tmpRect1, out);
+        Gravity.apply(Gravity.CENTER, settings.getViewportW(), settings.getViewportH(), tmpRect1, out);
     }
 
     /**

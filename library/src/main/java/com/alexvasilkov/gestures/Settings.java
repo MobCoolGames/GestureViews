@@ -23,9 +23,6 @@ public class Settings {
 
     private int viewportW;
     private int viewportH;
-    private int movementAreaW;
-    private int movementAreaH;
-    private boolean isMovementAreaSpecified;
     private int imageW;
     private int imageH;
     private float minZoom = 0f;
@@ -43,13 +40,6 @@ public class Settings {
         }
 
         TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.GestureView);
-
-        movementAreaW = arr.getDimensionPixelSize(
-                R.styleable.GestureView_gest_movementAreaWidth, movementAreaW);
-        movementAreaH = arr.getDimensionPixelSize(
-                R.styleable.GestureView_gest_movementAreaHeight, movementAreaH);
-        isMovementAreaSpecified = movementAreaW > 0 && movementAreaH > 0;
-
         minZoom = arr.getFloat(
                 R.styleable.GestureView_gest_minZoom, minZoom);
         maxZoom = arr.getFloat(
@@ -77,21 +67,6 @@ public class Settings {
     public Settings setViewport(int width, int height) {
         viewportW = width;
         viewportH = height;
-        return this;
-    }
-
-    /**
-     * Setting movement area size. Viewport area will be used instead if no movement area is
-     * specified.
-     *
-     * @param width  Movement area width
-     * @param height Movement area height
-     * @return Current settings object for calls chaining
-     */
-    public Settings setMovementArea(int width, int height) {
-        isMovementAreaSpecified = true;
-        movementAreaW = width;
-        movementAreaH = height;
         return this;
     }
 
@@ -163,24 +138,12 @@ public class Settings {
         return this;
     }
 
-    // --------------
-    //  Getters
-    // --------------
-
     public int getViewportW() {
         return viewportW;
     }
 
     public int getViewportH() {
         return viewportH;
-    }
-
-    public int getMovementAreaW() {
-        return isMovementAreaSpecified ? movementAreaW : viewportW;
-    }
-
-    public int getMovementAreaH() {
-        return isMovementAreaSpecified ? movementAreaH : viewportH;
     }
 
     public int getImageW() {

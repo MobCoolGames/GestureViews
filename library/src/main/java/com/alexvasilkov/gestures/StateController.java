@@ -113,10 +113,10 @@ public class StateController {
     /**
      * Restricts state's translation and zoom bounds.
      *
-     * @param state State to be restricted
+     * @param state     State to be restricted
      * @param prevState Previous state to calculate overscroll and overzoom (optional)
-     * @param pivotX Pivot's X coordinate
-     * @param pivotY Pivot's Y coordinate
+     * @param pivotX    Pivot's X coordinate
+     * @param pivotY    Pivot's Y coordinate
      * @return End state to animate changes or null if no changes are required.
      */
     @SuppressWarnings("SameParameterValue") // Using same method params as in restrictStateBounds
@@ -132,11 +132,11 @@ public class StateController {
      * {@code allowOverscroll (allowOverzoom)} parameter is true then resilience
      * will be applied to translation (zoom) changes if they are out of bounds.
      *
-     * @param state State to be restricted
-     * @param prevState Previous state to calculate overscroll and overzoom (optional)
-     * @param pivotX Pivot's X coordinate
-     * @param pivotY Pivot's Y coordinate
-     * @param allowOverzoom Whether overzoom is allowed
+     * @param state            State to be restricted
+     * @param prevState        Previous state to calculate overscroll and overzoom (optional)
+     * @param pivotX           Pivot's X coordinate
+     * @param pivotY           Pivot's Y coordinate
+     * @param allowOverzoom    Whether overzoom is allowed
      * @param restrictRotation Whether rotation should be restricted to a nearest N*90 angle
      * @return true if state was changed, false otherwise.
      */
@@ -265,8 +265,6 @@ public class StateController {
 
     /**
      * Calculates area in which {@link State#getX()} &amp; {@link State#getY()} values can change.
-     * Note, that this is different from {@link Settings#setMovementArea(int, int)} which defines
-     * part of the viewport in which image can move.
      *
      * @param state Current state
      * @param out   Output movement area rectangle

@@ -100,13 +100,7 @@ public class ZoomBounds {
         }
 
         if (fitZoom > maxZoom) {
-            if (settings.isFillViewport()) {
-                // zooming to fill entire viewport
-                maxZoom = fitZoom;
-            } else {
-                // restricting fit zoom
-                fitZoom = maxZoom;
-            }
+            maxZoom = fitZoom;
         }
         // Now we have: fitZoom <= maxZoom
 
@@ -116,13 +110,7 @@ public class ZoomBounds {
         // Now we have: minZoom <= maxZoom
 
         if (fitZoom < minZoom) {
-            if (settings.isFillViewport()) {
-                // zooming to fill entire viewport
-                minZoom = fitZoom;
-            } else {
-                // restricting fit zoom
-                fitZoom = minZoom;
-            }
+            minZoom = fitZoom;
         }
         // Now we have: minZoom <= fitZoom <= maxZoom
         return this;

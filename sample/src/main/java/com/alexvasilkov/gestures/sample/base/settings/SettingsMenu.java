@@ -25,8 +25,6 @@ public class SettingsMenu implements SettingsController {
     @InstanceState
     private boolean isOverzoomEnabled = true;
     @InstanceState
-    private boolean isFillViewport = true;
-    @InstanceState
     private Settings.Fit fitMethod = Settings.Fit.INSIDE;
     @InstanceState
     private Settings.Bounds boundsType = Settings.Bounds.NORMAL;
@@ -37,7 +35,6 @@ public class SettingsMenu implements SettingsController {
         isZoomEnabled = settings.isZoomEnabled();
         isRotationEnabled = settings.isRotationEnabled();
         isRestrictRotation = settings.isRestrictRotation();
-        isFillViewport = settings.isFillViewport();
         fitMethod = settings.getFitMethod();
         boundsType = settings.getBoundsType();
         gravity = settings.getGravity();
@@ -56,7 +53,6 @@ public class SettingsMenu implements SettingsController {
         addBoolMenu(menu, isRotationEnabled, R.string.menu_enable_rotation);
         addBoolMenu(menu, isRestrictRotation, R.string.menu_restrict_rotation);
         addBoolMenu(menu, isOverzoomEnabled, R.string.menu_enable_overzoom);
-        addBoolMenu(menu, isFillViewport, R.string.menu_fill_viewport);
         addSubMenu(menu, Settings.Fit.values(), fitMethod, R.string.menu_fit_method);
         addSubMenu(menu, Settings.Bounds.values(), boundsType, R.string.menu_bounds_type);
         addSubMenu(menu, GravityType.values(), GravityType.find(gravity), R.string.menu_gravity);
@@ -93,9 +89,6 @@ public class SettingsMenu implements SettingsController {
             case R.string.menu_enable_overzoom:
                 isOverzoomEnabled = !isOverzoomEnabled;
                 break;
-            case R.string.menu_fill_viewport:
-                isFillViewport = !isFillViewport;
-                break;
             case R.string.menu_fit_method:
                 fitMethod = Settings.Fit.values()[item.getOrder()];
                 break;
@@ -122,7 +115,6 @@ public class SettingsMenu implements SettingsController {
                 .setRotationEnabled(isRotationEnabled)
                 .setRestrictRotation(isRestrictRotation)
                 .setOverzoomFactor(overzoom)
-                .setFillViewport(isFillViewport)
                 .setFitMethod(fitMethod)
                 .setBoundsType(boundsType)
                 .setGravity(gravity)

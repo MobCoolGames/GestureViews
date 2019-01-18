@@ -155,8 +155,6 @@ public class Settings {
                 R.styleable.GestureView_gest_doubleTapZoom, doubleTapZoom);
         overzoomFactor = arr.getFloat(
                 R.styleable.GestureView_gest_overzoomFactor, overzoomFactor);
-        isFillViewport = arr.getBoolean(
-                R.styleable.GestureView_gest_fillViewport, isFillViewport);
         gravity = arr.getInt(
                 R.styleable.GestureView_gest_gravity, gravity);
 
@@ -297,21 +295,6 @@ public class Settings {
             throw new IllegalArgumentException("Overzoom factor cannot be < 1");
         }
         overzoomFactor = factor;
-        return this;
-    }
-
-    /**
-     * If set to true small images will be scaled to fit entire viewport (or entire movement area
-     * if it was set) even if this will require zoom level above max zoom level. And big images
-     * will be scaled to fit the viewport even if it will require zooming below min zoom.
-     * <p>
-     * Default value is false.
-     *
-     * @param isFitViewport Whether image should fit viewport or not
-     * @return Current settings object for calls chaining
-     */
-    public Settings setFillViewport(boolean isFitViewport) {
-        this.isFillViewport = isFitViewport;
         return this;
     }
 
@@ -579,10 +562,6 @@ public class Settings {
 
     public float getOverzoomFactor() {
         return overzoomFactor;
-    }
-
-    public boolean isFillViewport() {
-        return isFillViewport;
     }
 
     public int getGravity() {

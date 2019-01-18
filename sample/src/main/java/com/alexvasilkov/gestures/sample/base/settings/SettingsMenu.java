@@ -17,8 +17,6 @@ import androidx.annotation.StringRes;
 
 public class SettingsMenu implements SettingsController {
 
-    private static final long SLOW_ANIMATIONS = 1500L;
-
     @InstanceState
     private boolean isZoomEnabled = true;
     @InstanceState
@@ -35,8 +33,6 @@ public class SettingsMenu implements SettingsController {
     private Settings.Bounds boundsType = Settings.Bounds.NORMAL;
     @InstanceState
     private int gravity = Gravity.CENTER;
-    @InstanceState
-    private boolean isSlow = false;
 
     public void setValuesFrom(Settings settings) {
         isZoomEnabled = settings.isZoomEnabled();
@@ -65,7 +61,6 @@ public class SettingsMenu implements SettingsController {
         addSubMenu(menu, Settings.Fit.values(), fitMethod, R.string.menu_fit_method);
         addSubMenu(menu, Settings.Bounds.values(), boundsType, R.string.menu_bounds_type);
         addSubMenu(menu, GravityType.values(), GravityType.find(gravity), R.string.menu_gravity);
-        addBoolMenu(menu, isSlow, R.string.menu_enable_slow);
         addBoolMenu(menu, GestureDebug.isDrawDebugOverlay(), R.string.menu_enable_overlay);
     }
 
@@ -112,9 +107,6 @@ public class SettingsMenu implements SettingsController {
             case R.string.menu_gravity:
                 gravity = GravityType.values()[item.getOrder()].gravity;
                 break;
-            case R.string.menu_enable_slow:
-                isSlow = !isSlow;
-                break;
             case R.string.menu_enable_overlay:
                 GestureDebug.setDrawDebugOverlay(!GestureDebug.isDrawDebugOverlay());
                 break;
@@ -139,7 +131,7 @@ public class SettingsMenu implements SettingsController {
                 .setFitMethod(fitMethod)
                 .setBoundsType(boundsType)
                 .setGravity(gravity)
-                .setAnimationsDuration(isSlow ? SLOW_ANIMATIONS : Settings.ANIMATIONS_DURATION);
+                .setAnimationsDuration(Settings.ANIMATIONS_DURATION);
     }
 
     private enum GravityType {

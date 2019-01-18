@@ -3,8 +3,7 @@ package com.alexvasilkov.gestures;
 import android.graphics.Matrix;
 
 public class State {
-
-    public static final float EPSILON = 0.001f;
+    private static final float EPSILON = 0.001f;
 
     private final Matrix matrix = new Matrix();
     private final float[] matrixValues = new float[9];
@@ -39,12 +38,12 @@ public class State {
         updateFromMatrix(false, false);
     }
 
-    public void translateTo(float x, float y) {
+    void translateTo(float x, float y) {
         matrix.postTranslate(-this.x + x, -this.y + y);
         updateFromMatrix(false, false);
     }
 
-    public void zoomBy(float factor, float pivotX, float pivotY) {
+    void zoomBy(float factor, float pivotX, float pivotY) {
         matrix.postScale(factor, factor, pivotX, pivotY);
         updateFromMatrix(true, false);
     }
@@ -54,7 +53,7 @@ public class State {
         updateFromMatrix(true, false);
     }
 
-    public void rotateBy(float angle, float pivotX, float pivotY) {
+    void rotateBy(float angle, float pivotX, float pivotY) {
         matrix.postRotate(angle, pivotX, pivotY);
         updateFromMatrix(false, true);
     }
@@ -97,7 +96,7 @@ public class State {
         matrix.set(other.matrix);
     }
 
-    public State copy() {
+    State copy() {
         State copy = new State();
         copy.set(this);
         return copy;
@@ -132,10 +131,10 @@ public class State {
 
     @Override
     public int hashCode() {
-        int result = (x != +0.0f ? Float.floatToIntBits(x) : 0);
-        result = 31 * result + (y != +0.0f ? Float.floatToIntBits(y) : 0);
-        result = 31 * result + (zoom != +0.0f ? Float.floatToIntBits(zoom) : 0);
-        result = 31 * result + (rotation != +0.0f ? Float.floatToIntBits(rotation) : 0);
+        int result = (x != 0f ? Float.floatToIntBits(x) : 0);
+        result = 31 * result + (y != 0f ? Float.floatToIntBits(y) : 0);
+        result = 31 * result + (zoom != 0f ? Float.floatToIntBits(zoom) : 0);
+        result = 31 * result + (rotation != 0f ? Float.floatToIntBits(rotation) : 0);
         return result;
     }
 
@@ -148,7 +147,7 @@ public class State {
         return v1 >= v2 - EPSILON && v1 <= v2 + EPSILON;
     }
 
-    public static int compare(float v1, float v2) {
-        return v1 > v2 + EPSILON ? 1 : v1 < v2 - EPSILON ? -1 : 0;
+    static int compare(float v1) {
+        return v1 > 0f + EPSILON ? 1 : v1 < 0f - EPSILON ? -1 : 0;
     }
 }

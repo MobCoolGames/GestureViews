@@ -105,19 +105,19 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
 
         Settings settings = controller.getSettings();
 
-        float oldWidth = settings.getImageW();
-        float oldHeight = settings.getImageH();
+        float oldWidth = settings.getImageWidth();
+        float oldHeight = settings.getImageHeight();
 
         if (drawable == null) {
             settings.setImage(0, 0);
         } else if (drawable.getIntrinsicWidth() == -1 || drawable.getIntrinsicHeight() == -1) {
-            settings.setImage(settings.getViewportW(), settings.getViewportH());
+            settings.setImage(settings.getViewportWidth(), settings.getViewportHeight());
         } else {
             settings.setImage(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
 
-        float newWidth = settings.getImageW();
-        float newHeight = settings.getImageH();
+        float newWidth = settings.getImageWidth();
+        float newHeight = settings.getImageHeight();
 
         if (newWidth > 0f && newHeight > 0f && oldWidth > 0f && oldHeight > 0f) {
             float scaleFactor = Math.min(oldWidth / newWidth, oldHeight / newHeight);
@@ -133,7 +133,6 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
         state.get(imageMatrix);
         setImageMatrix(imageMatrix);
     }
-
 
     private static Drawable getDrawable(Context context, @DrawableRes int id) {
         return context.getDrawable(id);

@@ -49,7 +49,7 @@ public class MovementBounds {
         state.get(tmpMatrix);
 
         RectF imageRect = tmpRectF;
-        imageRect.set(0, 0, settings.getImageW(), settings.getImageH());
+        imageRect.set(0, 0, settings.getImageWidth(), settings.getImageHeight());
         tmpMatrix.mapRect(imageRect);
 
         tmpPointArr[0] = tmpPointArr[1] = 0f;

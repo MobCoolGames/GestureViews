@@ -9,14 +9,10 @@ import com.alexvasilkov.gestures.Settings;
 public class FloatScroller {
 
     private final Interpolator interpolator;
-
     private boolean finished = true;
-
     private float startValue;
     private float finalValue;
-
     private float currValue;
-
     private long startRtc;
 
     public FloatScroller() {

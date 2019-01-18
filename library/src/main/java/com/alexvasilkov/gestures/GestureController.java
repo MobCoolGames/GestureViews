@@ -301,7 +301,7 @@ public class GestureController implements View.OnTouchListener {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE: {
                 stateController.getMovementArea(state, tmpRectF);
-                final boolean isPannable = State.compare(tmpRectF.width(), 0f) > 0 || State.compare(tmpRectF.height(), 0f) > 0;
+                final boolean isPannable = State.compare(tmpRectF.width()) > 0 || State.compare(tmpRectF.height()) > 0;
 
                 if (isPannable) {
                     return true;
@@ -382,15 +382,12 @@ public class GestureController implements View.OnTouchListener {
     }
 
     private boolean onFling(float vx, float vy) {
-
         if (isAnimatingState()) {
             return false;
         }
 
         stopFlingAnimation();
-
         flingBounds.set(state).extend(state.getX(), state.getY());
-
         flingScroller.fling(
                 Math.round(state.getX()), Math.round(state.getY()),
                 limitFlingVelocity(vx * FLING_COEFFICIENT),
@@ -430,6 +427,7 @@ public class GestureController implements View.OnTouchListener {
         if (settings.isDoubleTapEnabled()) {
             targetView.performClick();
         }
+
         return gestureListener != null && gestureListener.onSingleTapConfirmed(event);
     }
 
@@ -465,12 +463,10 @@ public class GestureController implements View.OnTouchListener {
         }
 
         final float scaleFactor = detector.getScaleFactor();
-
         pivotX = detector.getFocusX();
         pivotY = detector.getFocusY();
         state.zoomBy(scaleFactor, pivotX, pivotY);
         isStateChangedDuringTouch = true;
-
         return true;
     }
 
@@ -493,7 +489,6 @@ public class GestureController implements View.OnTouchListener {
         pivotY = detector.getFocusY();
         state.rotateBy(detector.getRotationDelta(), pivotX, pivotY);
         isStateChangedDuringTouch = true;
-
         return true;
     }
 
@@ -535,12 +530,10 @@ public class GestureController implements View.OnTouchListener {
                 stateScroller.computeScroll();
                 float factor = stateScroller.getCurr();
 
-                if (Float.isNaN(pivotX) || Float.isNaN(pivotY)
-                        || Float.isNaN(endPivotX) || Float.isNaN(endPivotY)) {
+                if (Float.isNaN(pivotX) || Float.isNaN(pivotY) || Float.isNaN(endPivotX) || Float.isNaN(endPivotY)) {
                     MathUtils.interpolate(state, stateStart, stateEnd, factor);
                 } else {
-                    MathUtils.interpolate(state, stateStart, pivotX, pivotY,
-                            stateEnd, endPivotX, endPivotY, factor);
+                    MathUtils.interpolate(state, stateStart, pivotX, pivotY, stateEnd, endPivotX, endPivotY, factor);
                 }
 
                 shouldProceed = true;

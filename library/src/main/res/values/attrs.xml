@@ -10,7 +10,6 @@
 
     <!-- Added copy with GestureImageView name to enable autocomplete in AS -->
     <declare-styleable name="GestureImageView">
-        <attr name="gest_minZoom"/>
         <attr name="gest_maxZoom"/>
         <attr name="gest_doubleTapZoom"/>
         <attr name="gest_zoomEnabled"/>

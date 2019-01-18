@@ -23,11 +23,11 @@ public class ZoomBounds {
     }
 
     public ZoomBounds set(State state) {
-        float imageWidth = settings.getImageW();
-        float imageHeight = settings.getImageH();
+        float imageWidth = settings.getImageWidth();
+        float imageHeight = settings.getImageHeight();
 
-        float areaWidth = settings.getViewportW();
-        float areaHeight = settings.getViewportH();
+        float areaWidth = settings.getViewportWidth();
+        float areaHeight = settings.getViewportHeight();
 
         if (imageWidth == 0f || imageHeight == 0f || areaWidth == 0f || areaHeight == 0f) {
             minZoom = maxZoom = fitZoom = 1f;

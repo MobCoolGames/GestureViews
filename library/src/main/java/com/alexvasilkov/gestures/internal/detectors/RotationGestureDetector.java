@@ -21,7 +21,6 @@ public class RotationGestureDetector {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_CANCEL:
@@ -36,7 +35,6 @@ public class RotationGestureDetector {
                 break;
 
             case MotionEvent.ACTION_MOVE:
-
                 if (event.getPointerCount() >= 2 && (!isInProgress || isGestureAccepted)) {
                     currAngle = computeRotation(event);
                     focusX = 0.5f * (event.getX(1) + event.getX(0));
@@ -74,6 +72,7 @@ public class RotationGestureDetector {
         if (!isInProgress) {
             return;
         }
+
         isInProgress = false;
         if (isGestureAccepted) {
             listener.onRotationEnd(this);

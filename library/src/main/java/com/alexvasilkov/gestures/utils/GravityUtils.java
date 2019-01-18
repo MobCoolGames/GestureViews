@@ -18,29 +18,26 @@ public class GravityUtils {
     private static final Rect tmpRect2 = new Rect();
 
 
-    private GravityUtils() {
-    }
-
     public static void getImagePosition(State state, Settings settings, Rect out) {
         state.get(tmpMatrix);
         getImagePosition(tmpMatrix, settings, out);
     }
 
     public static void getImagePosition(Matrix matrix, Settings settings, Rect out) {
-        tmpRectF.set(0, 0, settings.getImageW(), settings.getImageH());
+        tmpRectF.set(0, 0, settings.getImageWidth(), settings.getImageHeight());
 
         matrix.mapRect(tmpRectF);
 
-        final int w = Math.round(tmpRectF.width());
-        final int h = Math.round(tmpRectF.height());
+        final int width = Math.round(tmpRectF.width());
+        final int height = Math.round(tmpRectF.height());
 
-        tmpRect1.set(0, 0, settings.getViewportW(), settings.getViewportH());
-        Gravity.apply(Gravity.CENTER, w, h, tmpRect1, out);
+        tmpRect1.set(0, 0, settings.getViewportWidth(), settings.getViewportHeight());
+        Gravity.apply(Gravity.CENTER, width, height, tmpRect1, out);
     }
 
     public static void getMovementAreaPosition(Settings settings, Rect out) {
-        tmpRect1.set(0, 0, settings.getViewportW(), settings.getViewportH());
-        Gravity.apply(Gravity.CENTER, settings.getViewportW(), settings.getViewportH(), tmpRect1, out);
+        tmpRect1.set(0, 0, settings.getViewportWidth(), settings.getViewportHeight());
+        Gravity.apply(Gravity.CENTER, settings.getViewportWidth(), settings.getViewportHeight(), tmpRect1, out);
     }
 
     public static void getDefaultPivot(Settings settings, Point out) {

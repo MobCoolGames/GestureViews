@@ -9,22 +9,19 @@ import androidx.annotation.Nullable;
 
 public class Settings {
 
-    public static final float MAX_ZOOM = 5f;
-    public static final float DOUBLE_TAP_ZOOM = 3f;
-    public static final float OVERZOOM_FACTOR = 2f;
+    private static final float MAX_ZOOM = 5f;
+    private static final float DOUBLE_TAP_ZOOM = 3f;
+    static final float OVERZOOM_FACTOR = 2f;
     public static final long ANIMATIONS_DURATION = 300L;
 
-    private int viewportW;
-    private int viewportH;
-    private int imageW;
-    private int imageH;
+    private int viewportWidth;
+    private int viewportHeight;
+    private int imageWidth;
+    private int imageHeight;
     private float maxZoom = MAX_ZOOM;
     private float doubleTapZoom = DOUBLE_TAP_ZOOM;
     private boolean isZoomEnabled = true;
     private boolean isRotationEnabled = false;
-
-    Settings() {
-    }
 
     public void initFromAttributes(@NonNull Context context, @Nullable AttributeSet attrs) {
         if (attrs == null) {
@@ -40,16 +37,14 @@ public class Settings {
         arr.recycle();
     }
 
-    public Settings setViewport(int width, int height) {
-        viewportW = width;
-        viewportH = height;
-        return this;
+    public void setViewport(int width, int height) {
+        viewportWidth = width;
+        viewportHeight = height;
     }
 
-    public Settings setImage(int width, int height) {
-        imageW = width;
-        imageH = height;
-        return this;
+    public void setImage(int width, int height) {
+        imageWidth = width;
+        imageHeight = height;
     }
 
     public Settings setMaxZoom(float maxZoom) {
@@ -72,51 +67,51 @@ public class Settings {
         return this;
     }
 
-    public int getViewportW() {
-        return viewportW;
+    public int getViewportWidth() {
+        return viewportWidth;
     }
 
-    public int getViewportH() {
-        return viewportH;
+    public int getViewportHeight() {
+        return viewportHeight;
     }
 
-    public int getImageW() {
-        return imageW;
+    public int getImageWidth() {
+        return imageWidth;
     }
 
-    public int getImageH() {
-        return imageH;
+    public int getImageHeight() {
+        return imageHeight;
     }
 
     public float getMaxZoom() {
         return maxZoom;
     }
 
-    public float getDoubleTapZoom() {
+    float getDoubleTapZoom() {
         return doubleTapZoom;
     }
 
-    public boolean isZoomEnabled() {
+    boolean isZoomEnabled() {
         return isZoomEnabled;
     }
 
-    public boolean isRotationEnabled() {
+    boolean isRotationEnabled() {
         return isRotationEnabled;
     }
 
-    public boolean isDoubleTapEnabled() {
+    boolean isDoubleTapEnabled() {
         return isZoomEnabled;
     }
 
-    public boolean isEnabled() {
+    boolean isEnabled() {
         return isZoomEnabled || isRotationEnabled;
     }
 
-    public boolean hasImageSize() {
-        return imageW != 0 && imageH != 0;
+    boolean hasImageSize() {
+        return imageWidth != 0 && imageHeight != 0;
     }
 
-    public boolean hasViewportSize() {
-        return viewportW != 0 && viewportH != 0;
+    boolean hasViewportSize() {
+        return viewportWidth != 0 && viewportHeight != 0;
     }
 }

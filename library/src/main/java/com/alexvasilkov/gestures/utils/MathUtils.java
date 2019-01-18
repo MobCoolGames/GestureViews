@@ -7,18 +7,14 @@ import com.alexvasilkov.gestures.State;
 import androidx.annotation.Size;
 
 public class MathUtils {
-
     private static final Matrix tmpMatrix = new Matrix();
     private static final Matrix tmpMatrixInverse = new Matrix();
-
-    private MathUtils() {
-    }
 
     public static float restrict(float value, float minValue, float maxValue) {
         return Math.max(minValue, Math.min(value, maxValue));
     }
 
-    public static float interpolate(float start, float end, float factor) {
+    private static float interpolate(float start, float end, float factor) {
         return start + (end - start) * factor;
     }
 

@@ -19,15 +19,7 @@ public class SettingsMenu implements SettingsController {
     @InstanceState
     private boolean isRotationEnabled = false;
     @InstanceState
-    private boolean isRestrictRotation = false;
-    @InstanceState
     private boolean isOverzoomEnabled = true;
-
-    public void setValuesFrom(Settings settings) {
-        isZoomEnabled = settings.isZoomEnabled();
-        isRotationEnabled = settings.isRotationEnabled();
-        isRestrictRotation = settings.isRestrictRotation();
-    }
 
     public void onSaveInstanceState(Bundle outState) {
         InstanceStateManager.saveInstanceState(this, outState);
@@ -40,7 +32,6 @@ public class SettingsMenu implements SettingsController {
     public void onCreateOptionsMenu(Menu menu) {
         addBoolMenu(menu, isZoomEnabled, R.string.menu_enable_zoom);
         addBoolMenu(menu, isRotationEnabled, R.string.menu_enable_rotation);
-        addBoolMenu(menu, isRestrictRotation, R.string.menu_restrict_rotation);
         addBoolMenu(menu, isOverzoomEnabled, R.string.menu_enable_overzoom);
     }
 
@@ -57,9 +48,6 @@ public class SettingsMenu implements SettingsController {
                 break;
             case R.string.menu_enable_rotation:
                 isRotationEnabled = !isRotationEnabled;
-                break;
-            case R.string.menu_restrict_rotation:
-                isRestrictRotation = !isRestrictRotation;
                 break;
             case R.string.menu_enable_overzoom:
                 isOverzoomEnabled = !isOverzoomEnabled;
@@ -78,7 +66,6 @@ public class SettingsMenu implements SettingsController {
         view.getController().getSettings()
                 .setZoomEnabled(isZoomEnabled)
                 .setRotationEnabled(isRotationEnabled)
-                .setRestrictRotation(isRestrictRotation)
                 .setOverzoomFactor(overzoom);
     }
 }

@@ -71,11 +71,6 @@ public class Settings {
      */
     private boolean isRotationEnabled = false;
 
-    /*
-     * Whether image rotation should stick to 90 degrees or can be free.
-     */
-    private boolean isRestrictRotation = false;
-
     Settings() {
         // Package private constructor
     }
@@ -106,8 +101,6 @@ public class Settings {
                 R.styleable.GestureView_gest_zoomEnabled, isZoomEnabled);
         isRotationEnabled = arr.getBoolean(
                 R.styleable.GestureView_gest_rotationEnabled, isRotationEnabled);
-        isRestrictRotation = arr.getBoolean(
-                R.styleable.GestureView_gest_restrictRotation, isRestrictRotation);
 
         arr.recycle();
     }
@@ -227,19 +220,6 @@ public class Settings {
         return this;
     }
 
-    /**
-     * Sets whether image rotation should stick to 90 degrees intervals or can be free.
-     * <p>
-     * Default value is false.
-     *
-     * @param restrict Whether rotation should be restricted or not
-     * @return Current settings object for calls chaining
-     */
-    public Settings setRestrictRotation(boolean restrict) {
-        isRestrictRotation = restrict;
-        return this;
-    }
-
     // --------------
     //  Getters
     // --------------
@@ -290,10 +270,6 @@ public class Settings {
 
     public boolean isRotationEnabled() {
         return isRotationEnabled;
-    }
-
-    public boolean isRestrictRotation() {
-        return isRestrictRotation;
     }
 
     public boolean isDoubleTapEnabled() {

@@ -8,7 +8,6 @@ import android.graphics.RectF;
 import com.alexvasilkov.gestures.internal.MovementBounds;
 import com.alexvasilkov.gestures.internal.ZoomBounds;
 import com.alexvasilkov.gestures.utils.GravityUtils;
-import com.alexvasilkov.gestures.utils.MathUtils;
 
 import androidx.annotation.Nullable;
 
@@ -16,7 +15,6 @@ import androidx.annotation.Nullable;
  * Helper class that holds reference to {@link Settings} object and controls some aspects of view
  * {@link State}, such as movement bounds restrictions
  * (see {@link #getMovementArea(State, RectF)}) and dynamic min / max zoom levels
- * (see {@link #getMinZoom(State)} and {@link #getMaxZoom(State)}).
  */
 public class StateController {
 
@@ -156,7 +154,7 @@ public class StateController {
 
         boolean isStateChanged = false;
 
-        if (restrictRotation && settings.isRestrictRotation()) {
+        if (restrictRotation) {
             float rotation = Math.round(state.getRotation() / 90f) * 90f;
             if (!State.equals(rotation, state.getRotation())) {
                 state.rotateTo(rotation, pivotX, pivotY);

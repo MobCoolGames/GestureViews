@@ -10,8 +10,6 @@
         <attr name="gest_overzoomFactor" format="reference|float" />
         <attr name="gest_zoomEnabled" format="reference|boolean" />
         <attr name="gest_rotationEnabled" format="reference|boolean" />
-        <attr name="gest_restrictRotation" format="reference|boolean" />
-        <attr name="gest_disableGestures" format="reference|boolean" />
     </declare-styleable>
 
     <!-- Added copy with GestureImageView name to enable autocomplete in AS -->

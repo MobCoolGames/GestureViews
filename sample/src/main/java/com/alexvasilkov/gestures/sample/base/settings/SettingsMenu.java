@@ -23,8 +23,6 @@ public class SettingsMenu implements SettingsController {
     private static final long SLOW_ANIMATIONS = 1500L;
 
     @InstanceState
-    private boolean isPanEnabled = true;
-    @InstanceState
     private boolean isZoomEnabled = true;
     @InstanceState
     private boolean isRotationEnabled = false;
@@ -46,7 +44,6 @@ public class SettingsMenu implements SettingsController {
     private boolean isSlow = false;
 
     public void setValuesFrom(Settings settings) {
-        isPanEnabled = settings.isPanEnabled();
         isZoomEnabled = settings.isZoomEnabled();
         isRotationEnabled = settings.isRotationEnabled();
         isRestrictRotation = settings.isRestrictRotation();
@@ -65,7 +62,6 @@ public class SettingsMenu implements SettingsController {
     }
 
     public void onCreateOptionsMenu(Menu menu) {
-        addBoolMenu(menu, isPanEnabled, R.string.menu_enable_pan);
         addBoolMenu(menu, isZoomEnabled, R.string.menu_enable_zoom);
         addBoolMenu(menu, isRotationEnabled, R.string.menu_enable_rotation);
         addBoolMenu(menu, isRestrictRotation, R.string.menu_restrict_rotation);
@@ -98,9 +94,6 @@ public class SettingsMenu implements SettingsController {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.string.menu_enable_pan:
-                isPanEnabled = !isPanEnabled;
-                break;
             case R.string.menu_enable_zoom:
                 isZoomEnabled = !isZoomEnabled;
                 break;
@@ -148,7 +141,6 @@ public class SettingsMenu implements SettingsController {
         float overzoom = isOverzoomEnabled ? Settings.OVERZOOM_FACTOR : 1f;
 
         view.getController().getSettings()
-                .setPanEnabled(isPanEnabled)
                 .setZoomEnabled(isZoomEnabled)
                 .setDoubleTapEnabled(isZoomEnabled)
                 .setRotationEnabled(isRotationEnabled)

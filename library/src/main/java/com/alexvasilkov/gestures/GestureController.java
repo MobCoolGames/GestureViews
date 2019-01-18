@@ -521,7 +521,7 @@ public class GestureController implements View.OnTouchListener {
                 final boolean isPannable = State.compare(tmpRectF.width(), 0f) > 0
                         || State.compare(tmpRectF.height(), 0f) > 0;
 
-                if (settings.isPanEnabled() && (isPannable || !settings.isRestrictBounds())) {
+                if (isPannable || !settings.isRestrictBounds()) {
                     return true;
                 }
                 break;
@@ -587,7 +587,7 @@ public class GestureController implements View.OnTouchListener {
     protected boolean onScroll(@NonNull MotionEvent e1, @NonNull MotionEvent e2,
             float dx, float dy) {
 
-        if (!settings.isPanEnabled() || isAnimatingState()) {
+        if (isAnimatingState()) {
             return false;
         }
 
@@ -618,7 +618,7 @@ public class GestureController implements View.OnTouchListener {
     protected boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2,
             float vx, float vy) {
 
-        if (!settings.isPanEnabled() || !settings.isFlingEnabled() || isAnimatingState()) {
+        if (!settings.isFlingEnabled() || isAnimatingState()) {
             return false;
         }
 

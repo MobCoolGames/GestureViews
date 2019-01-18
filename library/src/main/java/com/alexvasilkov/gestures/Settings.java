@@ -93,11 +93,6 @@ public class Settings {
     private Bounds boundsType = Bounds.NORMAL;
 
     /*
-     * Whether panning is enabled or not.
-     */
-    private boolean isPanEnabled = true;
-
-    /*
      * Whether fling (inertial motion after scroll) is enabled or not.
      */
     private boolean isFlingEnabled = true;
@@ -184,8 +179,6 @@ public class Settings {
                 R.styleable.GestureView_gest_boundsType, boundsType.ordinal());
         boundsType = Bounds.values()[boundsTypePos];
 
-        isPanEnabled = arr.getBoolean(
-                R.styleable.GestureView_gest_panEnabled, isPanEnabled);
         isFlingEnabled = arr.getBoolean(
                 R.styleable.GestureView_gest_flingEnabled, isFlingEnabled);
         isZoomEnabled = arr.getBoolean(
@@ -402,19 +395,6 @@ public class Settings {
      */
     public Settings setBoundsType(@NonNull Bounds boundsType) {
         this.boundsType = boundsType;
-        return this;
-    }
-
-    /**
-     * Sets whether panning is enabled or not.
-     * <p>
-     * Default value is true.
-     *
-     * @param enabled Whether panning should be enabled or not
-     * @return Current settings object for calls chaining
-     */
-    public Settings setPanEnabled(boolean enabled) {
-        isPanEnabled = enabled;
         return this;
     }
 
@@ -669,10 +649,6 @@ public class Settings {
         return boundsType;
     }
 
-    public boolean isPanEnabled() {
-        return isGesturesEnabled() && isPanEnabled;
-    }
-
     public boolean isFlingEnabled() {
         return isGesturesEnabled() && isFlingEnabled;
     }
@@ -719,7 +695,7 @@ public class Settings {
      */
     public boolean isEnabled() {
         return isGesturesEnabled()
-                && (isPanEnabled || isZoomEnabled || isRotationEnabled || isDoubleTapEnabled);
+                && (isZoomEnabled || isRotationEnabled || isDoubleTapEnabled);
     }
 
 

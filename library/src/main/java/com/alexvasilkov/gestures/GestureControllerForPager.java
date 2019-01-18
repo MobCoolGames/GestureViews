@@ -170,7 +170,7 @@ public class GestureControllerForPager extends GestureController {
 
     @Override
     protected boolean onScroll(@NonNull MotionEvent e1, @NonNull MotionEvent e2,
-            float dx, float dy) {
+                               float dx, float dy) {
 
         if (viewPager == null) {
             return super.onScroll(e1, e2, dx, dy);
@@ -192,7 +192,7 @@ public class GestureControllerForPager extends GestureController {
 
     @Override
     protected boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2,
-            float vx, float vy) {
+                              float vx, float vy) {
 
         return !hasViewPagerX() && super.onFling(e1, e2, vx, vy);
     }
@@ -245,36 +245,32 @@ public class GestureControllerForPager extends GestureController {
      * Splits x scroll between viewpager and view.
      */
     private float splitPagerScroll(float dx, State state, RectF movBounds) {
-        if (getSettings().isPanEnabled()) {
-            final float dir = Math.signum(dx);
-            final float movementX = Math.abs(dx); // always >= 0, no direction info
+        final float dir = Math.signum(dx);
+        final float movementX = Math.abs(dx); // always >= 0, no direction info
 
-            final float viewX = state.getX();
-            // available movement distances (always >= 0, no direction info)
-            float availableViewX = dir < 0 ? viewX - movBounds.left : movBounds.right - viewX;
-            float availablePagerX = dir * viewPagerX < 0 ? Math.abs(viewPagerX) : 0;
+        final float viewX = state.getX();
+        // available movement distances (always >= 0, no direction info)
+        float availableViewX = dir < 0 ? viewX - movBounds.left : movBounds.right - viewX;
+        float availablePagerX = dir * viewPagerX < 0 ? Math.abs(viewPagerX) : 0;
 
-            // Not available if already overscrolled in same direction
-            if (availableViewX < 0) {
-                availableViewX = 0;
-            }
-
-            float pagerMovementX;
-            if (availablePagerX >= movementX) {
-                // Only ViewPager is moved
-                pagerMovementX = movementX;
-            } else if (availableViewX + availablePagerX >= movementX) {
-                // Moving pager for full available distance and moving view for remaining distance
-                pagerMovementX = availablePagerX;
-            } else {
-                // Moving view for full available distance and moving pager for remaining distance
-                pagerMovementX = movementX - availableViewX;
-            }
-
-            return pagerMovementX * dir; // Applying direction
-        } else {
-            return dx;
+        // Not available if already overscrolled in same direction
+        if (availableViewX < 0) {
+            availableViewX = 0;
         }
+
+        float pagerMovementX;
+        if (availablePagerX >= movementX) {
+            // Only ViewPager is moved
+            pagerMovementX = movementX;
+        } else if (availableViewX + availablePagerX >= movementX) {
+            // Moving pager for full available distance and moving view for remaining distance
+            pagerMovementX = availablePagerX;
+        } else {
+            // Moving view for full available distance and moving pager for remaining distance
+            pagerMovementX = movementX - availableViewX;
+        }
+
+        return pagerMovementX * dir; // Applying direction
     }
 
     /*

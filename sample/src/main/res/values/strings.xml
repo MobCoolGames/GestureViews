@@ -18,7 +18,6 @@
     <string name="expand_image">Tap image to expand:</string>
     <string name="button_wiki_art">WikiArt</string>
 
-    <string name="menu_enable_pan">Pan</string>
     <string name="menu_enable_zoom">Zoom</string>
     <string name="menu_enable_rotation">Rotation</string>
     <string name="menu_restrict_rotation">Restrict rotation</string>

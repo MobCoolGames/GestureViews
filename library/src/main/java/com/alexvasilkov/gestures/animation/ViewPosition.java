@@ -5,11 +5,8 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
-
-import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 
@@ -26,14 +23,8 @@ import androidx.annotation.NonNull;
  * To create instance of this class use {@link #from(View)} static method. But note, that view
  * should already be laid out and have correct {@link View#getWidth()} and {@link View#getHeight()}
  * values.
- * <p>
- * You can also serialize and deserialize this class to string using {@link #pack()} and
- * {@link #unpack(String)} methods. This can be useful to pass view position between activities.
  */
 public class ViewPosition {
-
-    private static final String DELIMITER = "#";
-    private static final Pattern SPLIT_PATTERN = Pattern.compile(DELIMITER);
 
     private static final int[] tmpLocation = new int[2];
     private static final Matrix tmpMatrix = new Matrix();
@@ -52,14 +43,6 @@ public class ViewPosition {
         this.viewport = new Rect();
         this.visible = new Rect();
         this.image = new Rect();
-    }
-
-    private ViewPosition(@NonNull Rect view, @NonNull Rect viewport,
-            @NonNull Rect visible, @NonNull Rect image) {
-        this.view = view;
-        this.viewport = viewport;
-        this.visible = visible;
-        this.image = image;
     }
 
     public void set(@NonNull ViewPosition pos) {
@@ -150,7 +133,7 @@ public class ViewPosition {
      * Computes view position and stores it in given {@code pos}. Note, that view should be already
      * attached and laid out before calling this method.
      *
-     * @param pos Output position
+     * @param pos  Output position
      * @param view View for which we want to get on-screen location
      * @return true if view position is changed, false otherwise
      */
@@ -161,7 +144,7 @@ public class ViewPosition {
     /**
      * Computes minimal view position for given point.
      *
-     * @param pos Output view position
+     * @param pos   Output view position
      * @param point Target point
      */
     public static void apply(@NonNull ViewPosition pos, @NonNull Point point) {
@@ -170,45 +153,4 @@ public class ViewPosition {
         pos.visible.set(pos.view);
         pos.image.set(pos.view);
     }
-
-    /**
-     * Packs this ViewPosition into string, which can be passed i.e. between activities.
-     *
-     * @return Serialized position
-     * @see #unpack(String)
-     */
-    public String pack() {
-        String viewStr = view.flattenToString();
-        String viewportStr = viewport.flattenToString();
-        String visibleStr = visible.flattenToString();
-        String imageStr = image.flattenToString();
-        return TextUtils.join(DELIMITER, new String[] {
-                viewStr, viewportStr, visibleStr, imageStr
-        });
-    }
-
-    /**
-     * Restores ViewPosition from the string created by {@link #pack()} method.
-     *
-     * @param str Serialized position string
-     * @return De-serialized position
-     */
-    public static ViewPosition unpack(String str) {
-        String[] parts = TextUtils.split(str, SPLIT_PATTERN);
-        if (parts.length != 4) {
-            throw new IllegalArgumentException("Wrong ViewPosition string: " + str);
-        }
-
-        Rect view = Rect.unflattenFromString(parts[0]);
-        Rect viewport = Rect.unflattenFromString(parts[1]);
-        Rect visible = Rect.unflattenFromString(parts[2]);
-        Rect image = Rect.unflattenFromString(parts[3]);
-
-        if (view == null || viewport == null || image == null) {
-            throw new IllegalArgumentException("Wrong ViewPosition string: " + str);
-        }
-
-        return new ViewPosition(view, viewport, visible, image);
-    }
-
 }

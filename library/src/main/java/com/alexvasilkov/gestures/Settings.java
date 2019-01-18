@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 public class Settings {
 
     public static final float MAX_ZOOM = 5f;
+    public static final float DOUBLE_TAP_ZOOM = 3f;
     public static final float OVERZOOM_FACTOR = 2f;
     public static final long ANIMATIONS_DURATION = 300L;
 
@@ -25,7 +26,7 @@ public class Settings {
     private int imageH;
     private float minZoom = 0f;
     private float maxZoom = MAX_ZOOM;
-    private float doubleTapZoom = -1f;
+    private float doubleTapZoom = DOUBLE_TAP_ZOOM;
     private boolean isZoomEnabled = true;
     private boolean isRotationEnabled = false;
 

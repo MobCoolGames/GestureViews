@@ -2,7 +2,6 @@ package com.alexvasilkov.gestures.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.RectF;
@@ -12,12 +11,10 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 
 import com.alexvasilkov.gestures.GestureController;
-import com.alexvasilkov.gestures.GestureControllerForPager;
 import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.State;
 import com.alexvasilkov.gestures.animation.ViewPositionAnimator;
 import com.alexvasilkov.gestures.utils.ClipHelper;
-import com.alexvasilkov.gestures.utils.CropUtils;
 import com.alexvasilkov.gestures.views.interfaces.AnimatorView;
 import com.alexvasilkov.gestures.views.interfaces.ClipBounds;
 import com.alexvasilkov.gestures.views.interfaces.ClipView;
@@ -36,7 +33,7 @@ import androidx.annotation.Nullable;
  */
 public class GestureImageView extends ImageView implements GestureView, ClipView, ClipBounds, AnimatorView {
 
-    private GestureControllerForPager controller;
+    private GestureController controller;
     private final ClipHelper clipViewHelper = new ClipHelper(this);
     private final ClipHelper clipBoundsHelper = new ClipHelper(this);
     private final Matrix imageMatrix = new Matrix();
@@ -73,7 +70,7 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
 
     private void ensureControllerCreated() {
         if (controller == null) {
-            controller = new GestureControllerForPager(this);
+            controller = new GestureController(this);
         }
     }
 
@@ -90,7 +87,7 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
      * {@inheritDoc}
      */
     @Override
-    public GestureControllerForPager getController() {
+    public GestureController getController() {
         return controller;
     }
 
@@ -116,34 +113,6 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
     @Override
     public void clipBounds(@Nullable RectF rect) {
         clipBoundsHelper.clipView(rect, 0f);
-    }
-
-    /**
-     * Crops bitmap as it is seen inside movement area: {@link Settings#setMovementArea(int, int)}.
-     * Result will be delivered to provided snapshot listener.
-     *
-     * @param listener Snapshot listener
-     * @deprecated Use {@link #crop()} method instead.
-     */
-    @Deprecated
-    public void getSnapshot(OnSnapshotLoadedListener listener) {
-        if (getDrawable() != null) {
-            listener.onSnapshotLoaded(crop());
-        }
-    }
-
-    /**
-     * Crops bitmap as it is seen inside movement area: {@link Settings#setMovementArea(int, int)}.
-     * <p>
-     * Note, that size of cropped bitmap may vary from size of movement area,
-     * since we will crop part of original image at base zoom level (zoom == 1).
-     *
-     * @return Cropped bitmap or null, if no image is set to this image view or if
-     * {@link OutOfMemoryError} error was thrown during cropping.
-     */
-    @Nullable
-    public Bitmap crop() {
-        return CropUtils.crop(getDrawable(), controller);
     }
 
     @SuppressLint("ClickableViewAccessibility") // performClick() will be called by controller
@@ -208,19 +177,7 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
     }
 
 
-    @SuppressWarnings("deprecation")
     private static Drawable getDrawable(Context context, @DrawableRes int id) {
         return context.getDrawable(id);
     }
-
-
-    /**
-     * @deprecated Use {@link #crop()} method instead.
-     */
-    @SuppressWarnings("WeakerAccess") // Public API
-    @Deprecated
-    public interface OnSnapshotLoadedListener {
-        void onSnapshotLoaded(Bitmap bitmap);
-    }
-
 }

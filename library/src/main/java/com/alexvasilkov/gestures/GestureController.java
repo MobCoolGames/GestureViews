@@ -2,7 +2,6 @@ package com.alexvasilkov.gestures;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.PointF;
 import android.graphics.RectF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -58,7 +57,6 @@ public class GestureController implements View.OnTouchListener {
     private static final float FLING_COEFFICIENT = 0.9f;
 
     // Temporary objects
-    private static final PointF tmpPointF = new PointF();
     private static final RectF tmpRectF = new RectF();
     private static final float[] tmpPointArr = new float[2];
 
@@ -171,17 +169,6 @@ public class GestureController implements View.OnTouchListener {
      */
     public void removeOnStateChangeListener(OnStateChangeListener listener) {
         stateListeners.remove(listener);
-    }
-
-    /**
-     * @param enabled Whether long press should be enabled or not
-     * @deprecated In order to enable long clicks you should either set
-     * {@link View#setOnLongClickListener(View.OnLongClickListener)} or use
-     * {@link View#setLongClickable(boolean)}.
-     */
-    @Deprecated
-    public void setLongPressEnabled(boolean enabled) {
-        targetView.setLongClickable(true);
     }
 
     /**
@@ -316,12 +303,10 @@ public class GestureController implements View.OnTouchListener {
         return true;
     }
 
-    @SuppressWarnings("WeakerAccess") // Public API
     public boolean isAnimatingState() {
         return !stateScroller.isFinished();
     }
 
-    @SuppressWarnings("WeakerAccess") // Public API
     public boolean isAnimatingFling() {
         return !flingScroller.isFinished();
     }
@@ -972,5 +957,4 @@ public class GestureController implements View.OnTouchListener {
         }
 
     }
-
 }

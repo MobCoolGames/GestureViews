@@ -141,15 +141,6 @@ public class ViewPositionAnimator {
     }
 
     /**
-     * @return Current position
-     * @deprecated Use {@link #getPosition()} method instead.
-     */
-    @Deprecated
-    public float getPositionState() {
-        return position;
-    }
-
-    /**
      * Specifies target ('to') state and it's position which will be used to interpolate
      * current state for intermediate positions (i.e. during animation or exit gesture).<br>
      * This allows you to set up correct state without changing current position

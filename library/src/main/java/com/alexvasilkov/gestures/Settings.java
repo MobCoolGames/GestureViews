@@ -18,7 +18,6 @@ public class Settings {
     private int viewportH;
     private int imageW;
     private int imageH;
-    private float minZoom = 0f;
     private float maxZoom = MAX_ZOOM;
     private float doubleTapZoom = DOUBLE_TAP_ZOOM;
     private boolean isZoomEnabled = true;
@@ -33,7 +32,6 @@ public class Settings {
         }
 
         TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.GestureView);
-        minZoom = arr.getFloat(R.styleable.GestureView_gest_minZoom, minZoom);
         maxZoom = arr.getFloat(R.styleable.GestureView_gest_maxZoom, maxZoom);
         doubleTapZoom = arr.getFloat(R.styleable.GestureView_gest_doubleTapZoom, doubleTapZoom);
         isZoomEnabled = arr.getBoolean(R.styleable.GestureView_gest_zoomEnabled, isZoomEnabled);
@@ -88,10 +86,6 @@ public class Settings {
 
     public int getImageH() {
         return imageH;
-    }
-
-    public float getMinZoom() {
-        return minZoom;
     }
 
     public float getMaxZoom() {

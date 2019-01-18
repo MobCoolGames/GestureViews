@@ -2,7 +2,6 @@
 <resources>
 
     <declare-styleable name="GestureView">
-        <attr name="gest_minZoom" format="reference|float"/>
         <attr name="gest_maxZoom" format="reference|float"/>
         <attr name="gest_doubleTapZoom" format="reference|float"/>
         <attr name="gest_zoomEnabled" format="reference|boolean"/>

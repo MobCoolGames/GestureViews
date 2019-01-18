@@ -34,7 +34,7 @@ public class ZoomBounds {
             return this;
         }
 
-        minZoom = settings.getMinZoom();
+        minZoom = fitZoom;
         maxZoom = settings.getMaxZoom();
 
         final float rotation = state.getRotation();
@@ -49,9 +49,6 @@ public class ZoomBounds {
 
         fitZoom = Math.min(areaWidth / imageWidth, areaHeight / imageHeight);
 
-        if (minZoom <= 0f) {
-            minZoom = fitZoom;
-        }
         if (maxZoom <= 0f) {
             maxZoom = fitZoom;
         }

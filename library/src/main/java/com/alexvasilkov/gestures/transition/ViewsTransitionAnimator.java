@@ -1,13 +1,10 @@
 package com.alexvasilkov.gestures.transition;
 
 import android.view.View;
-import android.widget.ImageView;
 
 import com.alexvasilkov.gestures.animation.ViewPosition;
 import com.alexvasilkov.gestures.animation.ViewPositionAnimator;
 import com.alexvasilkov.gestures.animation.ViewPositionAnimator.PositionUpdateListener;
-import com.alexvasilkov.gestures.transition.tracker.FromTracker;
-import com.alexvasilkov.gestures.transition.tracker.IntoTracker;
 import com.alexvasilkov.gestures.views.interfaces.AnimatorView;
 
 import java.util.ArrayList;
@@ -18,24 +15,17 @@ import androidx.annotation.Nullable;
 
 /**
  * Extension of {@link ViewsCoordinator} that allows requesting {@link #enter(Object, boolean)} or
- * {@link #exit(boolean)} animations, keeps track of {@link PositionUpdateListener} listeners
+ * exit animations, keeps track of {@link PositionUpdateListener} listeners
  * and provides correct implementation of {@link #isLeaving()}.
  * <p>
  * Usage of this class should be similar to {@link ViewPositionAnimator} class.
  */
 public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
 
-    private static final Object NONE = new Object();
-
-    private static final String TAG = ViewsTransitionAnimator.class.getSimpleName();
-
     private final List<PositionUpdateListener> listeners = new ArrayList<>();
 
     private boolean enterWithAnimation;
     private boolean isEntered;
-
-    private boolean exitRequested;
-    private boolean exitWithAnimation;
 
     public ViewsTransitionAnimator() {
         addPositionUpdateListener(new PositionUpdateListener() {
@@ -61,53 +51,11 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
     }
 
     /**
-     * Similar to {@link #enter(Object, boolean) enter(ID, boolean)} but starts entering from no
-     * specific id.<br>
-     * <b>Do not use this method if you are actually going to use items ids in {@link FromTracker}
-     * or {@link IntoTracker}.</b>
-     * <p>
-     * Can be used if your have single 'from' item with no specific id, like:<br>
-     * {@code GestureTransitions.from(imageView).into(gestureImageView).enterSingle(true)}
-     *
-     * @param withAnimation Whether to animate entering or immediately jump to entered state
-     */
-    @SuppressWarnings({"unchecked", "SameParameterValue"})
-    public void enterSingle(boolean withAnimation) {
-        // Passing 'NONE' Object instead of ID. Will fail if ID will be actually used.
-        enter((ID) NONE, withAnimation);
-    }
-
-    /**
-     * Plays exit animation, should only be called after corresponding call to
-     * {@link #enter(Object, boolean)}.
-     *
-     * @param withAnimation Whether to animate exiting or immediately jump to initial state
-     * @see #isLeaving()
-     */
-    public void exit(boolean withAnimation) {
-        if (getRequestedId() == null) {
-            throw new IllegalStateException("You should call enter(...) before calling exit(...)");
-        }
-
-        exitRequested = true;
-        exitWithAnimation = withAnimation;
-        exitIfRequested();
-    }
-
-    private void exitIfRequested() {
-        if (exitRequested && isReady()) {
-            exitRequested = false;
-            getToView().getPositionAnimator().exit(exitWithAnimation);
-        }
-    }
-
-    /**
      * @return Whether 'enter' was not requested recently or animator is in leaving state.
      * Means that animation direction is from final (to) position back to initial (from) position.
      */
     public boolean isLeaving() {
-        return exitRequested || getRequestedId() == null
-                || (isReady() && getToView().getPositionAnimator().isLeaving());
+        return getRequestedId() == null || (isReady() && getToView().getPositionAnimator().isLeaving());
     }
 
 
@@ -123,20 +71,6 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
             getToView().getPositionAnimator().addPositionUpdateListener(listener);
         }
     }
-
-    /**
-     * Removes position state changes listener as added by addPositionUpdateListener(...).
-     *
-     * @param listener Position listener to be removed
-     * @see ViewPositionAnimator#removePositionUpdateListener(PositionUpdateListener)
-     */
-    public void removePositionUpdateListener(@NonNull PositionUpdateListener listener) {
-        listeners.remove(listener);
-        if (isReady()) {
-            getToView().getPositionAnimator().removePositionUpdateListener(listener);
-        }
-    }
-
 
     @Override
     public void setFromListener(@NonNull OnRequestViewListener<ID> listener) {
@@ -185,41 +119,12 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
     }
 
     @Override
-    protected void onViewsReady(@NonNull ID id) {
-        if (!isEntered) {
-            isEntered = true;
-
-            if (getFromView() != null) {
-                getToView().getPositionAnimator().enter(getFromView(), enterWithAnimation);
-            } else if (getFromPos() != null) {
-                getToView().getPositionAnimator().enter(getFromPos(), enterWithAnimation);
-            } else {
-                getToView().getPositionAnimator().enter(enterWithAnimation);
-            }
-
-            exitIfRequested();
-        }
-
-        if (getFromView() instanceof ImageView && getToView() instanceof ImageView) {
-            // Pre-setting 'to' image with 'from' image to prevent flickering
-            ImageView from = (ImageView) getFromView();
-            ImageView to = (ImageView) getToView();
-            if (to.getDrawable() == null) {
-                to.setImageDrawable(from.getDrawable());
-            }
-        }
-
-        super.onViewsReady(id);
-    }
-
-    @Override
     protected void cleanupRequest() {
         if (getToView() != null) {
             cleanupAnimator(getToView().getPositionAnimator());
         }
 
         isEntered = false;
-        exitRequested = false;
 
         super.cleanupRequest();
     }
@@ -234,10 +139,6 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
     private void cleanupAnimator(ViewPositionAnimator animator) {
         for (PositionUpdateListener listener : listeners) {
             animator.removePositionUpdateListener(listener);
-        }
-
-        if (!animator.isLeaving() || animator.getPosition() != 0f) {
-            animator.exit(false);
         }
     }
 

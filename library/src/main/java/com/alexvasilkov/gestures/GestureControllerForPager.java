@@ -76,21 +76,6 @@ public class GestureControllerForPager extends GestureController {
     }
 
     /**
-     * Enables scroll inside {@link ViewPager}
-     * (by enabling cross movement between ViewPager and it's child view).
-     *
-     * @param pager Target ViewPager
-     */
-    public void enableScrollInViewPager(ViewPager pager) {
-        viewPager = pager;
-        //noinspection all - ViewPager is not clickable, it is safe to set touch listener
-        pager.setOnTouchListener(PAGER_TOUCH_LISTENER);
-
-        // Disabling motion event splitting
-        pager.setMotionEventSplittingEnabled(false);
-    }
-
-    /**
      * Disables ViewPager scroll. Default is false.
      *
      * @param disable Whether to disable ViewPager scroll or not

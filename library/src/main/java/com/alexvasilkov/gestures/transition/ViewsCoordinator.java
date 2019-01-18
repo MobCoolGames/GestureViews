@@ -23,19 +23,11 @@ import androidx.viewpager.widget.ViewPager;
  * This method will trigger methods {@link OnRequestViewListener#onRequestView(Object)} of
  * listeners set by {@link #setFromListener(OnRequestViewListener) setFromListener} and
  * {@link #setToListener(OnRequestViewListener) setToListener} methods.
- * <p>
- * When views were requested this class starts waiting for 'from' and 'to' views to be provided
- * with {@link #setFromView(Object, View)} (or {@link #setFromPos(Object, ViewPosition)}) and
- * {@link #setToView(Object, AnimatorView)} methods. When both views are ready method
- * {@link OnViewsReadyListener#onViewsReady(Object)} will be triggered.
  */
 public class ViewsCoordinator<ID> {
 
-    private static final String TAG = ViewsCoordinator.class.getSimpleName();
-
     private OnRequestViewListener<ID> fromListener;
     private OnRequestViewListener<ID> toListener;
-    private OnViewsReadyListener<ID> readyListener;
 
     private ID requestedId;
     private ID fromId;
@@ -72,86 +64,20 @@ public class ViewsCoordinator<ID> {
         return requestedId;
     }
 
-
-    /**
-     * @return 'From' view, if set.<br>
-     * Note, that once {@link #onViewsReady(Object)} is called both this method and
-     * {@link #getFromPos()} may still return null, see {@link #setFromNone(Object)}.
-     */
     public View getFromView() {
         return fromView;
     }
 
-    /**
-     * @return 'From' position, if set.<br>
-     * Note, that once {@link #onViewsReady(Object)} is called, both this method and
-     * {@link #getFromView()} may still return null, see {@link #setFromNone(Object)}.
-     */
     public ViewPosition getFromPos() {
         return fromPos;
     }
 
-    /**
-     * @return 'To' view, if set. Will not be null once {@link #onViewsReady(Object)} is called,
-     * but before new request ({@link #request(Object)}).
-     */
     public AnimatorView getToView() {
         return toView;
     }
 
-
-    public void setFromView(@NonNull ID id, @NonNull View fromView) {
-        setFromInternal(id, fromView, null);
-    }
-
-    public void setFromPos(@NonNull ID id, @NonNull ViewPosition fromPos) {
-        setFromInternal(id, null, fromPos);
-    }
-
-    /**
-     * Notifies that 'from' view is ready even if there is no such view. Can be used in cases when
-     * we know that there will be no 'from' view, but animation should be started anyway.
-     *
-     * @param id Item ID for related 'to' view
-     */
-    public void setFromNone(@NonNull ID id) {
-        setFromInternal(id, null, null);
-    }
-
-    private void setFromInternal(@NonNull ID id, View fromView, ViewPosition fromPos) {
-        if (requestedId == null || !requestedId.equals(id)) {
-            return;
-        }
-        if (this.fromView == fromView && fromView != null) {
-            return;
-        }
-
-        onFromViewChanged(fromView, fromPos);
-
-        fromId = id;
-        this.fromView = fromView;
-        this.fromPos = fromPos;
-        notifyWhenReady();
-    }
-
     protected void onFromViewChanged(@Nullable View fromView, @Nullable ViewPosition fromPos) {
         // Can be overridden to setup views
-    }
-
-
-    public void setToView(@NonNull ID id, @NonNull AnimatorView toView) {
-        if (requestedId == null || !requestedId.equals(id)) {
-            return;
-        }
-        if (this.toView == toView) {
-            return; // Already set
-        }
-
-        onToViewChanged(this.toView, toView);
-
-        toId = id;
-        this.toView = toView;
-        notifyWhenReady();
     }
 
     protected void onToViewChanged(@Nullable AnimatorView old, @NonNull AnimatorView view) {
@@ -161,29 +87,6 @@ public class ViewsCoordinator<ID> {
 
     public boolean isReady() {
         return requestedId != null && requestedId.equals(fromId) && requestedId.equals(toId);
-    }
-
-    private void notifyWhenReady() {
-        if (isReady()) {
-            onViewsReady(requestedId);
-        }
-    }
-
-    /**
-     * Called when both 'from' and 'to' views are ready for given index. At this point
-     * transition is ready to be started.
-     * <p>
-     * Note, that this method will be called each time 'from' or 'to' views are changed.
-     *
-     * @param id Item ID used for views lookup
-     * @see #getFromView()
-     * @see #getFromPos()
-     * @see #getToView()
-     */
-    protected void onViewsReady(@NonNull ID id) {
-        if (readyListener != null) {
-            readyListener.onViewsReady(id);
-        }
     }
 
     protected void cleanupRequest() {
@@ -196,7 +99,6 @@ public class ViewsCoordinator<ID> {
         toView = null;
         requestedId = fromId = toId = null;
     }
-
 
     public interface OnRequestViewListener<ID> {
         /**
@@ -211,16 +113,4 @@ public class ViewsCoordinator<ID> {
          */
         void onRequestView(@NonNull ID id);
     }
-
-    public interface OnViewsReadyListener<ID> {
-        /**
-         * Will be called when both 'from' and 'to' views for given item index are ready.
-         * <p>
-         * Note, that this method will be called each time 'from' or 'to' views are changed.
-         *
-         * @param id Item ID used for views lookup
-         */
-        void onViewsReady(@NonNull ID id);
-    }
-
 }

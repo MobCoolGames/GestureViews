@@ -40,15 +40,12 @@ import androidx.annotation.NonNull;
  * To use this class first create an instance and then call {@link #enter(View, boolean)}.<br>
  * Alternatively you can manually pass initial view position using
  * {@link #enter(ViewPosition, boolean)} method. <br>
- * To exit back to initial view call {@link #exit(boolean)} method.<br>
  * You can listen for position changes using
  * {@link #addPositionUpdateListener(PositionUpdateListener)}.<br>
  * If initial view was changed you should call {@link #update(View)} method to update to new view.
  * You can also manually update initial view position using {@link #update(ViewPosition)} method.
  */
 public class ViewPositionAnimator {
-
-    private static final String TAG = "ViewPositionAnimator";
 
     private static final Matrix tmpMatrix = new Matrix();
     private static final float[] tmpPointArr = new float[2];
@@ -222,25 +219,6 @@ public class ViewPositionAnimator {
      */
     public void updateToNone() {
         updateInternal();
-    }
-
-    /**
-     * Starts 'exit' animation from {@code to} view back to {@code from}.
-     *
-     * @param withAnimation Whether to animate exiting or immediately jump to initial state
-     */
-    public void exit(boolean withAnimation) {
-        if (!isActivated) {
-            throw new IllegalStateException("You should call enter(...) before calling exit(...)");
-        }
-
-        // Resetting 'to' position if not animating exit already
-        if (!(isAnimating && position <= toPosition) && position > 0) {
-            setToState(toController.getState(), position);
-        }
-
-        // Starting animation from current position or applying initial state without animation
-        setState(withAnimation ? position : 0f, true, withAnimation);
     }
 
     private void enterInternal(boolean withAnimation) {

@@ -254,19 +254,6 @@ public class GestureController implements View.OnTouchListener {
     }
 
     /**
-     * Sets pivot point for zooming when keeping image in bounds.
-     *
-     * @param pivotX Pivot point's X coordinate
-     * @param pivotY Pivot point's Y coordinate
-     * @see #animateKeepInBounds()
-     * @see #animateStateTo(State)
-     */
-    public void setPivot(float pivotX, float pivotY) {
-        this.pivotX = pivotX;
-        this.pivotY = pivotY;
-    }
-
-    /**
      * Animates to correct position withing the bounds.
      *
      * @return {@code true} if animation started, {@code false} otherwise. Animation may
@@ -410,16 +397,6 @@ public class GestureController implements View.OnTouchListener {
                 sourceListener.onStateSourceChanged(type);
             }
         }
-    }
-
-
-    // -------------------
-    //  Gestures handling
-    // -------------------
-
-    public boolean onInterceptTouch(@NonNull View view, @NonNull MotionEvent event) {
-        isInterceptTouchCalled = true;
-        return onTouchInternal(view, event);
     }
 
     @SuppressLint("ClickableViewAccessibility") // performClick is called in gestures callbacks

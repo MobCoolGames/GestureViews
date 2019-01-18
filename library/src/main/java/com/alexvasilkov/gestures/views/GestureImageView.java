@@ -16,8 +16,6 @@ import com.alexvasilkov.gestures.GestureControllerForPager;
 import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.State;
 import com.alexvasilkov.gestures.animation.ViewPositionAnimator;
-import com.alexvasilkov.gestures.internal.DebugOverlay;
-import com.alexvasilkov.gestures.internal.GestureDebug;
 import com.alexvasilkov.gestures.utils.ClipHelper;
 import com.alexvasilkov.gestures.utils.CropUtils;
 import com.alexvasilkov.gestures.views.interfaces.AnimatorView;
@@ -87,10 +85,6 @@ public class GestureImageView extends ImageView
         super.draw(canvas);
         clipViewHelper.onPostDraw(canvas);
         clipBoundsHelper.onPostDraw(canvas);
-
-        if (GestureDebug.isDrawDebugOverlay()) {
-            DebugOverlay.drawDebug(this, canvas);
-        }
     }
 
     /**

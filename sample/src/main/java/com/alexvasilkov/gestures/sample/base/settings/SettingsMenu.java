@@ -9,7 +9,6 @@ import android.view.SubMenu;
 import com.alexvasilkov.android.commons.state.InstanceState;
 import com.alexvasilkov.android.commons.state.InstanceStateManager;
 import com.alexvasilkov.gestures.Settings;
-import com.alexvasilkov.gestures.internal.GestureDebug;
 import com.alexvasilkov.gestures.sample.R;
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
@@ -61,7 +60,6 @@ public class SettingsMenu implements SettingsController {
         addSubMenu(menu, Settings.Fit.values(), fitMethod, R.string.menu_fit_method);
         addSubMenu(menu, Settings.Bounds.values(), boundsType, R.string.menu_bounds_type);
         addSubMenu(menu, GravityType.values(), GravityType.find(gravity), R.string.menu_gravity);
-        addBoolMenu(menu, GestureDebug.isDrawDebugOverlay(), R.string.menu_enable_overlay);
     }
 
     private void addBoolMenu(Menu menu, boolean checked, @StringRes int titleId) {
@@ -106,9 +104,6 @@ public class SettingsMenu implements SettingsController {
                 break;
             case R.string.menu_gravity:
                 gravity = GravityType.values()[item.getOrder()].gravity;
-                break;
-            case R.string.menu_enable_overlay:
-                GestureDebug.setDrawDebugOverlay(!GestureDebug.isDrawDebugOverlay());
                 break;
             default:
                 return false;

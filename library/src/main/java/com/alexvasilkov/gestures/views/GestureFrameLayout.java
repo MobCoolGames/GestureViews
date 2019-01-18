@@ -187,10 +187,6 @@ public class GestureFrameLayout extends FrameLayout implements GestureView, Anim
         canvas.concat(matrix);
         super.dispatchDraw(canvas);
         canvas.restore();
-
-        if (GestureDebug.isDrawDebugOverlay()) {
-            DebugOverlay.drawDebug(this, canvas);
-        }
     }
 
     @Override

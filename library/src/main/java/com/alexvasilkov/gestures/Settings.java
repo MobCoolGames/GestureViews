@@ -76,11 +76,6 @@ public class Settings {
      */
     private boolean isRestrictRotation = false;
 
-    /*
-     * Counter for gestures disabling calls.
-     */
-    private int gesturesDisableCount;
-
     Settings() {
         // Package private constructor
     }
@@ -113,12 +108,6 @@ public class Settings {
                 R.styleable.GestureView_gest_rotationEnabled, isRotationEnabled);
         isRestrictRotation = arr.getBoolean(
                 R.styleable.GestureView_gest_restrictRotation, isRestrictRotation);
-
-        boolean disableGestures = arr.getBoolean(
-                R.styleable.GestureView_gest_disableGestures, false);
-        if (disableGestures) {
-            disableGestures();
-        }
 
         arr.recycle();
     }
@@ -251,36 +240,6 @@ public class Settings {
         return this;
     }
 
-    /**
-     * Disable all gestures.<br>
-     * Calls to this method are counted, so if you called it N times
-     * you should call {@link #enableGestures()} N times to re-enable all gestures.
-     * <p>
-     * Useful when you need to temporary disable touch gestures during animation or image loading.
-     * <p>
-     * See also {@link #enableGestures()}
-     *
-     * @return Current settings object for calls chaining
-     */
-    public Settings disableGestures() {
-        gesturesDisableCount++;
-        return this;
-    }
-
-    /**
-     * Re-enable all gestures disabled by {@link #disableGestures()} method.<br>
-     * Calls to this method are counted, so if you called {@link #disableGestures()} N times
-     * you should call this method N times to re-enable all gestures.
-     * <p>
-     * See also {@link #disableGestures()}
-     *
-     * @return Current settings object for calls chaining
-     */
-    public Settings enableGestures() {
-        gesturesDisableCount--;
-        return this;
-    }
-
     // --------------
     //  Getters
     // --------------
@@ -326,11 +285,11 @@ public class Settings {
     }
 
     public boolean isZoomEnabled() {
-        return isGesturesEnabled() && isZoomEnabled;
+        return isZoomEnabled;
     }
 
     public boolean isRotationEnabled() {
-        return isGesturesEnabled() && isRotationEnabled;
+        return isRotationEnabled;
     }
 
     public boolean isRestrictRotation() {
@@ -338,18 +297,14 @@ public class Settings {
     }
 
     public boolean isDoubleTapEnabled() {
-        return isGesturesEnabled() && isZoomEnabled;
-    }
-
-    public boolean isGesturesEnabled() {
-        return gesturesDisableCount <= 0;
+        return isZoomEnabled;
     }
 
     /**
      * @return Whether at least one of pan, zoom, rotation or double tap are enabled or not
      */
     public boolean isEnabled() {
-        return isGesturesEnabled() && (isZoomEnabled || isRotationEnabled);
+        return isZoomEnabled || isRotationEnabled;
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted") // Public API

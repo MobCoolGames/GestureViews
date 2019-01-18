@@ -1,10 +1,8 @@
 package com.alexvasilkov.gestures.transition;
 
-import android.util.Log;
 import android.view.View;
 
 import com.alexvasilkov.gestures.animation.ViewPosition;
-import com.alexvasilkov.gestures.internal.GestureDebug;
 import com.alexvasilkov.gestures.views.interfaces.AnimatorView;
 
 import androidx.annotation.NonNull;
@@ -69,10 +67,6 @@ public class ViewsCoordinator<ID> {
 
         cleanupRequest();
 
-        if (GestureDebug.isDebugAnimator()) {
-            Log.d(TAG, "Requesting " + id);
-        }
-
         requestedId = id;
         fromListener.onRequestView(id);
         toListener.onRequestView(id);
@@ -133,11 +127,7 @@ public class ViewsCoordinator<ID> {
             return;
         }
         if (this.fromView == fromView && fromView != null) {
-            return; // Already set
-        }
-
-        if (GestureDebug.isDebugAnimator()) {
-            Log.d(TAG, "Setting 'from' view for " + id);
+            return;
         }
 
         onFromViewChanged(fromView, fromPos);
@@ -159,10 +149,6 @@ public class ViewsCoordinator<ID> {
         }
         if (this.toView == toView) {
             return; // Already set
-        }
-
-        if (GestureDebug.isDebugAnimator()) {
-            Log.d(TAG, "Setting 'to' view for " + id);
         }
 
         onToViewChanged(this.toView, toView);
@@ -207,10 +193,6 @@ public class ViewsCoordinator<ID> {
     protected void cleanupRequest() {
         if (requestedId == null) {
             return;
-        }
-
-        if (GestureDebug.isDebugAnimator()) {
-            Log.d(TAG, "Cleaning up request " + requestedId);
         }
 
         fromView = null;

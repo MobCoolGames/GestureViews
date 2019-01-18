@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 
 import com.alexvasilkov.gestures.animation.ViewPositionAnimator;
 import com.alexvasilkov.gestures.animation.ViewPositionAnimator.PositionUpdateListener;
-import com.alexvasilkov.gestures.commons.RecyclePagerAdapter;
 import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator;
 import com.alexvasilkov.gestures.transition.tracker.IntoTracker;
 import com.alexvasilkov.gestures.views.interfaces.AnimatorView;
@@ -16,7 +15,6 @@ import androidx.viewpager.widget.ViewPager;
 /**
  * Helper class to animate transitions into ViewPager with GestureView-driven pages.
  * <p>
- * It works best with {@link RecyclePagerAdapter} as ViewPager adapter.
  */
 public class IntoViewPagerListener<ID> extends ViewsTransitionAnimator.RequestListener<ID> {
 

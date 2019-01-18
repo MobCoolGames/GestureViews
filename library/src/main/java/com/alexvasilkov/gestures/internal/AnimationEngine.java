@@ -9,23 +9,14 @@ public abstract class AnimationEngine implements Runnable {
     private static final long FRAME_TIME = 10L;
 
     private final View view;
-    private final Fps fps;
 
     public AnimationEngine(@NonNull View view) {
         this.view = view;
-        this.fps = GestureDebug.isDebugFps() ? new Fps() : null;
     }
 
     @Override
     public final void run() {
         boolean continueAnimation = onStep();
-
-        if (fps != null) {
-            fps.step();
-            if (!continueAnimation) {
-                fps.stop();
-            }
-        }
 
         if (continueAnimation) {
             scheduleNextStep();
@@ -40,11 +31,6 @@ public abstract class AnimationEngine implements Runnable {
     }
 
     public void start() {
-        if (fps != null) {
-            fps.start();
-        }
-
         scheduleNextStep();
     }
-
 }

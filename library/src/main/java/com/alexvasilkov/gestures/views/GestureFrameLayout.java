@@ -17,8 +17,6 @@ import com.alexvasilkov.gestures.GestureController;
 import com.alexvasilkov.gestures.GestureControllerForPager;
 import com.alexvasilkov.gestures.State;
 import com.alexvasilkov.gestures.animation.ViewPositionAnimator;
-import com.alexvasilkov.gestures.internal.DebugOverlay;
-import com.alexvasilkov.gestures.internal.GestureDebug;
 import com.alexvasilkov.gestures.views.interfaces.AnimatorView;
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
@@ -163,7 +161,7 @@ public class GestureFrameLayout extends FrameLayout implements GestureView, Anim
 
     @Override
     protected void measureChildWithMargins(View child, int parentWidthMeasureSpec, int widthUsed,
-            int parentHeightMeasureSpec, int heightUsed) {
+                                           int parentHeightMeasureSpec, int heightUsed) {
         final MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
 
         final int extraW = getPaddingLeft() + getPaddingRight()

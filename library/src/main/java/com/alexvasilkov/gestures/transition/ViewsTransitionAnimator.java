@@ -1,13 +1,11 @@
 package com.alexvasilkov.gestures.transition;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.alexvasilkov.gestures.animation.ViewPosition;
 import com.alexvasilkov.gestures.animation.ViewPositionAnimator;
 import com.alexvasilkov.gestures.animation.ViewPositionAnimator.PositionUpdateListener;
-import com.alexvasilkov.gestures.internal.GestureDebug;
 import com.alexvasilkov.gestures.transition.tracker.FromTracker;
 import com.alexvasilkov.gestures.transition.tracker.IntoTracker;
 import com.alexvasilkov.gestures.views.interfaces.AnimatorView;
@@ -42,7 +40,7 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
     /**
      * @deprecated Use {@link GestureTransitions} instead.
      */
-    @SuppressWarnings({ "WeakerAccess", "DeprecatedIsStillUsed" }) // Public temporary API
+    @SuppressWarnings({"WeakerAccess", "DeprecatedIsStillUsed"}) // Public temporary API
     @Deprecated
     public ViewsTransitionAnimator() {
         addPositionUpdateListener(new PositionUpdateListener() {
@@ -58,15 +56,11 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
     /**
      * Requests 'from' and 'to' views for given ID and starts enter animation when views are ready.
      *
-     * @param id Item ID for views lookup
+     * @param id            Item ID for views lookup
      * @param withAnimation Whether to animate entering or immediately jump to entered state
      * @see ViewsCoordinator
      */
     public void enter(@NonNull ID id, boolean withAnimation) {
-        if (GestureDebug.isDebugAnimator()) {
-            Log.d(TAG, "Enter requested for " + id + ", with animation = " + withAnimation);
-        }
-
         enterWithAnimation = withAnimation;
         request(id);
     }
@@ -82,7 +76,7 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
      *
      * @param withAnimation Whether to animate entering or immediately jump to entered state
      */
-    @SuppressWarnings({ "unchecked", "SameParameterValue" })
+    @SuppressWarnings({"unchecked", "SameParameterValue"})
     public void enterSingle(boolean withAnimation) {
         // Passing 'NONE' Object instead of ID. Will fail if ID will be actually used.
         enter((ID) NONE, withAnimation);
@@ -100,11 +94,6 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
             throw new IllegalStateException("You should call enter(...) before calling exit(...)");
         }
 
-        if (GestureDebug.isDebugAnimator()) {
-            Log.d(TAG, "Exit requested from " + getRequestedId()
-                    + ", with animation = " + withAnimation);
-        }
-
         exitRequested = true;
         exitWithAnimation = withAnimation;
         exitIfRequested();
@@ -113,11 +102,6 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
     private void exitIfRequested() {
         if (exitRequested && isReady()) {
             exitRequested = false;
-
-            if (GestureDebug.isDebugAnimator()) {
-                Log.d(TAG, "Perform exit from " + getRequestedId());
-            }
-
             getToView().getPositionAnimator().exit(exitWithAnimation);
         }
     }
@@ -180,10 +164,6 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
         super.onFromViewChanged(fromView, fromPos);
 
         if (isReady()) {
-            if (GestureDebug.isDebugAnimator()) {
-                Log.d(TAG, "Updating 'from' view for " + getRequestedId());
-            }
-
             if (fromView != null) {
                 getToView().getPositionAnimator().update(fromView);
             } else if (fromPos != null) {
@@ -213,10 +193,6 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
     protected void onViewsReady(@NonNull ID id) {
         if (!isEntered) {
             isEntered = true;
-
-            if (GestureDebug.isDebugAnimator()) {
-                Log.d(TAG, "Ready to enter for " + getRequestedId());
-            }
 
             if (getFromView() != null) {
                 getToView().getPositionAnimator().enter(getFromView(), enterWithAnimation);
@@ -266,10 +242,6 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
         }
 
         if (!animator.isLeaving() || animator.getPosition() != 0f) {
-            if (GestureDebug.isDebugAnimator()) {
-                Log.d(TAG, "Exiting from cleaned animator for " + getRequestedId());
-            }
-
             animator.exit(false);
         }
     }
@@ -279,10 +251,6 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
         final float position = old.getPosition();
         final boolean isLeaving = old.isLeaving();
         final boolean isAnimating = old.isAnimating();
-
-        if (GestureDebug.isDebugAnimator()) {
-            Log.d(TAG, "Swapping animator for " + getRequestedId());
-        }
 
         cleanupAnimator(old);
 

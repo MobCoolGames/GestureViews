@@ -632,7 +632,7 @@ public class GestureController implements View.OnTouchListener {
         return true;
     }
 
-    protected boolean onScaleBegin(ScaleGestureDetector detector) {
+    protected boolean onScaleBegin() {
         isScaleDetected = settings.isZoomEnabled();
         return isScaleDetected;
     }
@@ -640,7 +640,7 @@ public class GestureController implements View.OnTouchListener {
     @SuppressWarnings("WeakerAccess") // Public API (can be overridden)
     protected boolean onScale(ScaleGestureDetector detector) {
         if (!settings.isZoomEnabled() || isAnimatingState()) {
-            return false; // Ignoring scroll if animation is in progress
+            return false;
         }
 
         final float scaleFactor = detector.getScaleFactor();
@@ -653,12 +653,12 @@ public class GestureController implements View.OnTouchListener {
         return true;
     }
 
-    protected void onScaleEnd(ScaleGestureDetector detector) {
+    protected void onScaleEnd() {
         isScaleDetected = false;
         isRestrictZoomRequested = true;
     }
 
-    protected boolean onRotationBegin(RotationGestureDetector detector) {
+    protected boolean onRotationBegin() {
         isRotationDetected = settings.isRotationEnabled();
         return isRotationDetected;
     }
@@ -677,7 +677,7 @@ public class GestureController implements View.OnTouchListener {
         return true;
     }
 
-    protected void onRotationEnd(RotationGestureDetector detector) {
+    protected void onRotationEnd() {
         isRotationDetected = false;
         isRestrictRotationRequested = true;
     }
@@ -740,11 +740,6 @@ public class GestureController implements View.OnTouchListener {
             return shouldProceed;
         }
     }
-
-
-    // -------------------
-    //  Listeners
-    // -------------------
 
     /**
      * State changes listener.
@@ -939,12 +934,12 @@ public class GestureController implements View.OnTouchListener {
 
         @Override
         public boolean onRotationBegin(@NonNull RotationGestureDetector detector) {
-            return GestureController.this.onRotationBegin(detector);
+            return GestureController.this.onRotationBegin();
         }
 
         @Override
         public void onRotationEnd(@NonNull RotationGestureDetector detector) {
-            GestureController.this.onRotationEnd(detector);
+            GestureController.this.onRotationEnd();
         }
 
         @Override
@@ -954,13 +949,12 @@ public class GestureController implements View.OnTouchListener {
 
         @Override
         public boolean onScaleBegin(@NonNull ScaleGestureDetector detector) {
-            return GestureController.this.onScaleBegin(detector);
+            return GestureController.this.onScaleBegin();
         }
 
         @Override
         public void onScaleEnd(@NonNull ScaleGestureDetector detector) {
-            GestureController.this.onScaleEnd(detector);
+            GestureController.this.onScaleEnd();
         }
-
     }
 }

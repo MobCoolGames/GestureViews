@@ -120,7 +120,7 @@ public class GestureController implements View.OnTouchListener {
         InternalGesturesListener internalListener = new InternalGesturesListener();
         gestureDetector = new GestureDetector(context, internalListener);
         scaleDetector = new ScaleGestureDetectorFixed(context, internalListener);
-        rotateDetector = new RotationGestureDetector(context, internalListener);
+        rotateDetector = new RotationGestureDetector(internalListener);
 
         flingScroller = new OverScroller(context);
         stateScroller = new FloatScroller();

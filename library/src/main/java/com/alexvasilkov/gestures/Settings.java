@@ -36,7 +36,6 @@ public class Settings {
     private int boundsDisableCount;
 
     Settings() {
-        // Package private constructor
     }
 
     public void initFromAttributes(@NonNull Context context, @Nullable AttributeSet attrs) {

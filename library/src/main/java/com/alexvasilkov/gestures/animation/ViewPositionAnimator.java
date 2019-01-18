@@ -61,7 +61,6 @@ public class ViewPositionAnimator {
     private boolean isActivated = false;
 
     private float toPosition = 1f;
-    private float position = 0f;
 
     private boolean isApplyingPosition;
     private boolean isApplyingPositionScheduled;
@@ -113,8 +112,8 @@ public class ViewPositionAnimator {
         });
 
         // Position updates are paused by default, until animation is started
-        fromPosHolder.pause(true);
-        toPosHolder.pause(true);
+        fromPosHolder.pause();
+        toPosHolder.pause();
     }
 
     private void cleanup() {
@@ -133,18 +132,8 @@ public class ViewPositionAnimator {
     }
 
     /**
-     * @return Current position within range {@code [0, 1]}, where {@code 0} is for
-     * initial (from) position and {@code 1} is for final (to) position.
-     */
-    public float getPosition() {
-        return position;
-    }
-
-    /**
      * Specifies target ('to') state and it's position which will be used to interpolate
-     * current state for intermediate positions (i.e. during animation or exit gesture).<br>
-     * This allows you to set up correct state without changing current position
-     * ({@link #getPosition()}).
+     * current state for intermediate positions (i.e. during animation or exit gesture).
      * <p>
      * Only use this method if you understand what you do.
      *
@@ -179,10 +168,8 @@ public class ViewPositionAnimator {
 
         // We do not need to update while 'to' view is fully visible or fully closed
         // Leaving by default
-        boolean isLeaving = true;
-        boolean paused = isLeaving ? position == 0f : position == 1f;
-        fromPosHolder.pause(paused);
-        toPosHolder.pause(paused);
+        fromPosHolder.pause();
+        toPosHolder.pause();
 
         // Perform state updates if needed
         if (!isToUpdated) {
@@ -192,18 +179,17 @@ public class ViewPositionAnimator {
             updateFromState();
         }
 
-        boolean isAnimating = false;
-        boolean canUpdate = position < toPosition || (isAnimating && position == toPosition);
+        boolean canUpdate = toPosition >= 0;
         if (isToUpdated && isFromUpdated && canUpdate) {
             State state = toController.getState();
 
             MathUtils.interpolate(state, fromState, fromPivotX, fromPivotY,
-                    toState, toPivotX, toPivotY, position / toPosition);
+                    toState, toPivotX, toPivotY, 0);
 
             toController.updateState();
 
-            final boolean skipClip = position >= toPosition || (position == 0f && isLeaving);
-            final float clipPosition = position / toPosition;
+            final boolean skipClip = toPosition < 0;
+            final float clipPosition = 0;
 
             if (toClipView != null) {
                 MathUtils.interpolate(clipRectTmp, fromClip, toClip, clipPosition);
@@ -217,11 +203,9 @@ public class ViewPositionAnimator {
             }
         }
 
-        if (position == 0f && isLeaving) {
-            cleanup();
-            isActivated = false;
-            toController.resetState(); // Switching to initial state
-        }
+        cleanup();
+        isActivated = false;
+        toController.resetState();
 
         isApplyingPosition = false;
 

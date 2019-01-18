@@ -12,9 +12,6 @@ class ImageViewHelper {
     private ImageViewHelper() {
     }
 
-    /**
-     * Helper method to calculate drawing matrix. Based on ImageView source code.
-     */
     static void applyScaleType(ImageView.ScaleType type,
                                int dwidth, int dheight,
                                int vwidth, int vheight,

@@ -47,12 +47,8 @@ class ViewPositionHolder implements ViewTreeObserver.OnPreDrawListener {
         isPaused = false;
     }
 
-    void pause(boolean paused) {
-        if (isPaused == paused) {
-            return;
-        }
-
-        isPaused = paused;
+    void pause() {
+        isPaused = true;
         update();
     }
 

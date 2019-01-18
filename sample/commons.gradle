@@ -55,18 +55,3 @@ ext.getBuildNumber = {
 
     return build
 }
-
-
-/**
- * Sets better apk file name using format: 'appName'-'buildType'-'flavor'-'versionName'.apk
- *
- * Should be called after call to `setupVersion`, e.g.:
- *   setOutputFileName 'app-name'
- */
-ext.setOutputFileName = { appName ->
-    android.applicationVariants.whenObjectAdded { variant ->
-        variant.outputs.each { output ->
-            output.outputFileName = "${appName}-${output.baseName}-${variant.versionName}.apk"
-        }
-    }
-}

@@ -73,10 +73,6 @@ afterEvaluate { project ->
         source = android.sourceSets.main.java.sourceFiles
         classpath = files(android.bootClasspath)
 
-        android.libraryVariants.all { variant ->
-            owner.classpath += variant.javaCompiler.classpath
-        }
-
         exclude '**/BuildConfig.java'
         exclude '**/R.java'
         exclude '**/internal/**'

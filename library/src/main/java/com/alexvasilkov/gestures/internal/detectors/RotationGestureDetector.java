@@ -86,8 +86,7 @@ public class RotationGestureDetector {
     }
 
     private float computeRotation(MotionEvent event) {
-        return (float) Math.toDegrees(Math.atan2(
-                event.getY(1) - event.getY(0), event.getX(1) - event.getX(0)));
+        return (float) Math.toDegrees(Math.atan2(event.getY(1) - event.getY(0), event.getX(1) - event.getX(0)));
     }
 
     public float getFocusX() {

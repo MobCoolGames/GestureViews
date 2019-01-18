@@ -46,11 +46,9 @@ public class ScaleGestureDetectorFixed extends ScaleGestureDetector {
         float factor = super.getScaleFactor();
 
         if (isInDoubleTapMode()) {
-            return (currY > prevY && factor > 1f) || (currY < prevY && factor < 1f)
-                    ? Math.max(0.8f, Math.min(factor, 1.25f)) : 1f;
+            return (currY > prevY && factor > 1f) || (currY < prevY && factor < 1f) ? Math.max(0.8f, Math.min(factor, 1.25f)) : 1f;
         } else {
             return factor;
         }
     }
-
 }

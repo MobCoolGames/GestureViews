@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
  */
 public class Settings {
 
-    public static final float MAX_ZOOM = 2f;
+    public static final float MAX_ZOOM = 3f;
     public static final float OVERZOOM_FACTOR = 2f;
     public static final long ANIMATIONS_DURATION = 300L;
 

@@ -2,6 +2,7 @@ package com.alexvasilkov.gestures;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.PointF;
 import android.graphics.RectF;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -57,6 +58,7 @@ public class GestureController implements View.OnTouchListener {
     private static final float FLING_COEFFICIENT = 0.9f;
 
     // Temporary objects
+    private static final PointF tmpPointF = new PointF();
     private static final RectF tmpRectF = new RectF();
     private static final float[] tmpPointArr = new float[2];
 
@@ -455,7 +457,7 @@ public class GestureController implements View.OnTouchListener {
                 final boolean isPannable = State.compare(tmpRectF.width(), 0f) > 0
                         || State.compare(tmpRectF.height(), 0f) > 0;
 
-                if (isPannable) {
+                if (isPannable || !settings.isRestrictBounds()) {
                     return true;
                 }
                 break;
@@ -588,6 +590,12 @@ public class GestureController implements View.OnTouchListener {
         float prevY = state.getY();
         float toX = prevX + dx;
         float toY = prevY + dy;
+
+        if (settings.isRestrictBounds()) {
+            flingBounds.restrict(toX, toY, tmpPointF);
+            toX = tmpPointF.x;
+            toY = tmpPointF.y;
+        }
 
         state.translateTo(toX, toY);
         return !State.equals(prevX, toX) || !State.equals(prevY, toY);

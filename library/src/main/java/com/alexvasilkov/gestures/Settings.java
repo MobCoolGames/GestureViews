@@ -17,54 +17,23 @@ import androidx.annotation.Nullable;
  */
 public class Settings {
 
-    public static final float MAX_ZOOM = 3f;
+    public static final float MAX_ZOOM = 5f;
     public static final float OVERZOOM_FACTOR = 2f;
     public static final long ANIMATIONS_DURATION = 300L;
 
-    /*
-     * Viewport area.
-     */
     private int viewportW;
     private int viewportH;
-
-    /*
-     * Movement area.
-     */
     private int movementAreaW;
     private int movementAreaH;
-
     private boolean isMovementAreaSpecified;
-
-    /*
-     * Image size.
-     */
     private int imageW;
     private int imageH;
-
-    /*
-     * Min zoom level, default value is 0f, meaning min zoom will be adjusted to fit viewport.
-     */
     private float minZoom = 0f;
-
-    /*
-     * Max zoom level, default value is {@link #MAX_ZOOM}.
-     */
     private float maxZoom = MAX_ZOOM;
-
-    /*
-     * Double tap zoom level, default value is -1. Defaults to {@link #maxZoom} if <= 0.
-     */
     private float doubleTapZoom = -1f;
-
-    /*
-     * Whether zooming is enabled or not.
-     */
     private boolean isZoomEnabled = true;
-
-    /*
-     * Whether rotation gesture is enabled or not.
-     */
     private boolean isRotationEnabled = false;
+    private int boundsDisableCount;
 
     Settings() {
         // Package private constructor
@@ -246,6 +215,10 @@ public class Settings {
 
     public boolean isDoubleTapEnabled() {
         return isZoomEnabled;
+    }
+
+    public boolean isRestrictBounds() {
+        return boundsDisableCount <= 0;
     }
 
     /**

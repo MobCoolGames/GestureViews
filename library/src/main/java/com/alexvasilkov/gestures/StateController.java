@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 /**
  * Helper class that holds reference to {@link Settings} object and controls some aspects of view
  * {@link State}, such as movement bounds restrictions
- * (see {@link #getMovementArea(State, RectF)}) and dynamic min / max zoom levels
  */
 public class StateController {
 
@@ -92,7 +91,7 @@ public class StateController {
     /**
      * Maximizes zoom if it closer to min zoom or minimizes it if it closer to max zoom.
      *
-     * @param state Current state
+     * @param state  Current state
      * @param pivotX Pivot's X coordinate
      * @param pivotY Pivot's Y coordinate
      * @return End state for toggle animation.
@@ -142,6 +141,11 @@ public class StateController {
      * @return true if state was changed, false otherwise.
      */
     boolean restrictStateBounds(State state, State prevState, float pivotX, float pivotY, boolean allowOverzoom, boolean restrictRotation) {
+
+        if (!settings.isRestrictBounds()) {
+            return false;
+        }
+
         // Calculating default pivot point, if not provided
         if (Float.isNaN(pivotX) || Float.isNaN(pivotY)) {
             GravityUtils.getDefaultPivot(settings, tmpPoint);
@@ -264,20 +268,12 @@ public class StateController {
     }
 
     /**
-     * @param state Current state
-     * @return Zoom level which will fit the image into viewport
-     */
-    public float getFitZoom(State state) {
-        return zoomBounds.set(state).getFitZoom();
-    }
-
-    /**
      * Calculates area in which {@link State#getX()} &amp; {@link State#getY()} values can change.
      * Note, that this is different from {@link Settings#setMovementArea(int, int)} which defines
      * part of the viewport in which image can move.
      *
      * @param state Current state
-     * @param out Output movement area rectangle
+     * @param out   Output movement area rectangle
      */
     public void getMovementArea(State state, RectF out) {
         movBounds.set(state).getExternalBounds(out);

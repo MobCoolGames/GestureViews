@@ -124,7 +124,6 @@ public class StateController {
      * @param prevState Previous state to calculate overscroll and overzoom (optional)
      * @param pivotX Pivot's X coordinate
      * @param pivotY Pivot's Y coordinate
-     * @param allowOverscroll Whether overscroll is allowed
      * @param allowOverzoom Whether overzoom is allowed
      * @param restrictRotation Whether rotation should be restricted to a nearest N*90 angle
      * @return End state to animate changes or null if no changes are required.
@@ -301,8 +300,7 @@ public class StateController {
 
     /**
      * @param state Current state
-     * @return Zoom level which will fit the image into viewport (or min zoom level if
-     * {@link Settings#getFitMethod()} is {@link Settings.Fit#NONE}).
+     * @return Zoom level which will fit the image into viewport
      */
     public float getFitZoom(State state) {
         return zoomBounds.set(state).getFitZoom();

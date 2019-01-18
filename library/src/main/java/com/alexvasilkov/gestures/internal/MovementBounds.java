@@ -14,9 +14,7 @@ import com.alexvasilkov.gestures.utils.MathUtils;
  * Encapsulates logic related to movement bounds restriction. It will also apply image gravity
  * provided by {@link Settings#getGravity()} method.
  * <p>
- * Movement bounds can be represented using regular rectangle most of the time. But if fit method
- * is set to {@link Settings.Fit#OUTSIDE} and image has rotation != 0 then movement bounds will be
- * a rotated rectangle. That will complicate restrictions logic a bit.
+ * Movement bounds can be represented using regular rectangle most of the time.
  */
 public class MovementBounds {
 
@@ -52,21 +50,8 @@ public class MovementBounds {
 
         final Rect pos = tmpRect;
 
-        if (settings.getFitMethod() == Settings.Fit.OUTSIDE) {
-            // For OUTSIDE fit method we will rotate area rect instead of image rect,
-            // that will help us correctly fit movement area inside image rect
-            boundsRotation = state.getRotation();
-            boundsPivotX = area.centerX();
-            boundsPivotY = area.centerY();
-
-            if (!State.equals(boundsRotation, 0f)) {
-                tmpMatrix.setRotate(-boundsRotation, boundsPivotX, boundsPivotY);
-                tmpMatrix.mapRect(area);
-            }
-        } else {
-            boundsRotation = 0f;
-            boundsPivotX = boundsPivotY = 0f;
-        }
+        boundsRotation = 0f;
+        boundsPivotX = boundsPivotY = 0f;
 
         state.get(tmpMatrix);
         if (!State.equals(boundsRotation, 0f)) {
@@ -82,18 +67,16 @@ public class MovementBounds {
         // will be somewhere on the edge of non-rotated bounding rectangle.
         // Note: for OUTSIDE fit method image rotation was skipped above, so we will not need
         // to adjust bounds here.
-        if (settings.getFitMethod() != Settings.Fit.OUTSIDE) {
-            state.get(tmpMatrix);
+        state.get(tmpMatrix);
 
-            RectF imageRect = tmpRectF;
-            imageRect.set(0, 0, settings.getImageW(), settings.getImageH());
-            tmpMatrix.mapRect(imageRect);
+        RectF imageRect = tmpRectF;
+        imageRect.set(0, 0, settings.getImageW(), settings.getImageH());
+        tmpMatrix.mapRect(imageRect);
 
-            tmpPointArr[0] = tmpPointArr[1] = 0f;
-            tmpMatrix.mapPoints(tmpPointArr);
+        tmpPointArr[0] = tmpPointArr[1] = 0f;
+        tmpMatrix.mapPoints(tmpPointArr);
 
-            bounds.offset(tmpPointArr[0] - imageRect.left, tmpPointArr[1] - imageRect.top);
-        }
+        bounds.offset(tmpPointArr[0] - imageRect.left, tmpPointArr[1] - imageRect.top);
 
         return this;
     }

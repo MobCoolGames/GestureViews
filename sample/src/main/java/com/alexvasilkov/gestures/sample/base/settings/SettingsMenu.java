@@ -25,15 +25,12 @@ public class SettingsMenu implements SettingsController {
     @InstanceState
     private boolean isOverzoomEnabled = true;
     @InstanceState
-    private Settings.Fit fitMethod = Settings.Fit.INSIDE;
-    @InstanceState
     private int gravity = Gravity.CENTER;
 
     public void setValuesFrom(Settings settings) {
         isZoomEnabled = settings.isZoomEnabled();
         isRotationEnabled = settings.isRotationEnabled();
         isRestrictRotation = settings.isRestrictRotation();
-        fitMethod = settings.getFitMethod();
         gravity = settings.getGravity();
     }
 
@@ -50,7 +47,6 @@ public class SettingsMenu implements SettingsController {
         addBoolMenu(menu, isRotationEnabled, R.string.menu_enable_rotation);
         addBoolMenu(menu, isRestrictRotation, R.string.menu_restrict_rotation);
         addBoolMenu(menu, isOverzoomEnabled, R.string.menu_enable_overzoom);
-        addSubMenu(menu, Settings.Fit.values(), fitMethod, R.string.menu_fit_method);
         addSubMenu(menu, GravityType.values(), GravityType.find(gravity), R.string.menu_gravity);
     }
 
@@ -85,9 +81,6 @@ public class SettingsMenu implements SettingsController {
             case R.string.menu_enable_overzoom:
                 isOverzoomEnabled = !isOverzoomEnabled;
                 break;
-            case R.string.menu_fit_method:
-                fitMethod = Settings.Fit.values()[item.getOrder()];
-                break;
             case R.string.menu_gravity:
                 gravity = GravityType.values()[item.getOrder()].gravity;
                 break;
@@ -107,7 +100,6 @@ public class SettingsMenu implements SettingsController {
                 .setRotationEnabled(isRotationEnabled)
                 .setRestrictRotation(isRestrictRotation)
                 .setOverzoomFactor(overzoom)
-                .setFitMethod(fitMethod)
                 .setGravity(gravity)
                 .setAnimationsDuration(Settings.ANIMATIONS_DURATION);
     }

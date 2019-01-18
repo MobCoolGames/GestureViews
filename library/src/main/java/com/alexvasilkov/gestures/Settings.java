@@ -69,11 +69,6 @@ public class Settings {
     private int gravity = Gravity.CENTER;
 
     /*
-     * Initial fitting within viewport area.
-     */
-    private Fit fitMethod = Fit.INSIDE;
-
-    /*
      * Whether fling (inertial motion after scroll) is enabled or not.
      */
     private boolean isFlingEnabled = true;
@@ -140,10 +135,6 @@ public class Settings {
                 R.styleable.GestureView_gest_overzoomFactor, overzoomFactor);
         gravity = arr.getInt(
                 R.styleable.GestureView_gest_gravity, gravity);
-
-        int fitMethodPos = arr.getInteger(
-                R.styleable.GestureView_gest_fitMethod, fitMethod.ordinal());
-        fitMethod = Fit.values()[fitMethodPos];
 
         isFlingEnabled = arr.getBoolean(
                 R.styleable.GestureView_gest_flingEnabled, isFlingEnabled);
@@ -285,19 +276,6 @@ public class Settings {
      */
     public Settings setGravity(int gravity) {
         this.gravity = gravity;
-        return this;
-    }
-
-    /**
-     * Setting image fitting method within viewport area.
-     * <p>
-     * Default value is {@link Settings.Fit#INSIDE}.
-     *
-     * @param fitMethod Fit method
-     * @return Current settings object for calls chaining
-     */
-    public Settings setFitMethod(@NonNull Fit fitMethod) {
-        this.fitMethod = fitMethod;
         return this;
     }
 
@@ -519,10 +497,6 @@ public class Settings {
         return gravity;
     }
 
-    public Fit getFitMethod() {
-        return fitMethod;
-    }
-
     public boolean isFlingEnabled() {
         return isGesturesEnabled() && isFlingEnabled;
     }
@@ -578,64 +552,6 @@ public class Settings {
 
     public boolean hasViewportSize() {
         return viewportW != 0 && viewportH != 0;
-    }
-
-
-    public enum Fit {
-        /**
-         * Fit image width inside viewport area.
-         */
-        HORIZONTAL,
-
-        /**
-         * Fit image height inside viewport area.
-         */
-        VERTICAL,
-
-        /**
-         * Fit both image width and image height inside viewport area.
-         */
-        INSIDE,
-
-        /**
-         * Fit image width or image height inside viewport area, so the entire viewport is filled.
-         */
-        OUTSIDE,
-
-        /**
-         * Do not fit the image into viewport area.
-         */
-        NONE
-    }
-
-    public enum Bounds {
-        /**
-         * The image is moved within the movement area and always placed according to gravity
-         * if less than the area.
-         */
-        NORMAL,
-
-        /**
-         * The image is moved within the movement area and can be freely moved inside the area
-         * if less than the area.
-         */
-        INSIDE,
-
-        /**
-         * The image can be freely moved until it's completely outside of the movement area.
-         */
-        OUTSIDE,
-
-        /**
-         * The image can be freely moved until it contains a pivot point (e.g. center point if
-         * the gravity is set to {@link Gravity#CENTER}).
-         */
-        PIVOT,
-
-        /**
-         * The image can be freely moved with no restrictions.
-         */
-        NONE
     }
 
     public enum ExitType {

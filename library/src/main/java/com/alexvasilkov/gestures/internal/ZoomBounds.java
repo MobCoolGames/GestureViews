@@ -11,9 +11,7 @@ import com.alexvasilkov.gestures.utils.MathUtils;
  * Encapsulates logic related to movement bounds restriction. It will also apply image gravity
  * provided by {@link Settings#getGravity()} method.
  * <p>
- * Movement bounds can be represented using regular rectangle most of the time. But if fit method
- * is set to {@link Settings.Fit#OUTSIDE} and image has rotation != 0 then movement bounds will be
- * a rotated rectangle. That will complicate restrictions logic a bit.
+ * Movement bounds can be represented using regular rectangle most of the time.
  */
 public class ZoomBounds {
 
@@ -56,41 +54,15 @@ public class ZoomBounds {
         final float rotation = state.getRotation();
 
         if (!State.equals(rotation, 0f)) {
-            if (settings.getFitMethod() == Settings.Fit.OUTSIDE) {
-                // Computing movement area size taking rotation into account. We need to inverse
-                // rotation, since it will be applied to the area, not to the image itself.
-                tmpMatrix.setRotate(-rotation);
-                tmpRectF.set(0, 0, areaWidth, areaHeight);
-                tmpMatrix.mapRect(tmpRectF);
-                areaWidth = tmpRectF.width();
-                areaHeight = tmpRectF.height();
-            } else {
-                // Computing image bounding size taking rotation into account.
-                tmpMatrix.setRotate(rotation);
-                tmpRectF.set(0, 0, imageWidth, imageHeight);
-                tmpMatrix.mapRect(tmpRectF);
-                imageWidth = tmpRectF.width();
-                imageHeight = tmpRectF.height();
-            }
+            // Computing image bounding size taking rotation into account.
+            tmpMatrix.setRotate(rotation);
+            tmpRectF.set(0, 0, imageWidth, imageHeight);
+            tmpMatrix.mapRect(tmpRectF);
+            imageWidth = tmpRectF.width();
+            imageHeight = tmpRectF.height();
         }
 
-        switch (settings.getFitMethod()) {
-            case HORIZONTAL:
-                fitZoom = areaWidth / imageWidth;
-                break;
-            case VERTICAL:
-                fitZoom = areaHeight / imageHeight;
-                break;
-            case INSIDE:
-                fitZoom = Math.min(areaWidth / imageWidth, areaHeight / imageHeight);
-                break;
-            case OUTSIDE:
-                fitZoom = Math.max(areaWidth / imageWidth, areaHeight / imageHeight);
-                break;
-            case NONE:
-            default:
-                fitZoom = minZoom > 0f ? minZoom : 1f;
-        }
+        fitZoom = Math.min(areaWidth / imageWidth, areaHeight / imageHeight);
 
         if (minZoom <= 0f) {
             minZoom = fitZoom;

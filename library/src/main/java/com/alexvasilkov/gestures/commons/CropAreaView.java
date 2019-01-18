@@ -190,7 +190,6 @@ public class CropAreaView extends View {
 
         // Setting required parameters
         imageView.getController().getSettings()
-                .setFitMethod(Settings.Fit.OUTSIDE)
                 .setFlingEnabled(false);
 
         update(false);

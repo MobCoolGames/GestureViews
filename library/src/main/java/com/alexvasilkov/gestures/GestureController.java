@@ -616,8 +616,6 @@ public class GestureController implements View.OnTouchListener {
             return false;
         }
 
-        // ScaleGestureDetector can perform zoom by "double tap & drag" since KITKAT,
-        // so we should suppress our double tap in this case
         if (isScaleDetected) {
             return false;
         }

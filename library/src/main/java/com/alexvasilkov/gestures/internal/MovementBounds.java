@@ -10,14 +10,8 @@ import com.alexvasilkov.gestures.State;
 import com.alexvasilkov.gestures.utils.GravityUtils;
 import com.alexvasilkov.gestures.utils.MathUtils;
 
-/**
- * Encapsulates logic related to movement bounds restriction.
- * <p>
- * Movement bounds can be represented using regular rectangle most of the time.
- */
 public class MovementBounds {
 
-    // Temporary objects
     private static final Matrix tmpMatrix = new Matrix();
     private static final float[] tmpPointArr = new float[2];
     private static final Rect tmpRect = new Rect();
@@ -25,7 +19,6 @@ public class MovementBounds {
 
     private final Settings settings;
 
-    // State bounds parameters
     private final RectF bounds = new RectF();
     private float boundsRotation;
     private float boundsPivotX;
@@ -35,13 +28,6 @@ public class MovementBounds {
         this.settings = settings;
     }
 
-    /**
-     * Calculating bounds for {@link State#x} &amp; {@link State#y} values to keep image within
-     * viewport.
-     *
-     * @param state State for which to calculate movement bounds.
-     * @return Current movement bounds object for calls chaining.
-     */
     public MovementBounds set(State state) {
         RectF area = tmpRectF;
         GravityUtils.getMovementAreaPosition(settings, tmpRect);
@@ -54,18 +40,12 @@ public class MovementBounds {
 
         state.get(tmpMatrix);
         if (!State.equals(boundsRotation, 0f)) {
-            // Removing image rotation
             tmpMatrix.postRotate(-boundsRotation, boundsPivotX, boundsPivotY);
         }
         GravityUtils.getImagePosition(tmpMatrix, settings, pos);
 
-        // Calculating movement bounds for top-left corner of the scaled image
         calculateNormalBounds(area, pos);
 
-        // We should also adjust bounds position, since top-left corner of rotated image rectangle
-        // will be somewhere on the edge of non-rotated bounding rectangle.
-        // Note: for OUTSIDE fit method image rotation was skipped above, so we will not need
-        // to adjust bounds here.
         state.get(tmpMatrix);
 
         RectF imageRect = tmpRectF;
@@ -81,25 +61,17 @@ public class MovementBounds {
     }
 
     private void calculateNormalBounds(RectF area, Rect pos) {
-        // horizontal bounds
         if (area.width() < pos.width()) {
-            // image is bigger than movement area -> restricting image movement with moving area
             bounds.left = area.left - (pos.width() - area.width());
             bounds.right = area.left;
         } else {
-            // image is smaller than viewport -> positioning image according to calculated gravity
-            // and restricting image movement in this direction
             bounds.left = bounds.right = pos.left;
         }
 
-        // vertical bounds
         if (area.height() < pos.height()) {
-            // image is bigger than viewport -> restricting image movement with viewport bounds
             bounds.top = area.top - (pos.height() - area.height());
             bounds.bottom = area.top;
         } else {
-            // image is smaller than viewport -> positioning image according to calculated gravity
-            // and restricting image movement in this direction
             bounds.top = bounds.bottom = pos.top;
         }
     }
@@ -109,7 +81,6 @@ public class MovementBounds {
         tmpPointArr[1] = y;
 
         if (boundsRotation != 0f) {
-            // Rotating given point so we can add it to bounds
             tmpMatrix.setRotate(-boundsRotation, boundsPivotX, boundsPivotY);
             tmpMatrix.mapPoints(tmpPointArr);
         }
@@ -127,33 +98,19 @@ public class MovementBounds {
         }
     }
 
-    /**
-     * Restricts x &amp; y coordinates to current bounds (as calculated in {@link #set(State)}).
-     *
-     * @param x      X coordinate
-     * @param y      Y coordinate
-     * @param extraX Extra area bounds (horizontal)
-     * @param extraY Extra area bounds (vertical)
-     * @param out    Output rectangle
-     */
     public void restrict(float x, float y, float extraX, float extraY, PointF out) {
         tmpPointArr[0] = x;
         tmpPointArr[1] = y;
 
         if (boundsRotation != 0f) {
-            // Rotating given point so we can apply rectangular bounds.
             tmpMatrix.setRotate(-boundsRotation, boundsPivotX, boundsPivotY);
             tmpMatrix.mapPoints(tmpPointArr);
         }
 
-        // Applying restrictions
-        tmpPointArr[0] = MathUtils.restrict(tmpPointArr[0],
-                bounds.left - extraX, bounds.right + extraX);
-        tmpPointArr[1] = MathUtils.restrict(tmpPointArr[1],
-                bounds.top - extraY, bounds.bottom + extraY);
+        tmpPointArr[0] = MathUtils.restrict(tmpPointArr[0], bounds.left - extraX, bounds.right + extraX);
+        tmpPointArr[1] = MathUtils.restrict(tmpPointArr[1], bounds.top - extraY, bounds.bottom + extraY);
 
         if (boundsRotation != 0f) {
-            // Rotating restricted point back to original coordinates
             tmpMatrix.setRotate(boundsRotation, boundsPivotX, boundsPivotY);
             tmpMatrix.mapPoints(tmpPointArr);
         }
@@ -164,5 +121,4 @@ public class MovementBounds {
     public void restrict(float x, float y, PointF out) {
         restrict(x, y, 0f, 0f, out);
     }
-
 }

@@ -7,20 +7,13 @@ import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.State;
 import com.alexvasilkov.gestures.utils.MathUtils;
 
-/**
- * Encapsulates logic related to movement bounds restriction.
- * <p>
- * Movement bounds can be represented using regular rectangle most of the time.
- */
 public class ZoomBounds {
 
-    // Temporary objects
     private static final Matrix tmpMatrix = new Matrix();
     private static final RectF tmpRectF = new RectF();
 
     private final Settings settings;
 
-    // State bounds parameters
     private float minZoom;
     private float maxZoom;
     private float fitZoom;
@@ -29,12 +22,6 @@ public class ZoomBounds {
         this.settings = settings;
     }
 
-    /**
-     * Calculates min, max and "fit" zoom levels for given state and according to current settings.
-     *
-     * @param state State for which to calculate zoom bounds.
-     * @return Current zoom bounds object for calls chaining.
-     */
     public ZoomBounds set(State state) {
         float imageWidth = settings.getImageW();
         float imageHeight = settings.getImageH();
@@ -53,7 +40,6 @@ public class ZoomBounds {
         final float rotation = state.getRotation();
 
         if (!State.equals(rotation, 0f)) {
-            // Computing image bounding size taking rotation into account.
             tmpMatrix.setRotate(rotation);
             tmpRectF.set(0, 0, imageWidth, imageHeight);
             tmpMatrix.mapRect(tmpRectF);
@@ -73,17 +59,15 @@ public class ZoomBounds {
         if (fitZoom > maxZoom) {
             maxZoom = fitZoom;
         }
-        // Now we have: fitZoom <= maxZoom
 
         if (minZoom > maxZoom) {
             minZoom = maxZoom;
         }
-        // Now we have: minZoom <= maxZoom
 
         if (fitZoom < minZoom) {
             minZoom = fitZoom;
         }
-        // Now we have: minZoom <= fitZoom <= maxZoom
+
         return this;
     }
 
@@ -103,5 +87,4 @@ public class ZoomBounds {
     public float restrict(float zoom, float extraZoom) {
         return MathUtils.restrict(zoom, minZoom / extraZoom, maxZoom * extraZoom);
     }
-
 }

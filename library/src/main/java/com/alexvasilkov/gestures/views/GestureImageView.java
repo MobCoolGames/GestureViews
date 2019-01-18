@@ -13,9 +13,7 @@ import android.widget.ImageView;
 import com.alexvasilkov.gestures.GestureController;
 import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.State;
-import com.alexvasilkov.gestures.animation.ViewPositionAnimator;
 import com.alexvasilkov.gestures.utils.ClipHelper;
-import com.alexvasilkov.gestures.views.interfaces.AnimatorView;
 import com.alexvasilkov.gestures.views.interfaces.ClipBounds;
 import com.alexvasilkov.gestures.views.interfaces.ClipView;
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
@@ -28,17 +26,13 @@ import androidx.annotation.Nullable;
  * {@link ImageView} implementation controlled by {@link GestureController}
  * ({@link #getController()}).
  * <p>
- * View position can be animated with {@link ViewPositionAnimator}
- * ({@link #getPositionAnimator()}).
  */
-public class GestureImageView extends ImageView implements GestureView, ClipView, ClipBounds, AnimatorView {
+public class GestureImageView extends ImageView implements GestureView, ClipView, ClipBounds {
 
     private GestureController controller;
     private final ClipHelper clipViewHelper = new ClipHelper(this);
     private final ClipHelper clipBoundsHelper = new ClipHelper(this);
     private final Matrix imageMatrix = new Matrix();
-
-    private ViewPositionAnimator positionAnimator;
 
     public GestureImageView(Context context) {
         this(context, null, 0);
@@ -89,17 +83,6 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
     @Override
     public GestureController getController() {
         return controller;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ViewPositionAnimator getPositionAnimator() {
-        if (positionAnimator == null) {
-            positionAnimator = new ViewPositionAnimator(this);
-        }
-        return positionAnimator;
     }
 
     /**

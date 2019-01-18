@@ -1,7 +1,6 @@
 package com.alexvasilkov.gestures.utils;
 
 import android.graphics.Matrix;
-import android.graphics.RectF;
 
 import com.alexvasilkov.gestures.State;
 
@@ -36,22 +35,6 @@ public class MathUtils {
      */
     public static float interpolate(float start, float end, float factor) {
         return start + (end - start) * factor;
-    }
-
-    /**
-     * Interpolates from start rect to the end rect by given factor (from 0 to 1),
-     * storing result into out rect.
-     *
-     * @param out Interpolated rectangle (output)
-     * @param start Start rectangle
-     * @param end End rectangle
-     * @param factor Factor
-     */
-    public static void interpolate(RectF out, RectF start, RectF end, float factor) {
-        out.left = interpolate(start.left, end.left, factor);
-        out.top = interpolate(start.top, end.top, factor);
-        out.right = interpolate(start.right, end.right, factor);
-        out.bottom = interpolate(start.bottom, end.bottom, factor);
     }
 
     /**

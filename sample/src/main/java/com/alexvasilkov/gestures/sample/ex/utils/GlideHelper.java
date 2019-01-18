@@ -11,22 +11,7 @@ import com.bumptech.glide.request.target.Target;
 
 public class GlideHelper {
 
-    private GlideHelper() {}
-
-    /**
-     * Loads thumbnail.
-     */
-    public static void loadThumb(ImageView image, int thumbId) {
-        // We don't want Glide to crop or resize our image
-        final RequestOptions options = new RequestOptions()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .override(Target.SIZE_ORIGINAL)
-                .dontTransform();
-
-        Glide.with(image)
-                .load(thumbId)
-                .apply(options)
-                .into(image);
+    private GlideHelper() {
     }
 
     /**
@@ -49,12 +34,4 @@ public class GlideHelper {
                 .thumbnail(thumbRequest)
                 .into(image);
     }
-
-    public static void clear(ImageView view) {
-        // Clearing current Glide request (if any)
-        Glide.with(view).clear(view);
-        // Cleaning up resources
-        view.setImageDrawable(null);
-    }
-
 }

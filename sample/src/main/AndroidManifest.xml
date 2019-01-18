@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.alexvasilkov.gestures.sample">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
+        android:maxSdkVersion="18"/>
 
     <application
         android:name=".SampleApplication"
@@ -18,74 +18,18 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".base.StartActivity"
-            android:theme="@style/AppTheme.Start" />
-
-        <activity-alias
-            android:name=".ui.base.MainActivity"
-            android:targetActivity=".base.StartActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-
-        <activity
-            android:name=".demo.DemoActivity"
-            android:theme="@style/AppTheme.Full.NoTitle" />
-
-        <activity
-            android:name=".ex.ExamplesActivity"
-            android:label="@string/examples_title" />
-
-        <activity
             android:name=".ex.image.viewer.ImageViewerActivity"
             android:icon="@drawable/ic_ex_image"
             android:label="Image viewer">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
             </intent-filter>
-        </activity>
 
-        <activity
-            android:name=".ex.layout.viewer.LayoutViewerActivity"
-            android:icon="@drawable/ic_ex_layout"
-            android:label="Layout viewer">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
+                <action android:name="android.intent.action.MAIN"/>
 
-        <activity
-            android:name=".ex.layout.pager.LayoutsInPagerActivity"
-            android:icon="@drawable/ic_ex_pager"
-            android:label="Layouts in ViewPager">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".ex.custom.text.CustomViewActivity"
-            android:icon="@drawable/ic_ex_custom_text"
-            android:label="Custom view">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".ex.custom.scene.SceneActivity"
-            android:icon="@drawable/ic_ex_objects_control"
-            android:label="Objects control">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
     </application>

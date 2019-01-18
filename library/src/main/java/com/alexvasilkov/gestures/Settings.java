@@ -77,11 +77,6 @@ public class Settings {
     private boolean isRestrictRotation = false;
 
     /*
-     * Which gestures to use to detect exit.
-     */
-    private ExitType exitType = ExitType.ALL;
-
-    /*
      * Counter for gestures disabling calls.
      */
     private int gesturesDisableCount;
@@ -123,8 +118,6 @@ public class Settings {
                 R.styleable.GestureView_gest_rotationEnabled, isRotationEnabled);
         isRestrictRotation = arr.getBoolean(
                 R.styleable.GestureView_gest_restrictRotation, isRestrictRotation);
-        exitType = arr.getBoolean(
-                R.styleable.GestureView_gest_exitEnabled, true) ? exitType : ExitType.NONE;
 
         boolean disableGestures = arr.getBoolean(
                 R.styleable.GestureView_gest_disableGestures, false);
@@ -146,7 +139,7 @@ public class Settings {
      * <p>
      * Should only be used when implementing custom {@link GestureView}.
      *
-     * @param width Viewport width
+     * @param width  Viewport width
      * @param height Viewport height
      * @return Current settings object for calls chaining
      */
@@ -160,7 +153,7 @@ public class Settings {
      * Setting movement area size. Viewport area will be used instead if no movement area is
      * specified.
      *
-     * @param width Movement area width
+     * @param width  Movement area width
      * @param height Movement area height
      * @return Current settings object for calls chaining
      */
@@ -176,7 +169,7 @@ public class Settings {
      * <p>
      * Should only be used when implementing custom {@link GestureView}.
      *
-     * @param width Image width
+     * @param width  Image width
      * @param height Image height
      * @return Current settings object for calls chaining
      */
@@ -267,32 +260,6 @@ public class Settings {
      */
     public Settings setRestrictRotation(boolean restrict) {
         isRestrictRotation = restrict;
-        return this;
-    }
-
-    /**
-     * Sets whether to detect and animate exit from gesture views.
-     * <p>
-     * Default value is true.
-     *
-     * @param enabled Whether exit gesture should be enabled or not
-     * @return Current settings object for calls chaining
-     */
-    public Settings setExitEnabled(boolean enabled) {
-        exitType = enabled ? ExitType.ALL : ExitType.NONE;
-        return this;
-    }
-
-    /**
-     * Sets which gestures to use to detect exit.
-     * <p>
-     * Default value is {@link ExitType#ALL}.
-     *
-     * @param type Exit type
-     * @return Current settings object for calls chaining
-     */
-    public Settings setExitType(ExitType type) {
-        exitType = type;
         return this;
     }
 
@@ -430,14 +397,6 @@ public class Settings {
         return isGesturesEnabled() && isZoomEnabled;
     }
 
-    public boolean isExitEnabled() {
-        return getExitType() != ExitType.NONE;
-    }
-
-    public ExitType getExitType() {
-        return isGesturesEnabled() ? exitType : ExitType.NONE;
-    }
-
     public boolean isGesturesEnabled() {
         return gesturesDisableCount <= 0;
     }
@@ -460,27 +419,5 @@ public class Settings {
 
     public boolean hasViewportSize() {
         return viewportW != 0 && viewportH != 0;
-    }
-
-    public enum ExitType {
-        /**
-         * To detect both scroll and zoom exit gestures.
-         */
-        ALL,
-
-        /**
-         * To detect only scroll-to-exit gesture.
-         */
-        SCROLL,
-
-        /**
-         * To detect only zoom-to-exit gesture.
-         */
-        ZOOM,
-
-        /**
-         * Do not detect exit gestures.
-         */
-        NONE
     }
 }

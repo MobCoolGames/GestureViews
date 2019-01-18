@@ -8,14 +8,9 @@
         <attr name="gest_maxZoom" format="reference|float" />
         <attr name="gest_doubleTapZoom" format="reference|float" />
         <attr name="gest_overzoomFactor" format="reference|float" />
-        <attr name="gest_fillViewport" format="reference|boolean" />
-        <attr name="gest_flingEnabled" format="reference|boolean" />
         <attr name="gest_zoomEnabled" format="reference|boolean" />
         <attr name="gest_rotationEnabled" format="reference|boolean" />
         <attr name="gest_restrictRotation" format="reference|boolean" />
-        <attr name="gest_doubleTapEnabled" format="reference|boolean" />
-        <attr name="gest_exitEnabled" format="reference|boolean" />
-        <attr name="gest_animationDuration" format="reference|integer" />
         <attr name="gest_disableGestures" format="reference|boolean" />
         <attr name="gest_disableBounds" format="reference|boolean" />
     </declare-styleable>

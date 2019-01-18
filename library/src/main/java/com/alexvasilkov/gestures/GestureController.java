@@ -13,7 +13,6 @@ import android.view.ViewParent;
 import android.widget.OverScroller;
 
 import com.alexvasilkov.gestures.internal.AnimationEngine;
-import com.alexvasilkov.gestures.internal.ExitController;
 import com.alexvasilkov.gestures.internal.MovementBounds;
 import com.alexvasilkov.gestures.internal.detectors.RotationGestureDetector;
 import com.alexvasilkov.gestures.internal.detectors.ScaleGestureDetectorFixed;
@@ -109,7 +108,6 @@ public class GestureController implements View.OnTouchListener {
     private final State state = new State();
     private final State prevState = new State();
     private final StateController stateController;
-    private final ExitController exitController;
 
     public GestureController(@NonNull View view) {
         final Context context = view.getContext();
@@ -123,8 +121,6 @@ public class GestureController implements View.OnTouchListener {
         gestureDetector = new GestureDetector(context, internalListener);
         scaleDetector = new ScaleGestureDetectorFixed(context, internalListener);
         rotateDetector = new RotationGestureDetector(context, internalListener);
-
-        exitController = new ExitController(view, this);
 
         flingScroller = new OverScroller(context);
         stateScroller = new FloatScroller();
@@ -230,7 +226,6 @@ public class GestureController implements View.OnTouchListener {
         stateController.applyZoomPatch(prevState);
         stateController.applyZoomPatch(stateStart);
         stateController.applyZoomPatch(stateEnd);
-        exitController.applyZoomPatch();
 
         boolean reset = stateController.updateState(state);
         if (reset) {
@@ -395,7 +390,6 @@ public class GestureController implements View.OnTouchListener {
 
     @SuppressWarnings("WeakerAccess") // Public API (can be overridden)
     protected void notifyStateReset() {
-        exitController.stopDetection();
         for (OnStateChangeListener listener : stateListeners) {
             listener.onStateReset(prevState, state);
         }
@@ -451,12 +445,6 @@ public class GestureController implements View.OnTouchListener {
 
         notifyStateSourceChanged();
 
-        if (exitController.isExitDetected()) {
-            if (!state.equals(prevState)) {
-                notifyStateUpdated();
-            }
-        }
-
         if (isStateChangedDuringTouch) {
             isStateChangedDuringTouch = false;
 
@@ -471,11 +459,9 @@ public class GestureController implements View.OnTouchListener {
             isRestrictZoomRequested = false;
             isRestrictRotationRequested = false;
 
-            if (!exitController.isExitDetected()) {
-                State restrictedState = stateController.restrictStateBoundsCopy(
-                        state, prevState, pivotX, pivotY, false, true);
-                animateStateTo(restrictedState, false);
-            }
+            State restrictedState = stateController.restrictStateBoundsCopy(
+                    state, prevState, pivotX, pivotY, false, true);
+            animateStateTo(restrictedState, false);
         }
 
         if (viewportEvent.getActionMasked() == MotionEvent.ACTION_UP
@@ -499,10 +485,6 @@ public class GestureController implements View.OnTouchListener {
     }
 
     protected boolean shouldDisallowInterceptTouch(MotionEvent event) {
-        if (exitController.isExitDetected()) {
-            return true;
-        }
-
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE: {
@@ -545,8 +527,6 @@ public class GestureController implements View.OnTouchListener {
         isScaleDetected = false;
         isRotationDetected = false;
 
-        exitController.onUpOrCancel();
-
         if (!isAnimatingFling() && !isAnimatingInBounds) {
             animateKeepInBounds();
         }
@@ -583,11 +563,6 @@ public class GestureController implements View.OnTouchListener {
             return false;
         }
 
-        boolean scrollConsumed = exitController.onScroll(-dx, -dy);
-        if (scrollConsumed) {
-            return true;
-        }
-
         if (!isScrollDetected) {
             isScrollDetected = Math.abs(e2.getX() - e1.getX()) > touchSlop
                     || Math.abs(e2.getY() - e1.getY()) > touchSlop;
@@ -612,11 +587,6 @@ public class GestureController implements View.OnTouchListener {
 
         if (isAnimatingState()) {
             return false;
-        }
-
-        boolean flingConsumed = exitController.onFling();
-        if (flingConsumed) {
-            return true;
         }
 
         stopFlingAnimation();
@@ -704,9 +674,6 @@ public class GestureController implements View.OnTouchListener {
 
     protected boolean onScaleBegin(ScaleGestureDetector detector) {
         isScaleDetected = settings.isZoomEnabled();
-        if (isScaleDetected) {
-            exitController.onScaleBegin();
-        }
         return isScaleDetected;
     }
 
@@ -718,11 +685,6 @@ public class GestureController implements View.OnTouchListener {
 
         final float scaleFactor = detector.getScaleFactor();
 
-        boolean scaleConsumed = exitController.onScale(scaleFactor);
-        if (scaleConsumed) {
-            return true;
-        }
-
         pivotX = detector.getFocusX();
         pivotY = detector.getFocusY();
         state.zoomBy(scaleFactor, pivotX, pivotY);
@@ -732,18 +694,12 @@ public class GestureController implements View.OnTouchListener {
     }
 
     protected void onScaleEnd(ScaleGestureDetector detector) {
-        if (isScaleDetected) {
-            exitController.onScaleEnd();
-        }
         isScaleDetected = false;
         isRestrictZoomRequested = true;
     }
 
     protected boolean onRotationBegin(RotationGestureDetector detector) {
         isRotationDetected = settings.isRotationEnabled();
-        if (isRotationDetected) {
-            exitController.onRotationBegin();
-        }
         return isRotationDetected;
     }
 
@@ -751,11 +707,6 @@ public class GestureController implements View.OnTouchListener {
     protected boolean onRotate(RotationGestureDetector detector) {
         if (!settings.isRotationEnabled() || isAnimatingState()) {
             return false;
-        }
-
-        boolean rotateConsumed = exitController.onRotate();
-        if (rotateConsumed) {
-            return true;
         }
 
         pivotX = detector.getFocusX();
@@ -767,9 +718,6 @@ public class GestureController implements View.OnTouchListener {
     }
 
     protected void onRotationEnd(RotationGestureDetector detector) {
-        if (isRotationDetected) {
-            exitController.onRotationEnd();
-        }
         isRotationDetected = false;
         isRestrictRotationRequested = true;
     }

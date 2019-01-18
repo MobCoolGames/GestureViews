@@ -28,13 +28,6 @@
             <enum name="outside" value="3" />
             <enum name="none" value="4" />
         </attr>
-        <attr name="gest_boundsType">
-            <enum name="normal" value="0" />
-            <enum name="inside" value="1" />
-            <enum name="outside" value="2" />
-            <enum name="pivot" value="3" />
-            <enum name="none" value="4" />
-        </attr>
         <attr name="gest_flingEnabled" format="reference|boolean" />
         <attr name="gest_zoomEnabled" format="reference|boolean" />
         <attr name="gest_rotationEnabled" format="reference|boolean" />

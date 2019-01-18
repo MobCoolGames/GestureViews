@@ -1,7 +1,6 @@
 package com.alexvasilkov.gestures.internal;
 
 import android.graphics.Matrix;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -24,7 +23,6 @@ public class MovementBounds {
     // Temporary objects
     private static final Matrix tmpMatrix = new Matrix();
     private static final float[] tmpPointArr = new float[2];
-    private static final Point tmpPoint = new Point();
     private static final Rect tmpRect = new Rect();
     private static final RectF tmpRectF = new RectF();
 
@@ -78,26 +76,7 @@ public class MovementBounds {
         GravityUtils.getImagePosition(tmpMatrix, settings, pos);
 
         // Calculating movement bounds for top-left corner of the scaled image
-        switch (settings.getBoundsType()) {
-            case NORMAL:
-                calculateNormalBounds(area, pos);
-                break;
-            case INSIDE:
-                calculateInsideBounds(area, pos);
-                break;
-            case OUTSIDE:
-                calculateOutsideBounds(area, pos);
-                break;
-            case PIVOT:
-                calculatePivotBounds(pos);
-                break;
-            case NONE:
-            default:
-                // Infinite bounds with overflow prevention
-                bounds.set(Integer.MIN_VALUE >> 2, Integer.MIN_VALUE >> 2,
-                        Integer.MAX_VALUE >> 2, Integer.MAX_VALUE >> 2);
-                break;
-        }
+        calculateNormalBounds(area, pos);
 
         // We should also adjust bounds position, since top-left corner of rotated image rectangle
         // will be somewhere on the edge of non-rotated bounding rectangle.
@@ -143,54 +122,6 @@ public class MovementBounds {
         }
     }
 
-    private void calculateInsideBounds(RectF area, Rect pos) {
-        // horizontal bounds
-        if (area.width() < pos.width()) {
-            // image is bigger than movement area -> restricting image movement with moving area
-            bounds.left = area.left - (pos.width() - area.width());
-            bounds.right = area.left;
-        } else {
-            // image is smaller than viewport -> allow image to move inside the area
-            bounds.left = area.left;
-            bounds.right = area.right - pos.width();
-        }
-
-        // vertical bounds
-        if (area.height() < pos.height()) {
-            // image is bigger than viewport -> restricting image movement with viewport bounds
-            bounds.top = area.top - (pos.height() - area.height());
-            bounds.bottom = area.top;
-        } else {
-            // image is smaller than viewport -> allow image to move inside the area
-            bounds.top = area.top;
-            bounds.bottom = area.bottom - pos.height();
-        }
-    }
-
-    private void calculateOutsideBounds(RectF area, Rect pos) {
-        bounds.left = area.left - pos.width();
-        bounds.right = area.right;
-        bounds.top = area.top - pos.height();
-        bounds.bottom = area.bottom;
-    }
-
-    private void calculatePivotBounds(Rect pos) {
-        GravityUtils.getDefaultPivot(settings, tmpPoint);
-        tmpPointArr[0] = tmpPoint.x;
-        tmpPointArr[1] = tmpPoint.y;
-
-        if (!State.equals(boundsRotation, 0f)) {
-            tmpMatrix.setRotate(-boundsRotation, boundsPivotX, boundsPivotY);
-            tmpMatrix.mapPoints(tmpPointArr);
-        }
-
-        bounds.left = tmpPointArr[0] - pos.width();
-        bounds.right = tmpPointArr[0];
-        bounds.top = tmpPointArr[1] - pos.height();
-        bounds.bottom = tmpPointArr[1];
-    }
-
-
     public void extend(float x, float y) {
         tmpPointArr[0] = x;
         tmpPointArr[1] = y;
@@ -217,11 +148,11 @@ public class MovementBounds {
     /**
      * Restricts x &amp; y coordinates to current bounds (as calculated in {@link #set(State)}).
      *
-     * @param x X coordinate
-     * @param y Y coordinate
+     * @param x      X coordinate
+     * @param y      Y coordinate
      * @param extraX Extra area bounds (horizontal)
      * @param extraY Extra area bounds (vertical)
-     * @param out Output rectangle
+     * @param out    Output rectangle
      */
     public void restrict(float x, float y, float extraX, float extraY, PointF out) {
         tmpPointArr[0] = x;

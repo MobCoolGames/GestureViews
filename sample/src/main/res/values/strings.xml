@@ -2,33 +2,14 @@
 <resources>
 
     <string name="app_name" translatable="false">GestureViews</string>
-
-    <string name="start_demo">Demo</string>
-    <string name="start_examples">@string/examples_title</string>
-
-    <string name="demo_headline">Landscapes</string>
-    <string name="demo_subhead">Powered by Flickr</string>
-    <string name="demo_reload_photos">Load photos</string>
-    <string name="demo_loading_photos">Loading photos…</string>
-    <string name="demo_photo_by">by</string>
-
-    <string name="examples_title">Examples</string>
-
-    <string name="animate_changes">Animate</string>
-    <string name="expand_image">Tap image to expand:</string>
-    <string name="button_wiki_art">WikiArt</string>
-
     <string name="menu_enable_zoom">Zoom</string>
     <string name="menu_enable_rotation">Rotation</string>
     <string name="menu_restrict_rotation">Restrict rotation</string>
     <string name="menu_enable_overzoom">Overzoom</string>
-    <string name="menu_fill_viewport">Fill viewport</string>
     <string name="menu_fit_method">Fit method</string>
-    <string name="menu_bounds_type">Bounds type</string>
     <string name="menu_gravity">Gravity</string>
 
     <string name="menu_info">Info</string>
-    <string name="menu_crop">Crop</string>
 
     <string name="random_title">Efficitur tincidunt neque</string>
     <string name="random_text">

@@ -27,8 +27,6 @@ public class SettingsMenu implements SettingsController {
     @InstanceState
     private Settings.Fit fitMethod = Settings.Fit.INSIDE;
     @InstanceState
-    private Settings.Bounds boundsType = Settings.Bounds.NORMAL;
-    @InstanceState
     private int gravity = Gravity.CENTER;
 
     public void setValuesFrom(Settings settings) {
@@ -36,7 +34,6 @@ public class SettingsMenu implements SettingsController {
         isRotationEnabled = settings.isRotationEnabled();
         isRestrictRotation = settings.isRestrictRotation();
         fitMethod = settings.getFitMethod();
-        boundsType = settings.getBoundsType();
         gravity = settings.getGravity();
     }
 
@@ -54,7 +51,6 @@ public class SettingsMenu implements SettingsController {
         addBoolMenu(menu, isRestrictRotation, R.string.menu_restrict_rotation);
         addBoolMenu(menu, isOverzoomEnabled, R.string.menu_enable_overzoom);
         addSubMenu(menu, Settings.Fit.values(), fitMethod, R.string.menu_fit_method);
-        addSubMenu(menu, Settings.Bounds.values(), boundsType, R.string.menu_bounds_type);
         addSubMenu(menu, GravityType.values(), GravityType.find(gravity), R.string.menu_gravity);
     }
 
@@ -92,9 +88,6 @@ public class SettingsMenu implements SettingsController {
             case R.string.menu_fit_method:
                 fitMethod = Settings.Fit.values()[item.getOrder()];
                 break;
-            case R.string.menu_bounds_type:
-                boundsType = Settings.Bounds.values()[item.getOrder()];
-                break;
             case R.string.menu_gravity:
                 gravity = GravityType.values()[item.getOrder()].gravity;
                 break;
@@ -115,7 +108,6 @@ public class SettingsMenu implements SettingsController {
                 .setRestrictRotation(isRestrictRotation)
                 .setOverzoomFactor(overzoom)
                 .setFitMethod(fitMethod)
-                .setBoundsType(boundsType)
                 .setGravity(gravity)
                 .setAnimationsDuration(Settings.ANIMATIONS_DURATION);
     }

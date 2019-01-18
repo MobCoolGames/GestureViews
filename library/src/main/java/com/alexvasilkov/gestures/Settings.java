@@ -74,11 +74,6 @@ public class Settings {
     private Fit fitMethod = Fit.INSIDE;
 
     /*
-     * Movement bounds restriction type.
-     */
-    private Bounds boundsType = Bounds.NORMAL;
-
-    /*
      * Whether fling (inertial motion after scroll) is enabled or not.
      */
     private boolean isFlingEnabled = true;
@@ -149,10 +144,6 @@ public class Settings {
         int fitMethodPos = arr.getInteger(
                 R.styleable.GestureView_gest_fitMethod, fitMethod.ordinal());
         fitMethod = Fit.values()[fitMethodPos];
-
-        int boundsTypePos = arr.getInteger(
-                R.styleable.GestureView_gest_boundsType, boundsType.ordinal());
-        boundsType = Bounds.values()[boundsTypePos];
 
         isFlingEnabled = arr.getBoolean(
                 R.styleable.GestureView_gest_flingEnabled, isFlingEnabled);
@@ -307,19 +298,6 @@ public class Settings {
      */
     public Settings setFitMethod(@NonNull Fit fitMethod) {
         this.fitMethod = fitMethod;
-        return this;
-    }
-
-    /**
-     * Setting movement bounds restriction type.
-     * <p>
-     * Default value is {@link Settings.Bounds#NORMAL}.
-     *
-     * @param boundsType Bounds restrictions type
-     * @return Current settings object for calls chaining
-     */
-    public Settings setBoundsType(@NonNull Bounds boundsType) {
-        this.boundsType = boundsType;
         return this;
     }
 
@@ -543,10 +521,6 @@ public class Settings {
 
     public Fit getFitMethod() {
         return fitMethod;
-    }
-
-    public Bounds getBoundsType() {
-        return boundsType;
     }
 
     public boolean isFlingEnabled() {

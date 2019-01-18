@@ -81,11 +81,6 @@ public class Settings {
      */
     private int gesturesDisableCount;
 
-    /*
-     * Counter for bounds disabling calls.
-     */
-    private int boundsDisableCount;
-
     Settings() {
         // Package private constructor
     }
@@ -123,12 +118,6 @@ public class Settings {
                 R.styleable.GestureView_gest_disableGestures, false);
         if (disableGestures) {
             disableGestures();
-        }
-
-        boolean disableBounds = arr.getBoolean(
-                R.styleable.GestureView_gest_disableBounds, false);
-        if (disableBounds) {
-            disableBounds();
         }
 
         arr.recycle();
@@ -251,7 +240,6 @@ public class Settings {
 
     /**
      * Sets whether image rotation should stick to 90 degrees intervals or can be free.
-     * Only applied when {@link #isRestrictBounds()} is true as well.
      * <p>
      * Default value is false.
      *
@@ -290,50 +278,6 @@ public class Settings {
      */
     public Settings enableGestures() {
         gesturesDisableCount--;
-        return this;
-    }
-
-    /**
-     * Disable bounds restrictions.<br>
-     * Calls to this method are counted, so if you called it N times
-     * you should call {@link #enableBounds()} N times to re-enable bounds restrictions.
-     * <p>
-     * Useful when you need to temporary disable bounds restrictions during animation.
-     * <p>
-     * See also {@link #enableBounds()}
-     *
-     * @return Current settings object for calls chaining
-     */
-    public Settings disableBounds() {
-        boundsDisableCount++;
-        return this;
-    }
-
-    /**
-     * Re-enable bounds restrictions disabled by {@link #disableBounds()} method.<br>
-     * Calls to this method are counted, so if you called {@link #disableBounds()} N times
-     * you should call this method N times to re-enable bounds restrictions.
-     * <p>
-     * See also {@link #disableBounds()}
-     *
-     * @return Current settings object for calls chaining
-     */
-    public Settings enableBounds() {
-        boundsDisableCount--;
-        return this;
-    }
-
-    /**
-     * @param restrict Whether image bounds should be restricted or not
-     * @return Current settings object for calls chaining
-     * @deprecated Use {@link #disableBounds()} and {@link #enableBounds()} methods instead.
-     */
-    @Deprecated
-    public Settings setRestrictBounds(boolean restrict) {
-        boundsDisableCount += restrict ? -1 : 1;
-        if (boundsDisableCount < 0) { // In case someone explicitly used this method during setup
-            boundsDisableCount = 0;
-        }
         return this;
     }
 
@@ -399,10 +343,6 @@ public class Settings {
 
     public boolean isGesturesEnabled() {
         return gesturesDisableCount <= 0;
-    }
-
-    public boolean isRestrictBounds() {
-        return boundsDisableCount <= 0;
     }
 
     /**

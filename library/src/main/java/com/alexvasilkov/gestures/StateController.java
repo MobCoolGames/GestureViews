@@ -91,10 +91,6 @@ public class StateController {
         }
     }
 
-    public float applyZoomPatch(float zoom) {
-        return zoomPatch > 0f ? zoomPatch * zoom : zoom;
-    }
-
     /**
      * Maximizes zoom if it closer to min zoom or minimizes it if it closer to max zoom.
      *
@@ -151,11 +147,6 @@ public class StateController {
      * @return true if state was changed, false otherwise.
      */
     boolean restrictStateBounds(State state, State prevState, float pivotX, float pivotY, boolean allowOverzoom, boolean restrictRotation) {
-
-        if (!settings.isRestrictBounds()) {
-            return false;
-        }
-
         // Calculating default pivot point, if not provided
         if (Float.isNaN(pivotX) || Float.isNaN(pivotY)) {
             GravityUtils.getDefaultPivot(settings, tmpPoint);
@@ -279,24 +270,6 @@ public class StateController {
         }
     }
 
-
-    /**
-     * @param state Current state
-     * @return Min zoom level as it's used by state controller.
-     */
-    public float getMinZoom(State state) {
-        return zoomBounds.set(state).getMinZoom();
-    }
-
-    /**
-     * @param state Current state
-     * @return Max zoom level as it's used by state controller.
-     * Note, that it may be different from {@link Settings#getMaxZoom()}.
-     */
-    public float getMaxZoom(State state) {
-        return zoomBounds.set(state).getMaxZoom();
-    }
-
     /**
      * @param state Current state
      * @return Zoom level which will fit the image into viewport
@@ -316,105 +289,4 @@ public class StateController {
     public void getMovementArea(State state, RectF out) {
         movBounds.set(state).getExternalBounds(out);
     }
-
-
-    /*
-     * Deprecated methods.
-     */
-
-    /**
-     * @return Min zoom level
-     * @deprecated Use {@link #getMinZoom(State)} instead.
-     */
-    @Deprecated
-    public float getEffectiveMinZoom() {
-        return zoomBounds.getMinZoom();
-    }
-
-    /**
-     * @return Max zoom level
-     * @deprecated Use {@link #getMaxZoom(State)} instead.
-     */
-    @Deprecated
-    public float getEffectiveMaxZoom() {
-        return zoomBounds.getMaxZoom();
-    }
-
-    /**
-     * @param out Output movement area rectangle
-     * @param state Current state
-     * @deprecated User {@link #getMovementArea(State, RectF)} instead.
-     */
-    @Deprecated
-    public void getEffectiveMovementArea(RectF out, State state) {
-        getMovementArea(state, out);
-    }
-
-    /**
-     * @param value Value to be restricted
-     * @param minValue Min value
-     * @param maxValue Max value
-     * @return Restricted value
-     * @deprecated Use {@link MathUtils#restrict(float, float, float)}.
-     */
-    @Deprecated
-    public static float restrict(float value, float minValue, float maxValue) {
-        return Math.max(minValue, Math.min(value, maxValue));
-    }
-
-    /**
-     * @param out Interpolated state (output)
-     * @param start Start state
-     * @param end End state
-     * @param factor Factor
-     * @deprecated Use {@link MathUtils#interpolate(State, State, State, float)}.
-     */
-    @Deprecated
-    public static void interpolate(State out, State start, State end, float factor) {
-        MathUtils.interpolate(out, start, end, factor);
-    }
-
-    /**
-     * @param out Interpolated state (output)
-     * @param start Start state
-     * @param startPivotX Pivot point's X coordinate in start state coordinates
-     * @param startPivotY Pivot point's Y coordinate in start state coordinates
-     * @param end End state
-     * @param endPivotX Pivot point's X coordinate in end state coordinates
-     * @param endPivotY Pivot point's Y coordinate in end state coordinates
-     * @param factor Factor
-     * @deprecated Use
-     * {@link MathUtils#interpolate(State, State, float, float, State, float, float, float)}.
-     */
-    @Deprecated
-    public static void interpolate(State out, State start, float startPivotX, float startPivotY,
-            State end, float endPivotX, float endPivotY, float factor) {
-        MathUtils.interpolate(out, start, startPivotX, startPivotY,
-                end, endPivotX, endPivotY, factor);
-    }
-
-    /**
-     * @param start Start value
-     * @param end End value
-     * @param factor Factor
-     * @return Interpolated value
-     * @deprecated Use {@link MathUtils#interpolate(float, float, float)}.
-     */
-    @Deprecated
-    public static float interpolate(float start, float end, float factor) {
-        return MathUtils.interpolate(start, end, factor);
-    }
-
-    /**
-     * @param out Interpolated rectangle (output)
-     * @param start Start rectangle
-     * @param end End rectangle
-     * @param factor Factor
-     * @deprecated Use {@link MathUtils#interpolate(RectF, RectF, RectF, float)},
-     */
-    @Deprecated
-    public static void interpolate(RectF out, RectF start, RectF end, float factor) {
-        MathUtils.interpolate(out, start, end, factor);
-    }
-
 }

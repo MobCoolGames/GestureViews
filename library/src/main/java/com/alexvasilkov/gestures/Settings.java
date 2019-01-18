@@ -62,11 +62,6 @@ public class Settings {
     private float overzoomFactor = OVERZOOM_FACTOR;
 
     /*
-     * Whether fling (inertial motion after scroll) is enabled or not.
-     */
-    private boolean isFlingEnabled = true;
-
-    /*
      * Whether zooming is enabled or not.
      */
     private boolean isZoomEnabled = true;
@@ -122,8 +117,6 @@ public class Settings {
         overzoomFactor = arr.getFloat(
                 R.styleable.GestureView_gest_overzoomFactor, overzoomFactor);
 
-        isFlingEnabled = arr.getBoolean(
-                R.styleable.GestureView_gest_flingEnabled, isFlingEnabled);
         isZoomEnabled = arr.getBoolean(
                 R.styleable.GestureView_gest_zoomEnabled, isZoomEnabled);
         isRotationEnabled = arr.getBoolean(
@@ -234,19 +227,6 @@ public class Settings {
             throw new IllegalArgumentException("Overzoom factor cannot be < 1");
         }
         overzoomFactor = factor;
-        return this;
-    }
-
-    /**
-     * Sets whether fling (inertial motion after scroll) is enabled or not.
-     * <p>
-     * Default value is true.
-     *
-     * @param enabled Whether fling should be enabled or not
-     * @return Current settings object for calls chaining
-     */
-    public Settings setFlingEnabled(boolean enabled) {
-        isFlingEnabled = enabled;
         return this;
     }
 
@@ -432,10 +412,6 @@ public class Settings {
 
     public float getOverzoomFactor() {
         return overzoomFactor;
-    }
-
-    public boolean isFlingEnabled() {
-        return isGesturesEnabled() && isFlingEnabled;
     }
 
     public boolean isZoomEnabled() {

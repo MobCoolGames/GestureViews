@@ -7,8 +7,6 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.triplet.play'
 
-apply from: 'commons.gradle'
-
 android {
     compileSdkVersion 28
 
@@ -16,9 +14,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
 
-        setupVersion '2.5.2'
-
-        resConfigs 'en'
+        versionCode 1
+        versionName '2.5.2'
     }
 
     buildTypes {

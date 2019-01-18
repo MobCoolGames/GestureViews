@@ -7,12 +7,6 @@ import android.util.AttributeSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-/**
- * Various settings needed for {@link GestureController} and for {@link StateController}.
- * <p>
- * Required settings are viewport size ({@link #setViewport(int, int)})
- * and image size {@link #setImage(int, int)}
- */
 public class Settings {
 
     public static final float MAX_ZOOM = 5f;
@@ -39,95 +33,42 @@ public class Settings {
         }
 
         TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.GestureView);
-        minZoom = arr.getFloat(
-                R.styleable.GestureView_gest_minZoom, minZoom);
-        maxZoom = arr.getFloat(
-                R.styleable.GestureView_gest_maxZoom, maxZoom);
-        doubleTapZoom = arr.getFloat(
-                R.styleable.GestureView_gest_doubleTapZoom, doubleTapZoom);
-
-        isZoomEnabled = arr.getBoolean(
-                R.styleable.GestureView_gest_zoomEnabled, isZoomEnabled);
-        isRotationEnabled = arr.getBoolean(
-                R.styleable.GestureView_gest_rotationEnabled, isRotationEnabled);
+        minZoom = arr.getFloat(R.styleable.GestureView_gest_minZoom, minZoom);
+        maxZoom = arr.getFloat(R.styleable.GestureView_gest_maxZoom, maxZoom);
+        doubleTapZoom = arr.getFloat(R.styleable.GestureView_gest_doubleTapZoom, doubleTapZoom);
+        isZoomEnabled = arr.getBoolean(R.styleable.GestureView_gest_zoomEnabled, isZoomEnabled);
+        isRotationEnabled = arr.getBoolean(R.styleable.GestureView_gest_rotationEnabled, isRotationEnabled);
 
         arr.recycle();
     }
 
-    /**
-     * Setting viewport size.
-     *
-     * @param width  Viewport width
-     * @param height Viewport height
-     * @return Current settings object for calls chaining
-     */
     public Settings setViewport(int width, int height) {
         viewportW = width;
         viewportH = height;
         return this;
     }
 
-    /**
-     * Setting full image size.
-     *
-     * @param width  Image width
-     * @param height Image height
-     * @return Current settings object for calls chaining
-     */
     public Settings setImage(int width, int height) {
         imageW = width;
         imageH = height;
         return this;
     }
 
-    /**
-     * Setting max zoom level.
-     * <p>
-     * Default value is {@link #MAX_ZOOM}.
-     *
-     * @param maxZoom Max zoom level, or 0 to use zoom level which fits the image into the viewport.
-     * @return Current settings object for calls chaining
-     */
     public Settings setMaxZoom(float maxZoom) {
         this.maxZoom = maxZoom;
         return this;
     }
 
-    /**
-     * Setting double tap zoom level, should not be greater than {@link #getMaxZoom()}.
-     * Defaults to {@link #getMaxZoom()} if &lt;= 0.
-     * <p>
-     * Default value is -1.
-     *
-     * @param doubleTapZoom Double tap zoom level
-     * @return Current settings object for calls chaining
-     */
     public Settings setDoubleTapZoom(float doubleTapZoom) {
         this.doubleTapZoom = doubleTapZoom;
         return this;
     }
 
-    /**
-     * Sets whether zooming is enabled or not.
-     * <p>
-     * Default value is true.
-     *
-     * @param enabled Whether zooming should be enabled or not
-     * @return Current settings object for calls chaining
-     */
     public Settings setZoomEnabled(boolean enabled) {
         isZoomEnabled = enabled;
         return this;
     }
 
-    /**
-     * Sets whether rotation gesture is enabled or not.
-     * <p>
-     * Default value is false.
-     *
-     * @param enabled Whether rotation should be enabled or not
-     * @return Current settings object for calls chaining
-     */
     public Settings setRotationEnabled(boolean enabled) {
         isRotationEnabled = enabled;
         return this;
@@ -173,14 +114,10 @@ public class Settings {
         return isZoomEnabled;
     }
 
-    /**
-     * @return Whether at least one of pan, zoom, rotation or double tap are enabled or not
-     */
     public boolean isEnabled() {
         return isZoomEnabled || isRotationEnabled;
     }
 
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted") // Public API
     public boolean hasImageSize() {
         return imageW != 0 && imageH != 0;
     }

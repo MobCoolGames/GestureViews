@@ -6,10 +6,6 @@ import android.view.animation.Interpolator;
 
 import com.alexvasilkov.gestures.Settings;
 
-/**
- * A simple class that animates float values.Functionally similar to a
- * {@link android.widget.Scroller}.
- */
 public class FloatScroller {
 
     private final Interpolator interpolator;
@@ -19,36 +15,18 @@ public class FloatScroller {
     private float startValue;
     private float finalValue;
 
-    /**
-     * Current value computed by {@link #computeScroll()}.
-     */
     private float currValue;
 
-    /**
-     * The time the animation started, computed using {@link SystemClock#elapsedRealtime()}.
-     */
     private long startRtc;
 
     public FloatScroller() {
         interpolator = new AccelerateDecelerateInterpolator();
     }
 
-    /**
-     * Force the finished field to a particular value.<br>
-     *
-     * @see android.widget.Scroller#forceFinished(boolean)
-     */
     public void forceFinished() {
         finished = true;
     }
 
-    /**
-     * Starts an animation from startValue to finalValue.
-     *
-     * @param startValue Start value
-     * @param finalValue Final value
-     * @see android.widget.Scroller#startScroll(int, int, int, int)
-     */
     public void startScroll(float startValue, float finalValue) {
         finished = false;
         startRtc = SystemClock.elapsedRealtime();
@@ -58,16 +36,9 @@ public class FloatScroller {
         currValue = startValue;
     }
 
-    /**
-     * Computes the current value, returning true if the animation is still active and false if the
-     * animation has finished.
-     *
-     * @return Computed scroll
-     * @see android.widget.Scroller#computeScrollOffset()
-     */
-    public boolean computeScroll() {
+    public void computeScroll() {
         if (finished) {
-            return false;
+            return;
         }
 
         long elapsed = SystemClock.elapsedRealtime() - startRtc;
@@ -75,34 +46,21 @@ public class FloatScroller {
         if (elapsed >= duration) {
             finished = true;
             currValue = finalValue;
-            return false;
+            return;
         }
 
         float time = interpolator.getInterpolation((float) elapsed / duration);
         currValue = interpolate(startValue, finalValue, time);
-        return true;
     }
 
-    /**
-     * @return Current state
-     * @see android.widget.Scroller#isFinished()
-     */
     public boolean isFinished() {
         return finished;
     }
 
-    /**
-     * @return Final value
-     * @see android.widget.Scroller#getFinalX()
-     */
     public float getFinal() {
         return finalValue;
     }
 
-    /**
-     * @return Current value
-     * @see android.widget.Scroller#getCurrX()
-     */
     public float getCurr() {
         return currValue;
     }

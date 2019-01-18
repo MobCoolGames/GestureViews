@@ -11,10 +11,6 @@ import com.alexvasilkov.gestures.utils.GravityUtils;
 
 import androidx.annotation.Nullable;
 
-/**
- * Helper class that holds reference to {@link Settings} object and controls some aspects of view
- * {@link State}, such as movement bounds restrictions
- */
 public class StateController {
 
     // Temporary objects
@@ -23,7 +19,6 @@ public class StateController {
     private static final RectF tmpRectF = new RectF();
     private static final Point tmpPoint = new Point();
     private static final PointF tmpPointF = new PointF();
-
 
     private final Settings settings;
     private final ZoomBounds zoomBounds;
@@ -39,40 +34,20 @@ public class StateController {
         this.movBounds = new MovementBounds(settings);
     }
 
-    /**
-     * Resets to initial state (min zoom, position according to gravity). Reset will only occur
-     * when image and viewport sizes are known, otherwise reset will occur sometime in the future
-     * when {@link #updateState(State)} method will be called.
-     *
-     * @param state State to be reset
-     * @return {@code true} if reset was completed or {@code false} if reset is scheduled for future
-     */
     boolean resetState(State state) {
         isResetRequired = true;
         return updateState(state);
     }
 
-    /**
-     * Updates state (or resets state if reset was scheduled, see {@link #resetState(State)}).
-     *
-     * @param state State to be updated
-     * @return {@code true} if state was reset to initial state or {@code false} if state was
-     * updated.
-     */
     boolean updateState(State state) {
         if (isResetRequired) {
-            // Applying initial state
             state.set(0f, 0f, zoomBounds.set(state).getFitZoom(), 0f);
             GravityUtils.getImagePosition(state, settings, tmpRect);
             state.translateTo(tmpRect.left, tmpRect.top);
 
-            // We can correctly reset state only when we have both image size and viewport size
-            // but there can be a delay before we have all values properly set
-            // (waiting for layout or waiting for image to be loaded)
             isResetRequired = !settings.hasImageSize() || !settings.hasViewportSize();
             return !isResetRequired;
         } else {
-            // Restricts state's translation and zoom bounds, disallowing overscroll / overzoom.
             restrictStateBounds(state, state, Float.NaN, Float.NaN, false, true);
             return false;
         }
@@ -88,19 +63,10 @@ public class StateController {
         }
     }
 
-    /**
-     * Maximizes zoom if it closer to min zoom or minimizes it if it closer to max zoom.
-     *
-     * @param state  Current state
-     * @param pivotX Pivot's X coordinate
-     * @param pivotY Pivot's Y coordinate
-     * @return End state for toggle animation.
-     */
     State toggleMinMaxZoom(State state, float pivotX, float pivotY) {
         zoomBounds.set(state);
         final float minZoom = zoomBounds.getFitZoom();
-        final float maxZoom = settings.getDoubleTapZoom() > 0f
-                ? settings.getDoubleTapZoom() : zoomBounds.getMaxZoom();
+        final float maxZoom = settings.getDoubleTapZoom() > 0f ? settings.getDoubleTapZoom() : zoomBounds.getMaxZoom();
 
         final float middleZoom = 0.5f * (minZoom + maxZoom);
         final float targetZoom = state.getZoom() < middleZoom ? maxZoom : minZoom;
@@ -110,16 +76,6 @@ public class StateController {
         return end;
     }
 
-    /**
-     * Restricts state's translation and zoom bounds.
-     *
-     * @param state     State to be restricted
-     * @param prevState Previous state to calculate overscroll and overzoom (optional)
-     * @param pivotX    Pivot's X coordinate
-     * @param pivotY    Pivot's Y coordinate
-     * @return End state to animate changes or null if no changes are required.
-     */
-    @SuppressWarnings("SameParameterValue") // Using same method params as in restrictStateBounds
     @Nullable
     State restrictStateBoundsCopy(State state, State prevState, float pivotX, float pivotY) {
         tmpState.set(state);
@@ -127,22 +83,7 @@ public class StateController {
         return changed ? tmpState.copy() : null;
     }
 
-    /**
-     * Restricts state's translation and zoom bounds. If {@code prevState} is not null and
-     * {@code allowOverscroll (allowOverzoom)} parameter is true then resilience
-     * will be applied to translation (zoom) changes if they are out of bounds.
-     *
-     * @param state            State to be restricted
-     * @param prevState        Previous state to calculate overscroll and overzoom (optional)
-     * @param pivotX           Pivot's X coordinate
-     * @param pivotY           Pivot's Y coordinate
-     * @param allowOverzoom    Whether overzoom is allowed
-     * @param restrictRotation Whether rotation should be restricted to a nearest N*90 angle
-     * @return true if state was changed, false otherwise.
-     */
     boolean restrictStateBounds(State state, State prevState, float pivotX, float pivotY, boolean allowOverzoom, boolean restrictRotation) {
-
-        // Calculating default pivot point, if not provided
         if (Float.isNaN(pivotX) || Float.isNaN(pivotY)) {
             GravityUtils.getDefaultPivot(settings, tmpPoint);
             pivotX = tmpPoint.x;
@@ -166,7 +107,6 @@ public class StateController {
         final float extraZoom = allowOverzoom ? Settings.OVERZOOM_FACTOR : 1f;
         float zoom = zoomBounds.restrict(state.getZoom(), extraZoom);
 
-        // Applying elastic overzoom
         if (prevState != null) {
             zoom = applyZoomResilience(zoom, prevState.getZoom(), minZoom, maxZoom, extraZoom);
         }
@@ -185,7 +125,6 @@ public class StateController {
         float newY = tmpPointF.y;
 
         if (zoom < minZoom) {
-            // Decreasing overscroll if zooming less than minimum zoom
             float factor = (extraZoom * zoom / minZoom - 1f) / (extraZoom - 1f);
             factor = (float) Math.sqrt(factor);
 
@@ -199,10 +138,8 @@ public class StateController {
 
         if (prevState != null) {
             movBounds.getExternalBounds(tmpRectF);
-            newX = applyTranslationResilience(newX, prevState.getX(),
-                    tmpRectF.left, tmpRectF.right, extraX);
-            newY = applyTranslationResilience(newY, prevState.getY(),
-                    tmpRectF.top, tmpRectF.bottom, extraY);
+            newX = applyTranslationResilience(newX, prevState.getX(), tmpRectF.left, tmpRectF.right, extraX);
+            newY = applyTranslationResilience(newY, prevState.getY(), tmpRectF.top, tmpRectF.bottom, extraY);
         }
 
         if (!State.equals(newX, state.getX()) || !State.equals(newY, state.getY())) {
@@ -263,12 +200,6 @@ public class StateController {
         }
     }
 
-    /**
-     * Calculates area in which {@link State#getX()} &amp; {@link State#getY()} values can change.
-     *
-     * @param state Current state
-     * @param out   Output movement area rectangle
-     */
     public void getMovementArea(State state, RectF out) {
         movBounds.set(state).getExternalBounds(out);
     }

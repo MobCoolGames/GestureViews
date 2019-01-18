@@ -26,57 +26,49 @@ public class State {
         return zoom;
     }
 
-    /**
-     * @return Rotation in degrees within the range [-180..180].
-     */
     public float getRotation() {
         return rotation;
     }
 
-    /**
-     * Applying state to provided matrix. Matrix will contain translation, scale and rotation.
-     *
-     * @param matrix Target matrix
-     */
     public void get(Matrix matrix) {
         matrix.set(this.matrix);
     }
 
     public void translateBy(float dx, float dy) {
         matrix.postTranslate(dx, dy);
-        updateFromMatrix(false, false); // only translation is changed
+        updateFromMatrix(false, false);
     }
 
     public void translateTo(float x, float y) {
         matrix.postTranslate(-this.x + x, -this.y + y);
-        updateFromMatrix(false, false); // only translation is changed
+        updateFromMatrix(false, false);
     }
 
     public void zoomBy(float factor, float pivotX, float pivotY) {
         matrix.postScale(factor, factor, pivotX, pivotY);
-        updateFromMatrix(true, false); // zoom & translation are changed
+        updateFromMatrix(true, false);
     }
 
     public void zoomTo(float zoom, float pivotX, float pivotY) {
         matrix.postScale(zoom / this.zoom, zoom / this.zoom, pivotX, pivotY);
-        updateFromMatrix(true, false); // zoom & translation are changed
+        updateFromMatrix(true, false);
     }
 
     public void rotateBy(float angle, float pivotX, float pivotY) {
         matrix.postRotate(angle, pivotX, pivotY);
-        updateFromMatrix(false, true); // rotation & translation are changed
+        updateFromMatrix(false, true);
     }
 
     public void rotateTo(float angle, float pivotX, float pivotY) {
         matrix.postRotate(-rotation + angle, pivotX, pivotY);
-        updateFromMatrix(false, true); // rotation & translation are changed
+        updateFromMatrix(false, true);
     }
 
     public void set(float x, float y, float zoom, float rotation) {
-        // Keeping rotation within the range [-180..180]
         while (rotation < -180f) {
             rotation += 360f;
         }
+
         while (rotation > 180f) {
             rotation -= 360f;
         }
@@ -86,11 +78,11 @@ public class State {
         this.zoom = zoom;
         this.rotation = rotation;
 
-        // Note, that order is vital here
         matrix.reset();
         if (zoom != 1f) {
             matrix.postScale(zoom, zoom);
         }
+
         if (rotation != 0f) {
             matrix.postRotate(rotation);
         }
@@ -111,25 +103,6 @@ public class State {
         return copy;
     }
 
-    /**
-     * Applying state from current matrix.
-     * <p>
-     * Having matrix:
-     * <pre>
-     *     | a  b  tx |
-     * A = | c  d  ty |
-     *     | 0  0  1  |
-     *
-     * x = tx
-     * y = ty
-     * scale = sqrt(b^2+d^2)
-     * rotation = atan(c/d) = atan(-b/a)
-     * </pre>
-     * See <a href="http://stackoverflow.com/questions/4361242">here</a>.
-     *
-     * @param updateZoom Whether to extract zoom from matrix
-     * @param updateRotation Whether to extract rotation from matrix
-     */
     private void updateFromMatrix(boolean updateZoom, boolean updateRotation) {
         matrix.getValues(matrixValues);
         x = matrixValues[2];
@@ -137,6 +110,7 @@ public class State {
         if (updateZoom) {
             zoom = (float) Math.hypot(matrixValues[1], matrixValues[4]);
         }
+
         if (updateRotation) {
             rotation = (float) Math.toDegrees(Math.atan2(matrixValues[3], matrixValues[4]));
         }
@@ -153,8 +127,7 @@ public class State {
 
         State state = (State) obj;
 
-        return equals(state.x, x) && equals(state.y, y)
-                && equals(state.zoom, zoom) && equals(state.rotation, rotation);
+        return equals(state.x, x) && equals(state.y, y) && equals(state.zoom, zoom) && equals(state.rotation, rotation);
     }
 
     @Override
@@ -171,28 +144,11 @@ public class State {
         return "{x=" + x + ",y=" + y + ",zoom=" + zoom + ",rotation=" + rotation + "}";
     }
 
-    /**
-     * Compares two float values, allowing small difference (see {@link #EPSILON}).
-     *
-     * @param v1 First value
-     * @param v2 Second value
-     * @return True if both values are close enough to be considered as equal
-     */
-    @SuppressWarnings("checkstyle:overloadmethodsdeclarationorder")
     public static boolean equals(float v1, float v2) {
         return v1 >= v2 - EPSILON && v1 <= v2 + EPSILON;
     }
 
-    /**
-     * Compares two float values, allowing small difference (see {@link #EPSILON}).
-     *
-     * @param v1 First value
-     * @param v2 Second value
-     * @return Positive int if first value is greater than second, negative int if second value
-     * is greater than first or 0 if both values are close enough to be considered as equal
-     */
     public static int compare(float v1, float v2) {
         return v1 > v2 + EPSILON ? 1 : v1 < v2 - EPSILON ? -1 : 0;
     }
-
 }

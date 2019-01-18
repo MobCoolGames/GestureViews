@@ -67,7 +67,6 @@ public class GestureTransitions<ID> {
         return from(new FromListViewListener<>(listView, tracker, autoScroll));
     }
 
-    @SuppressWarnings("unused") // Public API
     public static <ID> GestureTransitions<ID> fromNone() {
         return from(new RequestListener<ID>() {
             @Override

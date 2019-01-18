@@ -34,8 +34,7 @@ import androidx.annotation.Nullable;
  * View position can be animated with {@link ViewPositionAnimator}
  * ({@link #getPositionAnimator()}).
  */
-public class GestureImageView extends ImageView
-        implements GestureView, ClipView, ClipBounds, AnimatorView {
+public class GestureImageView extends ImageView implements GestureView, ClipView, ClipBounds, AnimatorView {
 
     private GestureControllerForPager controller;
     private final ClipHelper clipViewHelper = new ClipHelper(this);
@@ -126,7 +125,6 @@ public class GestureImageView extends ImageView
      * @param listener Snapshot listener
      * @deprecated Use {@link #crop()} method instead.
      */
-    @SuppressWarnings({"deprecation", "unused"}) // Public API
     @Deprecated
     public void getSnapshot(OnSnapshotLoadedListener listener) {
         if (getDrawable() != null) {

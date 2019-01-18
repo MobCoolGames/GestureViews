@@ -293,7 +293,6 @@ public class StateController {
      * @return Max zoom level as it's used by state controller.
      * Note, that it may be different from {@link Settings#getMaxZoom()}.
      */
-    @SuppressWarnings({ "unused", "WeakerAccess" }) // Public API
     public float getMaxZoom(State state) {
         return zoomBounds.set(state).getMaxZoom();
     }
@@ -327,7 +326,6 @@ public class StateController {
      * @return Min zoom level
      * @deprecated Use {@link #getMinZoom(State)} instead.
      */
-    @SuppressWarnings("unused") // Public API
     @Deprecated
     public float getEffectiveMinZoom() {
         return zoomBounds.getMinZoom();
@@ -337,7 +335,6 @@ public class StateController {
      * @return Max zoom level
      * @deprecated Use {@link #getMaxZoom(State)} instead.
      */
-    @SuppressWarnings("unused") // Public API
     @Deprecated
     public float getEffectiveMaxZoom() {
         return zoomBounds.getMaxZoom();
@@ -348,7 +345,6 @@ public class StateController {
      * @param state Current state
      * @deprecated User {@link #getMovementArea(State, RectF)} instead.
      */
-    @SuppressWarnings("unused") // Public API
     @Deprecated
     public void getEffectiveMovementArea(RectF out, State state) {
         getMovementArea(state, out);
@@ -361,7 +357,6 @@ public class StateController {
      * @return Restricted value
      * @deprecated Use {@link MathUtils#restrict(float, float, float)}.
      */
-    @SuppressWarnings("unused") // Public API
     @Deprecated
     public static float restrict(float value, float minValue, float maxValue) {
         return Math.max(minValue, Math.min(value, maxValue));
@@ -374,7 +369,6 @@ public class StateController {
      * @param factor Factor
      * @deprecated Use {@link MathUtils#interpolate(State, State, State, float)}.
      */
-    @SuppressWarnings("unused") // Public API
     @Deprecated
     public static void interpolate(State out, State start, State end, float factor) {
         MathUtils.interpolate(out, start, end, factor);
@@ -392,7 +386,6 @@ public class StateController {
      * @deprecated Use
      * {@link MathUtils#interpolate(State, State, float, float, State, float, float, float)}.
      */
-    @SuppressWarnings("unused") // Public API
     @Deprecated
     public static void interpolate(State out, State start, float startPivotX, float startPivotY,
             State end, float endPivotX, float endPivotY, float factor) {
@@ -407,7 +400,6 @@ public class StateController {
      * @return Interpolated value
      * @deprecated Use {@link MathUtils#interpolate(float, float, float)}.
      */
-    @SuppressWarnings("unused") // Public API
     @Deprecated
     public static float interpolate(float start, float end, float factor) {
         return MathUtils.interpolate(start, end, factor);
@@ -420,7 +412,6 @@ public class StateController {
      * @param factor Factor
      * @deprecated Use {@link MathUtils#interpolate(RectF, RectF, RectF, float)},
      */
-    @SuppressWarnings("unused") // Public API
     @Deprecated
     public static void interpolate(RectF out, RectF start, RectF end, float factor) {
         MathUtils.interpolate(out, start, end, factor);

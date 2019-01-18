@@ -31,7 +31,6 @@ import androidx.viewpager.widget.ViewPager;
  * {@link #setToView(Object, AnimatorView)} methods. When both views are ready method
  * {@link OnViewsReadyListener#onViewsReady(Object)} will be triggered.
  */
-@SuppressWarnings("WeakerAccess") // Public API (methods)
 public class ViewsCoordinator<ID> {
 
     private static final String TAG = ViewsCoordinator.class.getSimpleName();
@@ -56,7 +55,6 @@ public class ViewsCoordinator<ID> {
         toListener = listener;
     }
 
-    @SuppressWarnings("unused") // Public API
     public void setReadyListener(@Nullable OnViewsReadyListener<ID> listener) {
         readyListener = listener;
     }
@@ -116,7 +114,6 @@ public class ViewsCoordinator<ID> {
         setFromInternal(id, fromView, null);
     }
 
-    @SuppressWarnings("unused") // Public API
     public void setFromPos(@NonNull ID id, @NonNull ViewPosition fromPos) {
         setFromInternal(id, null, fromPos);
     }

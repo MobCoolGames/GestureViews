@@ -30,7 +30,6 @@ import androidx.annotation.NonNull;
  * You can also serialize and deserialize this class to string using {@link #pack()} and
  * {@link #unpack(String)} methods. This can be useful to pass view position between activities.
  */
-@SuppressWarnings("WeakerAccess") // Public API (fields and methods)
 public class ViewPosition {
 
     private static final String DELIMITER = "#";
@@ -194,7 +193,6 @@ public class ViewPosition {
      * @param str Serialized position string
      * @return De-serialized position
      */
-    @SuppressWarnings("unused") // Public API
     public static ViewPosition unpack(String str) {
         String[] parts = TextUtils.split(str, SPLIT_PATTERN);
         if (parts.length != 4) {

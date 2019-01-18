@@ -39,7 +39,6 @@ public class RotationGestureDetector {
      * @param listener the listener invoked for all the callbacks, this must not be null.
      * @throws NullPointerException if {@code listener} is null.
      */
-    @SuppressWarnings("UnusedParameters") // To keep similar to standard ScaleGestureDetector
     public RotationGestureDetector(Context context, OnRotationGestureListener listener) {
         this.listener = listener;
     }
@@ -135,7 +134,6 @@ public class RotationGestureDetector {
     /**
      * @return {@code true} if a rotation gesture is in progress
      */
-    @SuppressWarnings({ "unused", "WeakerAccess" })
     // To keep similar to standard ScaleGestureDetector
     public boolean isInProgress() {
         return isInProgress;

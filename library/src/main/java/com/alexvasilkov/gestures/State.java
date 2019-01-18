@@ -40,7 +40,6 @@ public class State {
     /**
      * @return {@code true} if {@code x == 0f && y == 0f && zoom == 1f && rotation == 0f}
      */
-    @SuppressWarnings("unused") // Public API
     public boolean isEmpty() {
         return x == 0f && y == 0f && zoom == 1f && rotation == 0f;
     }

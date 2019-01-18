@@ -151,7 +151,6 @@ public class ViewsTransitionAnimator<ID> extends ViewsCoordinator<ID> {
      * @param listener Position listener to be removed
      * @see ViewPositionAnimator#removePositionUpdateListener(PositionUpdateListener)
      */
-    @SuppressWarnings("unused") // Public API
     public void removePositionUpdateListener(@NonNull PositionUpdateListener listener) {
         listeners.remove(listener);
         if (isReady()) {

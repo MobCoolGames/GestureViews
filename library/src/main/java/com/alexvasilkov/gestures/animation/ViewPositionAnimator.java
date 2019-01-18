@@ -387,7 +387,6 @@ public class ViewPositionAnimator {
      * @return Current position
      * @deprecated Use {@link #getPosition()} method instead.
      */
-    @SuppressWarnings("unused") // Public API
     @Deprecated
     public float getPositionState() {
         return position;

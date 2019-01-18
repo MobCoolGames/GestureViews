@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
  * Required settings are viewport size ({@link #setViewport(int, int)})
  * and image size {@link #setImage(int, int)}
  */
-@SuppressWarnings({ "WeakerAccess", "UnusedReturnValue", "SameParameterValue" }) // Public API
 public class Settings {
 
     public static final float MAX_ZOOM = 2f;
@@ -97,11 +96,6 @@ public class Settings {
      */
     private int boundsDisableCount;
 
-    /*
-     * Duration of animations.
-     */
-    private long animationsDuration = ANIMATIONS_DURATION;
-
     Settings() {
         // Package private constructor
     }
@@ -138,8 +132,6 @@ public class Settings {
                 R.styleable.GestureView_gest_restrictRotation, isRestrictRotation);
         exitType = arr.getBoolean(
                 R.styleable.GestureView_gest_exitEnabled, true) ? exitType : ExitType.NONE;
-        animationsDuration = arr.getInt(
-                R.styleable.GestureView_gest_animationDuration, (int) animationsDuration);
 
         boolean disableGestures = arr.getBoolean(
                 R.styleable.GestureView_gest_disableGestures, false);
@@ -198,19 +190,6 @@ public class Settings {
     public Settings setImage(int width, int height) {
         imageW = width;
         imageH = height;
-        return this;
-    }
-
-    /**
-     * Setting min zoom level.
-     * <p>
-     * Default value is 0.
-     *
-     * @param minZoom Min zoom level, or 0 to use zoom level which fits the image into the viewport.
-     * @return Current settings object for calls chaining
-     */
-    public Settings setMinZoom(float minZoom) {
-        this.minZoom = minZoom;
         return this;
     }
 
@@ -319,7 +298,6 @@ public class Settings {
      * @param enabled Whether exit gesture should be enabled or not
      * @return Current settings object for calls chaining
      */
-    @SuppressWarnings("unused") // Public API
     public Settings setExitEnabled(boolean enabled) {
         exitType = enabled ? ExitType.ALL : ExitType.NONE;
         return this;
@@ -333,7 +311,6 @@ public class Settings {
      * @param type Exit type
      * @return Current settings object for calls chaining
      */
-    @SuppressWarnings("unused") // Public API
     public Settings setExitType(ExitType type) {
         exitType = type;
         return this;
@@ -404,27 +381,12 @@ public class Settings {
      * @return Current settings object for calls chaining
      * @deprecated Use {@link #disableBounds()} and {@link #enableBounds()} methods instead.
      */
-    @SuppressWarnings("unused") // Public API
     @Deprecated
     public Settings setRestrictBounds(boolean restrict) {
         boundsDisableCount += restrict ? -1 : 1;
         if (boundsDisableCount < 0) { // In case someone explicitly used this method during setup
             boundsDisableCount = 0;
         }
-        return this;
-    }
-
-    /**
-     * Duration of animations.
-     *
-     * @param duration Animation duration in milliseconds
-     * @return Current settings object for calls chaining
-     */
-    public Settings setAnimationsDuration(long duration) {
-        if (duration < 0L) {
-            throw new IllegalArgumentException("Animations duration should be >= 0");
-        }
-        animationsDuration = duration;
         return this;
     }
 
@@ -515,7 +477,6 @@ public class Settings {
         return isGesturesEnabled() && (isZoomEnabled || isRotationEnabled);
     }
 
-
     @SuppressWarnings("BooleanMethodIsAlwaysInverted") // Public API
     public boolean hasImageSize() {
         return imageW != 0 && imageH != 0;
@@ -546,5 +507,4 @@ public class Settings {
          */
         NONE
     }
-
 }

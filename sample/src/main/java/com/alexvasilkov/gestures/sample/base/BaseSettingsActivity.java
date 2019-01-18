@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.sample.base.settings.SettingsController;
 import com.alexvasilkov.gestures.sample.base.settings.SettingsMenu;
 
@@ -53,10 +52,4 @@ public abstract class BaseSettingsActivity extends BaseActivity {
     }
 
     protected abstract void onSettingsChanged();
-
-    protected void setDefaultSettings(Settings settings) {
-        settingsMenu.setValuesFrom(settings);
-        invalidateOptionsMenu();
-    }
-
 }

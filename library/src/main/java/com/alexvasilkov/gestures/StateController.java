@@ -118,16 +118,13 @@ public class StateController {
      * @param prevState Previous state to calculate overscroll and overzoom (optional)
      * @param pivotX Pivot's X coordinate
      * @param pivotY Pivot's Y coordinate
-     * @param allowOverzoom Whether overzoom is allowed
-     * @param restrictRotation Whether rotation should be restricted to a nearest N*90 angle
      * @return End state to animate changes or null if no changes are required.
      */
     @SuppressWarnings("SameParameterValue") // Using same method params as in restrictStateBounds
     @Nullable
-    State restrictStateBoundsCopy(State state, State prevState, float pivotX, float pivotY,
-            boolean allowOverzoom, boolean restrictRotation) {
+    State restrictStateBoundsCopy(State state, State prevState, float pivotX, float pivotY) {
         tmpState.set(state);
-        boolean changed = restrictStateBounds(tmpState, prevState, pivotX, pivotY, allowOverzoom, restrictRotation);
+        boolean changed = restrictStateBounds(tmpState, prevState, pivotX, pivotY, false, true);
         return changed ? tmpState.copy() : null;
     }
 
@@ -216,8 +213,7 @@ public class StateController {
         return isStateChanged;
     }
 
-    private float applyZoomResilience(float zoom, float prevZoom,
-            float minZoom, float maxZoom, float overzoom) {
+    private float applyZoomResilience(float zoom, float prevZoom, float minZoom, float maxZoom, float overzoom) {
         if (overzoom == 1f) {
             return zoom;
         }
@@ -241,8 +237,7 @@ public class StateController {
         }
     }
 
-    private float applyTranslationResilience(float value, float prevValue,
-            float boundsMin, float boundsMax, float overscroll) {
+    private float applyTranslationResilience(float value, float prevValue, float boundsMin, float boundsMax, float overscroll) {
         if (overscroll == 0f) {
             return value;
         }

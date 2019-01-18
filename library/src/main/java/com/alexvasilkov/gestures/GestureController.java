@@ -283,8 +283,7 @@ public class GestureController implements View.OnTouchListener {
 
         State endStateRestricted = null;
         if (keepInBounds) {
-            endStateRestricted = stateController.restrictStateBoundsCopy(
-                    endState, prevState, pivotX, pivotY, false, true);
+            endStateRestricted = stateController.restrictStateBoundsCopy(endState, prevState, pivotX, pivotY);
         }
         if (endStateRestricted == null) {
             endStateRestricted = endState;
@@ -436,8 +435,7 @@ public class GestureController implements View.OnTouchListener {
             isRestrictZoomRequested = false;
             isRestrictRotationRequested = false;
 
-            State restrictedState = stateController.restrictStateBoundsCopy(
-                    state, prevState, pivotX, pivotY, false, true);
+            State restrictedState = stateController.restrictStateBoundsCopy(state, prevState, pivotX, pivotY);
             animateStateTo(restrictedState, false);
         }
 

@@ -16,7 +16,6 @@ import com.alexvasilkov.gestures.utils.ClipHelper;
 import com.alexvasilkov.gestures.views.interfaces.ClipView;
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -93,11 +92,6 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
     }
 
     @Override
-    public void setImageResource(int resId) {
-        setImageDrawable(getDrawable(getContext(), resId));
-    }
-
-    @Override
     public void setImageDrawable(Drawable drawable) {
         super.setImageDrawable(drawable);
 
@@ -132,9 +126,5 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
     protected void applyState(State state) {
         state.get(imageMatrix);
         setImageMatrix(imageMatrix);
-    }
-
-    private static Drawable getDrawable(Context context, @DrawableRes int id) {
-        return context.getDrawable(id);
     }
 }

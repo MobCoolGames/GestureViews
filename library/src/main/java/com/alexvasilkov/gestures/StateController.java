@@ -56,7 +56,7 @@ public class StateController {
         zoomPatch = factor;
     }
 
-    public void applyZoomPatch(State state) {
+    void applyZoomPatch(State state) {
         if (zoomPatch > 0f) {
             state.set(state.getX(), state.getY(), state.getZoom() * zoomPatch, state.getRotation());
         }
@@ -199,7 +199,7 @@ public class StateController {
         }
     }
 
-    public void getMovementArea(State state, RectF out) {
+    void getMovementArea(State state, RectF out) {
         movBounds.set(state).getExternalBounds(out);
     }
 }

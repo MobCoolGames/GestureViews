@@ -1,12 +1,10 @@
 package com.alexvasilkov.gestures.sample.base.settings;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.View;
 
 import com.alexvasilkov.android.commons.state.InstanceState;
 import com.alexvasilkov.android.commons.state.InstanceStateManager;
@@ -19,7 +17,6 @@ import androidx.annotation.StringRes;
 
 public class SettingsMenu implements SettingsController {
 
-    private static final float OVERSCROLL = 32f;
     private static final long SLOW_ANIMATIONS = 1500L;
 
     @InstanceState
@@ -28,8 +25,6 @@ public class SettingsMenu implements SettingsController {
     private boolean isRotationEnabled = false;
     @InstanceState
     private boolean isRestrictRotation = false;
-    @InstanceState
-    private boolean isOverscrollEnabled = false;
     @InstanceState
     private boolean isOverzoomEnabled = true;
     @InstanceState
@@ -65,7 +60,6 @@ public class SettingsMenu implements SettingsController {
         addBoolMenu(menu, isZoomEnabled, R.string.menu_enable_zoom);
         addBoolMenu(menu, isRotationEnabled, R.string.menu_enable_rotation);
         addBoolMenu(menu, isRestrictRotation, R.string.menu_restrict_rotation);
-        addBoolMenu(menu, isOverscrollEnabled, R.string.menu_enable_overscroll);
         addBoolMenu(menu, isOverzoomEnabled, R.string.menu_enable_overzoom);
         addBoolMenu(menu, isFillViewport, R.string.menu_fill_viewport);
         addSubMenu(menu, Settings.Fit.values(), fitMethod, R.string.menu_fit_method);
@@ -103,9 +97,6 @@ public class SettingsMenu implements SettingsController {
             case R.string.menu_restrict_rotation:
                 isRestrictRotation = !isRestrictRotation;
                 break;
-            case R.string.menu_enable_overscroll:
-                isOverscrollEnabled = !isOverscrollEnabled;
-                break;
             case R.string.menu_enable_overzoom:
                 isOverzoomEnabled = !isOverzoomEnabled;
                 break;
@@ -136,8 +127,6 @@ public class SettingsMenu implements SettingsController {
 
     @Override
     public void apply(GestureView view) {
-        Context context = ((View) view).getContext();
-        float overscroll = isOverscrollEnabled ? OVERSCROLL : 0f;
         float overzoom = isOverzoomEnabled ? Settings.OVERZOOM_FACTOR : 1f;
 
         view.getController().getSettings()
@@ -145,7 +134,6 @@ public class SettingsMenu implements SettingsController {
                 .setDoubleTapEnabled(isZoomEnabled)
                 .setRotationEnabled(isRotationEnabled)
                 .setRestrictRotation(isRestrictRotation)
-                .setOverscrollDistance(context, overscroll, overscroll)
                 .setOverzoomFactor(overzoom)
                 .setFillViewport(isFillViewport)
                 .setFitMethod(fitMethod)
@@ -178,5 +166,4 @@ public class SettingsMenu implements SettingsController {
             return null;
         }
     }
-
 }

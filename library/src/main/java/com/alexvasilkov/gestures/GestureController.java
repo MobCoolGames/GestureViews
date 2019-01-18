@@ -306,7 +306,7 @@ public class GestureController implements View.OnTouchListener {
         State endStateRestricted = null;
         if (keepInBounds) {
             endStateRestricted = stateController.restrictStateBoundsCopy(
-                    endState, prevState, pivotX, pivotY, false, false, true);
+                    endState, prevState, pivotX, pivotY, false, true);
         }
         if (endStateRestricted == null) {
             endStateRestricted = endState;
@@ -467,8 +467,7 @@ public class GestureController implements View.OnTouchListener {
         if (isStateChangedDuringTouch) {
             isStateChangedDuringTouch = false;
 
-            stateController.restrictStateBounds(
-                    state, prevState, pivotX, pivotY, true, true, false);
+            stateController.restrictStateBounds(state, prevState, pivotX, pivotY, true, false);
 
             if (!state.equals(prevState)) {
                 notifyStateUpdated();
@@ -481,7 +480,7 @@ public class GestureController implements View.OnTouchListener {
 
             if (!exitController.isExitDetected()) {
                 State restrictedState = stateController.restrictStateBoundsCopy(
-                        state, prevState, pivotX, pivotY, true, false, true);
+                        state, prevState, pivotX, pivotY, false, true);
                 animateStateTo(restrictedState, false);
             }
         }

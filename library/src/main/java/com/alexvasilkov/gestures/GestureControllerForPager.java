@@ -20,7 +20,6 @@ import androidx.viewpager.widget.ViewPager;
 public class GestureControllerForPager extends GestureController {
 
     private static final float SCROLL_THRESHOLD = 15f;
-    private static final float OVERSCROLL_THRESHOLD_FACTOR = 4f;
 
     // Temporary objects
     private static final Matrix tmpMatrix = new Matrix();
@@ -226,7 +225,7 @@ public class GestureControllerForPager extends GestureController {
         getStateController().getMovementArea(state, tmpRectF);
 
         float pagerDx = splitPagerScroll(dx, state, tmpRectF);
-        pagerDx = skipPagerMovement(pagerDx, state, tmpRectF);
+        pagerDx = skipPagerMovement(pagerDx, state);
         float viewDx = dx - pagerDx;
 
         // Applying pager scroll
@@ -277,22 +276,11 @@ public class GestureControllerForPager extends GestureController {
      * Skips part of pager movement to make it harder scrolling pager when image is zoomed
      * or when image is over-scrolled in y direction.
      */
-    private float skipPagerMovement(float pagerDx, State state, RectF movBounds) {
-        float overscrollDist = getSettings().getOverscrollDistanceY() * OVERSCROLL_THRESHOLD_FACTOR;
-
-        float overscrollThreshold = 0f;
-        if (state.getY() < movBounds.top) {
-            overscrollThreshold = (movBounds.top - state.getY()) / overscrollDist;
-        } else if (state.getY() > movBounds.bottom) {
-            overscrollThreshold = (state.getY() - movBounds.bottom) / overscrollDist;
-        }
-
+    private float skipPagerMovement(float pagerDx, State state) {
         float minZoom = getStateController().getFitZoom(state);
         float zoomThreshold = minZoom == 0f ? 0f : state.getZoom() / minZoom - 1f;
-
-        float pagerThreshold = Math.max(overscrollThreshold, zoomThreshold);
-        pagerThreshold = (float) Math.sqrt(Math.max(0f, Math.min(pagerThreshold, 1f)));
-        pagerThreshold *= SCROLL_THRESHOLD * touchSlop;
+        zoomThreshold = (float) Math.sqrt(Math.max(0f, Math.min(zoomThreshold, 1f)));
+        zoomThreshold *= SCROLL_THRESHOLD * touchSlop;
 
         // Resetting skipped amount when starting scrolling in different direction
         if (viewPagerSkippedX * pagerDx < 0f && viewPagerX == 0) {
@@ -301,14 +289,14 @@ public class GestureControllerForPager extends GestureController {
 
         // Ensuring we have full skipped amount if pager is scrolled
         if (hasViewPagerX()) {
-            viewPagerSkippedX = pagerThreshold * Math.signum(viewPagerX);
+            viewPagerSkippedX = zoomThreshold * Math.signum(viewPagerX);
         }
 
         // Skipping pager movement and accumulating skipped amount, if not passed threshold
-        if (Math.abs(viewPagerSkippedX) < pagerThreshold && pagerDx * viewPagerSkippedX >= 0) {
+        if (Math.abs(viewPagerSkippedX) < zoomThreshold && pagerDx * viewPagerSkippedX >= 0) {
             viewPagerSkippedX += pagerDx;
             // Reverting over-skipped amount
-            float over = Math.abs(viewPagerSkippedX) - pagerThreshold;
+            float over = Math.abs(viewPagerSkippedX) - zoomThreshold;
             over = Math.max(0f, over) * Math.signum(pagerDx);
 
             viewPagerSkippedX -= over;

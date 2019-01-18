@@ -76,7 +76,7 @@ public class StateController {
             return !isResetRequired;
         } else {
             // Restricts state's translation and zoom bounds, disallowing overscroll / overzoom.
-            restrictStateBounds(state, state, Float.NaN, Float.NaN, false, false, true);
+            restrictStateBounds(state, state, Float.NaN, Float.NaN, false, true);
             return false;
         }
     }
@@ -132,10 +132,9 @@ public class StateController {
     @SuppressWarnings("SameParameterValue") // Using same method params as in restrictStateBounds
     @Nullable
     State restrictStateBoundsCopy(State state, State prevState, float pivotX, float pivotY,
-            boolean allowOverscroll, boolean allowOverzoom, boolean restrictRotation) {
+            boolean allowOverzoom, boolean restrictRotation) {
         tmpState.set(state);
-        boolean changed = restrictStateBounds(tmpState, prevState, pivotX, pivotY,
-                allowOverscroll, allowOverzoom, restrictRotation);
+        boolean changed = restrictStateBounds(tmpState, prevState, pivotX, pivotY, allowOverzoom, restrictRotation);
         return changed ? tmpState.copy() : null;
     }
 
@@ -148,13 +147,11 @@ public class StateController {
      * @param prevState Previous state to calculate overscroll and overzoom (optional)
      * @param pivotX Pivot's X coordinate
      * @param pivotY Pivot's Y coordinate
-     * @param allowOverscroll Whether overscroll is allowed
      * @param allowOverzoom Whether overzoom is allowed
      * @param restrictRotation Whether rotation should be restricted to a nearest N*90 angle
      * @return true if state was changed, false otherwise.
      */
-    boolean restrictStateBounds(State state, State prevState, float pivotX, float pivotY,
-            boolean allowOverscroll, boolean allowOverzoom, boolean restrictRotation) {
+    boolean restrictStateBounds(State state, State prevState, float pivotX, float pivotY, boolean allowOverzoom, boolean restrictRotation) {
 
         if (!settings.isRestrictBounds()) {
             return false;
@@ -194,8 +191,8 @@ public class StateController {
             isStateChanged = true;
         }
 
-        float extraX = allowOverscroll ? settings.getOverscrollDistanceX() : 0f;
-        float extraY = allowOverscroll ? settings.getOverscrollDistanceY() : 0f;
+        float extraX = 0f;
+        float extraY = 0f;
 
         movBounds.set(state);
         movBounds.restrict(state.getX(), state.getY(), extraX, extraY, tmpPointF);

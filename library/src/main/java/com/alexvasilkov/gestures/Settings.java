@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.Gravity;
 
-import com.alexvasilkov.gestures.internal.UnitsUtils;
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
 import androidx.annotation.NonNull;
@@ -63,12 +62,6 @@ public class Settings {
      * Overzoom factor.
      */
     private float overzoomFactor = OVERZOOM_FACTOR;
-
-    /*
-     * Overscroll distance.
-     */
-    private float overscrollDistanceX;
-    private float overscrollDistanceY;
 
     /*
      * If isFillViewport is true:
@@ -162,10 +155,6 @@ public class Settings {
                 R.styleable.GestureView_gest_doubleTapZoom, doubleTapZoom);
         overzoomFactor = arr.getFloat(
                 R.styleable.GestureView_gest_overzoomFactor, overzoomFactor);
-        overscrollDistanceX = arr.getDimension(
-                R.styleable.GestureView_gest_overscrollX, overscrollDistanceX);
-        overscrollDistanceY = arr.getDimension(
-                R.styleable.GestureView_gest_overscrollY, overscrollDistanceY);
         isFillViewport = arr.getBoolean(
                 R.styleable.GestureView_gest_fillViewport, isFillViewport);
         gravity = arr.getInt(
@@ -309,39 +298,6 @@ public class Settings {
         }
         overzoomFactor = factor;
         return this;
-    }
-
-    /**
-     * Setting overscroll distance in pixels. User will be able to "over scroll"
-     * up to this distance. Cannot be &lt; 0.
-     * <p>
-     * Default value is 0.
-     *
-     * @param distanceX Horizontal overscroll distance in pixels
-     * @param distanceY Vertical overscroll distance in pixels
-     * @return Current settings object for calls chaining
-     */
-    public Settings setOverscrollDistance(float distanceX, float distanceY) {
-        if (distanceX < 0f || distanceY < 0f) {
-            throw new IllegalArgumentException("Overscroll distance cannot be < 0");
-        }
-        overscrollDistanceX = distanceX;
-        overscrollDistanceY = distanceY;
-        return this;
-    }
-
-    /**
-     * Same as {@link #setOverscrollDistance(float, float)} but accepts distance in DP.
-     *
-     * @param context Context
-     * @param distanceXDp Horizontal overscroll distance in dp
-     * @param distanceYDp Vertical overscroll distance in dp
-     * @return Current settings object for calls chaining
-     */
-    public Settings setOverscrollDistance(Context context, float distanceXDp, float distanceYDp) {
-        return setOverscrollDistance(
-                UnitsUtils.toPixels(context, distanceXDp),
-                UnitsUtils.toPixels(context, distanceYDp));
     }
 
     /**
@@ -623,14 +579,6 @@ public class Settings {
 
     public float getOverzoomFactor() {
         return overzoomFactor;
-    }
-
-    public float getOverscrollDistanceX() {
-        return overscrollDistanceX;
-    }
-
-    public float getOverscrollDistanceY() {
-        return overscrollDistanceY;
     }
 
     public boolean isFillViewport() {

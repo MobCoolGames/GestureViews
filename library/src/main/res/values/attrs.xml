@@ -8,8 +8,6 @@
         <attr name="gest_maxZoom" format="reference|float" />
         <attr name="gest_doubleTapZoom" format="reference|float" />
         <attr name="gest_overzoomFactor" format="reference|float" />
-        <attr name="gest_overscrollX" format="reference|dimension" />
-        <attr name="gest_overscrollY" format="reference|dimension" />
         <attr name="gest_fillViewport" format="reference|boolean" />
         <attr name="gest_gravity">
             <!-- Values are copied from system "gravity" attribute -->
@@ -56,8 +54,6 @@
         <attr name="gest_maxZoom" />
         <attr name="gest_doubleTapZoom" />
         <attr name="gest_overzoomFactor" />
-        <attr name="gest_overscrollX" />
-        <attr name="gest_overscrollY" />
         <attr name="gest_fillViewport" />
         <attr name="gest_gravity" />
         <attr name="gest_fitMethod" />
@@ -81,8 +77,6 @@
         <attr name="gest_maxZoom" />
         <attr name="gest_doubleTapZoom" />
         <attr name="gest_overzoomFactor" />
-        <attr name="gest_overscrollX" />
-        <attr name="gest_overscrollY" />
         <attr name="gest_fillViewport" />
         <attr name="gest_gravity" />
         <attr name="gest_fitMethod" />

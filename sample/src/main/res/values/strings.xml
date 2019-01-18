@@ -21,7 +21,6 @@
     <string name="menu_enable_zoom">Zoom</string>
     <string name="menu_enable_rotation">Rotation</string>
     <string name="menu_restrict_rotation">Restrict rotation</string>
-    <string name="menu_enable_overscroll">Overscroll</string>
     <string name="menu_enable_overzoom">Overzoom</string>
     <string name="menu_fill_viewport">Fill viewport</string>
     <string name="menu_fit_method">Fit method</string>

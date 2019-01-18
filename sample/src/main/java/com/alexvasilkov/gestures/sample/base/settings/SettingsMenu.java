@@ -6,7 +6,6 @@ import android.view.MenuItem;
 
 import com.alexvasilkov.android.commons.state.InstanceState;
 import com.alexvasilkov.android.commons.state.InstanceStateManager;
-import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.sample.R;
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
@@ -18,8 +17,6 @@ public class SettingsMenu implements SettingsController {
     private boolean isZoomEnabled = true;
     @InstanceState
     private boolean isRotationEnabled = false;
-    @InstanceState
-    private boolean isOverzoomEnabled = true;
 
     public void onSaveInstanceState(Bundle outState) {
         InstanceStateManager.saveInstanceState(this, outState);
@@ -32,7 +29,6 @@ public class SettingsMenu implements SettingsController {
     public void onCreateOptionsMenu(Menu menu) {
         addBoolMenu(menu, isZoomEnabled, R.string.menu_enable_zoom);
         addBoolMenu(menu, isRotationEnabled, R.string.menu_enable_rotation);
-        addBoolMenu(menu, isOverzoomEnabled, R.string.menu_enable_overzoom);
     }
 
     private void addBoolMenu(Menu menu, boolean checked, @StringRes int titleId) {
@@ -49,9 +45,6 @@ public class SettingsMenu implements SettingsController {
             case R.string.menu_enable_rotation:
                 isRotationEnabled = !isRotationEnabled;
                 break;
-            case R.string.menu_enable_overzoom:
-                isOverzoomEnabled = !isOverzoomEnabled;
-                break;
             default:
                 return false;
         }
@@ -61,11 +54,8 @@ public class SettingsMenu implements SettingsController {
 
     @Override
     public void apply(GestureView view) {
-        float overzoom = isOverzoomEnabled ? Settings.OVERZOOM_FACTOR : 1f;
-
         view.getController().getSettings()
                 .setZoomEnabled(isZoomEnabled)
-                .setRotationEnabled(isRotationEnabled)
-                .setOverzoomFactor(overzoom);
+                .setRotationEnabled(isRotationEnabled);
     }
 }

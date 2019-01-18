@@ -166,7 +166,7 @@ public class StateController {
         final float minZoom = zoomBounds.getMinZoom();
         final float maxZoom = zoomBounds.getMaxZoom();
 
-        final float extraZoom = allowOverzoom ? settings.getOverzoomFactor() : 1f;
+        final float extraZoom = allowOverzoom ? Settings.OVERZOOM_FACTOR : 1f;
         float zoom = zoomBounds.restrict(state.getZoom(), extraZoom);
 
         // Applying elastic overzoom

@@ -4,7 +4,6 @@
     <string name="app_name" translatable="false">GestureViews</string>
     <string name="menu_enable_zoom">Zoom</string>
     <string name="menu_enable_rotation">Rotation</string>
-    <string name="menu_enable_overzoom">Overzoom</string>
 
     <string name="menu_info">Info</string>
 

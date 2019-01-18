@@ -57,11 +57,6 @@ public class Settings {
     private float doubleTapZoom = -1f;
 
     /*
-     * Overzoom factor.
-     */
-    private float overzoomFactor = OVERZOOM_FACTOR;
-
-    /*
      * Whether zooming is enabled or not.
      */
     private boolean isZoomEnabled = true;
@@ -94,8 +89,6 @@ public class Settings {
                 R.styleable.GestureView_gest_maxZoom, maxZoom);
         doubleTapZoom = arr.getFloat(
                 R.styleable.GestureView_gest_doubleTapZoom, doubleTapZoom);
-        overzoomFactor = arr.getFloat(
-                R.styleable.GestureView_gest_overzoomFactor, overzoomFactor);
 
         isZoomEnabled = arr.getBoolean(
                 R.styleable.GestureView_gest_zoomEnabled, isZoomEnabled);
@@ -178,23 +171,6 @@ public class Settings {
     }
 
     /**
-     * Setting overzoom factor. User will be able to "over zoom" up to this factor.
-     * Cannot be &lt; 1.
-     * <p>
-     * Default value is {@link #OVERZOOM_FACTOR}.
-     *
-     * @param factor Overzoom factor
-     * @return Current settings object for calls chaining
-     */
-    public Settings setOverzoomFactor(float factor) {
-        if (factor < 1f) {
-            throw new IllegalArgumentException("Overzoom factor cannot be < 1");
-        }
-        overzoomFactor = factor;
-        return this;
-    }
-
-    /**
      * Sets whether zooming is enabled or not.
      * <p>
      * Default value is true.
@@ -258,10 +234,6 @@ public class Settings {
 
     public float getDoubleTapZoom() {
         return doubleTapZoom;
-    }
-
-    public float getOverzoomFactor() {
-        return overzoomFactor;
     }
 
     public boolean isZoomEnabled() {

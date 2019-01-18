@@ -37,9 +37,6 @@ import androidx.annotation.NonNull;
  * can have different aspects (e.g. animating from square thumb view with scale type
  * {@link ScaleType#CENTER_CROP} to rectangular full image view).
  * <p>
- * To use this class first create an instance and then call {@link #enter(View, boolean)}.<br>
- * Alternatively you can manually pass initial view position using
- * {@link #enter(ViewPosition, boolean)} method. <br>
  * You can listen for position changes using
  * {@link #addPositionUpdateListener(PositionUpdateListener)}.<br>
  * If initial view was changed you should call {@link #update(View)} method to update to new view.
@@ -153,48 +150,6 @@ public class ViewPositionAnimator {
     }
 
     /**
-     * Starts 'enter' animation from no specific position (position will be calculated based on
-     * gravity set in {@link Settings}).
-     * <p>
-     * <b>Note, that in most cases you should use {@link #enter(View, boolean)} or
-     * {@link #enter(ViewPosition, boolean)} methods instead.</b>
-     *
-     * @param withAnimation Whether to animate entering or immediately jump to entered state
-     */
-    public void enter(boolean withAnimation) {
-        enterInternal(withAnimation);
-        updateInternal();
-    }
-
-    /**
-     * Starts 'enter' animation from {@code from} view to {@code to}.
-     * <p>
-     * Note, if {@code from} view was changed (i.e. during list adapter refresh) you should
-     * update to new view using {@link #update(View)} method.
-     *
-     * @param from          'From' view
-     * @param withAnimation Whether to animate entering or immediately jump to entered state
-     */
-    public void enter(@NonNull View from, boolean withAnimation) {
-        enterInternal(withAnimation);
-        updateInternal(from);
-    }
-
-    /**
-     * Starts 'enter' animation from {@code from} position to {@code to} view.
-     * <p>
-     * Note, if {@code from} view position was changed (i.e. during list adapter refresh) you
-     * should update to new view using {@link #update(ViewPosition)} method.
-     *
-     * @param fromPos       'From' view position
-     * @param withAnimation Whether to animate entering or immediately jump to entered state
-     */
-    public void enter(@NonNull ViewPosition fromPos, boolean withAnimation) {
-        enterInternal(withAnimation);
-        updateInternal(fromPos);
-    }
-
-    /**
      * Updates initial view in case it was changed. You should not call this method if view stays
      * the same since animator should automatically detect view position changes.
      *
@@ -219,16 +174,6 @@ public class ViewPositionAnimator {
      */
     public void updateToNone() {
         updateInternal();
-    }
-
-    private void enterInternal(boolean withAnimation) {
-        isActivated = true;
-
-        toController.updateState(); // Ensure we are animating to correct state
-        setToState(toController.getState(), 1f); // We are always entering to full mode
-
-        // Starting animation from initial position or applying final state without animation
-        setState(withAnimation ? 0f : 1f, false, withAnimation);
     }
 
     private void updateInternal(@NonNull View from) {
@@ -362,8 +307,7 @@ public class ViewPositionAnimator {
      * Stops current animation and sets position state to particular values.
      * <p>
      * Note, that once animator reaches {@code state = 0f} and {@code isLeaving = true}
-     * it will cleanup all internal stuff. So you will need to call {@link #enter(View, boolean)}
-     * or {@link #enter(ViewPosition, boolean)} again in order to continue using animator.
+     * it will cleanup all internal stuff.
      *
      * @param pos     Current position
      * @param leaving Whether we we are in exiting direction ({@code true}) or in entering

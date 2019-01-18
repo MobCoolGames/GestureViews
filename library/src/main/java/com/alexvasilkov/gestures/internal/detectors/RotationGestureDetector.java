@@ -132,18 +132,8 @@ public class RotationGestureDetector {
     }
 
     /**
-     * @return {@code true} if a rotation gesture is in progress
-     */
-    // To keep similar to standard ScaleGestureDetector
-    public boolean isInProgress() {
-        return isInProgress;
-    }
-
-    /**
      * Get the X coordinate of the current gesture's focal point. If a gesture is in progress,
      * the focal point is between each of the pointers forming the gesture.
-     * <p>
-     * If {@link #isInProgress()} would return false, the result of this function is undefined.
      *
      * @return X coordinate of the focal point in pixels.
      */
@@ -154,8 +144,6 @@ public class RotationGestureDetector {
     /**
      * Get the Y coordinate of the current gesture's focal point. If a gesture is in progress,
      * the focal point is between each of the pointers forming the gesture.
-     * <p>
-     * If {@link #isInProgress()} would return false, the result of this function is undefined.
      *
      * @return Y coordinate of the focal point in pixels.
      */

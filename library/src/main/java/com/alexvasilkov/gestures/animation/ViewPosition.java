@@ -111,7 +111,7 @@ public class ViewPosition {
                 // Getting image position within the view
                 ImageViewHelper.applyScaleType(imageView.getScaleType(),
                         drawableWidth, drawableHeight, viewport.width(), viewport.height(),
-                        imageView.getImageMatrix(), tmpMatrix);
+                        tmpMatrix);
 
                 tmpSrc.set(0f, 0f, drawableWidth, drawableHeight);
                 tmpMatrix.mapRect(tmpDst, tmpSrc);

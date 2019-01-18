@@ -9,16 +9,16 @@ class ImageViewHelper {
     private static final RectF tmpSrc = new RectF();
     private static final RectF tmpDst = new RectF();
 
-    private ImageViewHelper() {}
+    private ImageViewHelper() {
+    }
 
     /**
      * Helper method to calculate drawing matrix. Based on ImageView source code.
      */
     static void applyScaleType(ImageView.ScaleType type,
-            int dwidth, int dheight,
-            int vwidth, int vheight,
-            Matrix imageMatrix,
-            Matrix outMatrix) {
+                               int dwidth, int dheight,
+                               int vwidth, int vheight,
+                               Matrix outMatrix) {
 
         if (ImageView.ScaleType.CENTER == type) {
             // Center bitmap in view, no scaling.
@@ -57,31 +57,11 @@ class ImageViewHelper {
             outMatrix.setScale(scale, scale);
             outMatrix.postTranslate(dx, dy);
         } else {
-            Matrix.ScaleToFit scaleToFit = scaleTypeToScaleToFit(type);
-            if (scaleToFit == null) {
-                outMatrix.set(imageMatrix);
-            } else {
-                // Generate the required transform.
-                tmpSrc.set(0, 0, dwidth, dheight);
-                tmpDst.set(0, 0, vwidth, vheight);
-                outMatrix.setRectToRect(tmpSrc, tmpDst, scaleToFit);
-            }
+            Matrix.ScaleToFit scaleToFit = Matrix.ScaleToFit.CENTER;
+            // Generate the required transform.
+            tmpSrc.set(0, 0, dwidth, dheight);
+            tmpDst.set(0, 0, vwidth, vheight);
+            outMatrix.setRectToRect(tmpSrc, tmpDst, scaleToFit);
         }
     }
-
-    private static Matrix.ScaleToFit scaleTypeToScaleToFit(ImageView.ScaleType type) {
-        switch (type) {
-            case FIT_XY:
-                return Matrix.ScaleToFit.FILL;
-            case FIT_START:
-                return Matrix.ScaleToFit.START;
-            case FIT_CENTER:
-                return Matrix.ScaleToFit.CENTER;
-            case FIT_END:
-                return Matrix.ScaleToFit.END;
-            default:
-                return null;
-        }
-    }
-
 }

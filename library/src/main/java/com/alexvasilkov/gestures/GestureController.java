@@ -457,7 +457,7 @@ public class GestureController implements View.OnTouchListener {
                 final boolean isPannable = State.compare(tmpRectF.width(), 0f) > 0
                         || State.compare(tmpRectF.height(), 0f) > 0;
 
-                if (isPannable || !settings.isRestrictBounds()) {
+                if (isPannable) {
                     return true;
                 }
                 break;
@@ -591,11 +591,9 @@ public class GestureController implements View.OnTouchListener {
         float toX = prevX + dx;
         float toY = prevY + dy;
 
-        if (settings.isRestrictBounds()) {
-            flingBounds.restrict(toX, toY, tmpPointF);
-            toX = tmpPointF.x;
-            toY = tmpPointF.y;
-        }
+        flingBounds.restrict(toX, toY, tmpPointF);
+        toX = tmpPointF.x;
+        toY = tmpPointF.y;
 
         state.translateTo(toX, toY);
         return !State.equals(prevX, toX) || !State.equals(prevY, toY);

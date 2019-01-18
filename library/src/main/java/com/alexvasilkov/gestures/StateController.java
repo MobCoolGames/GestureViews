@@ -142,10 +142,6 @@ public class StateController {
      */
     boolean restrictStateBounds(State state, State prevState, float pivotX, float pivotY, boolean allowOverzoom, boolean restrictRotation) {
 
-        if (!settings.isRestrictBounds()) {
-            return false;
-        }
-
         // Calculating default pivot point, if not provided
         if (Float.isNaN(pivotX) || Float.isNaN(pivotY)) {
             GravityUtils.getDefaultPivot(settings, tmpPoint);

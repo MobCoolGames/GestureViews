@@ -75,5 +75,4 @@ public class GravityUtils {
         Gravity.apply(Gravity.CENTER, 0, 0, tmpRect2, tmpRect1);
         out.set(tmpRect1.left, tmpRect1.top);
     }
-
 }

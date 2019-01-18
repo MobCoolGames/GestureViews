@@ -33,7 +33,6 @@ public class Settings {
     private float doubleTapZoom = -1f;
     private boolean isZoomEnabled = true;
     private boolean isRotationEnabled = false;
-    private int boundsDisableCount;
 
     Settings() {
     }
@@ -214,10 +213,6 @@ public class Settings {
 
     public boolean isDoubleTapEnabled() {
         return isZoomEnabled;
-    }
-
-    public boolean isRestrictBounds() {
-        return boundsDisableCount <= 0;
     }
 
     /**

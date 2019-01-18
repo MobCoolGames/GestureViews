@@ -1,6 +1,5 @@
 package com.alexvasilkov.gestures;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PointF;
 import android.graphics.RectF;
@@ -25,44 +24,14 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-/**
- * Handles touch events to update view's position state ({@link State}) based on current
- * setup ({@link Settings}).<br>
- * Settings can be obtained and altered through {@link #getSettings()}.<br>
- * Note, that some settings are required in order to correctly update state, see {@link Settings}.
- * <p>
- * This class implements {@link View.OnTouchListener} to delegate touches from view to controller.
- * <p>
- * State can also be manipulated directly with {@link #getState()}, {@link #updateState()}
- * and {@link #resetState()}. You can also access {@link #getStateController()} for some additional
- * stuff.
- * <p>
- * State can be animated with {@link #animateStateTo(State)} method.<br>
- * See also {@link #stopFlingAnimation()}, {@link #stopStateAnimation()}
- * and {@link #stopAllAnimations()} methods.
- * <p>
- * All state changes will be passed to {@link OnStateChangeListener OnStateChangeListener}.
- * See {@link #addOnStateChangeListener(OnStateChangeListener) addOnStateChangeListener} and
- * {@link #removeOnStateChangeListener(OnStateChangeListener) removeOnStateChangeListener} methods.
- * <p>
- * Additional touch events can be listened with {@link OnGestureListener OnGestureListener} and
- * {@link SimpleOnGestureListener SimpleOnGestureListener} using
- * {@link #setOnGesturesListener(OnGestureListener) setOnGesturesListener} method.
- * <p>
- * State source changes (whether state is being changed by user or by animation) can be
- * listened with {@link OnStateSourceChangeListener} using
- * {@link #setOnStateSourceChangeListener(OnStateSourceChangeListener)} method.
- */
 public class GestureController implements View.OnTouchListener {
 
     private static final float FLING_COEFFICIENT = 0.9f;
 
-    // Temporary objects
     private static final PointF tmpPointF = new PointF();
     private static final RectF tmpRectF = new RectF();
     private static final float[] tmpPointArr = new float[2];
 
-    // Control constants converted to pixels
     private final int touchSlop;
     private final int minVelocity;
     private final int maxVelocity;
@@ -73,7 +42,6 @@ public class GestureController implements View.OnTouchListener {
 
     private final AnimationEngine animationEngine;
 
-    // Various gesture detectors
     private final GestureDetector gestureDetector;
     private final ScaleGestureDetector scaleDetector;
     private final RotationGestureDetector rotateDetector;
@@ -133,84 +101,35 @@ public class GestureController implements View.OnTouchListener {
         maxVelocity = configuration.getScaledMaximumFlingVelocity();
     }
 
-    /**
-     * Sets listener for basic touch events.
-     *
-     * @param listener Gestures listener
-     * @see GestureController.OnGestureListener
-     */
     public void setOnGesturesListener(@Nullable OnGestureListener listener) {
         gestureListener = listener;
     }
 
-    /**
-     * Sets listener for state source changes.
-     *
-     * @param listener State's source changes listener
-     * @see OnStateSourceChangeListener
-     */
     public void setOnStateSourceChangeListener(@Nullable OnStateSourceChangeListener listener) {
         sourceListener = listener;
     }
 
-    /**
-     * Adds listener for state changes.
-     *
-     * @param listener State changes listener
-     * @see OnStateChangeListener
-     */
     public void addOnStateChangeListener(@NonNull OnStateChangeListener listener) {
         stateListeners.add(listener);
     }
 
-    /**
-     * Removes listener for state changes.
-     *
-     * @param listener State changes listener to be removed
-     * @see #addOnStateChangeListener(OnStateChangeListener)
-     */
     public void removeOnStateChangeListener(OnStateChangeListener listener) {
         stateListeners.remove(listener);
     }
 
-    /**
-     * Returns settings that can be updated.
-     * <p>
-     * Note: call {@link #updateState()}, {@link #resetState()} or {@link #animateKeepInBounds()}
-     * after settings was changed to correctly apply state restrictions.
-     *
-     * @return Gesture view's settings
-     */
     public Settings getSettings() {
         return settings;
     }
 
-    /**
-     * Current state.
-     * <p>
-     * If this state is changed from outside you should call
-     * {@link GestureController#updateState()} or {@link #animateKeepInBounds()}
-     * to properly apply changes.
-     *
-     * @return Current state
-     */
     public State getState() {
         return state;
     }
 
-    /**
-     * @return State controller to get computed min/max zoom levels or calculate movement area
-     */
-    @SuppressWarnings("WeakerAccess") // Public API
     public StateController getStateController() {
         return stateController;
     }
 
-    /**
-     * Applies state restrictions and notifies {@link OnStateChangeListener} listeners.
-     */
     public void updateState() {
-        // Applying zoom patch (needed in case if image size is changed)
         stateController.applyZoomPatch(state);
         stateController.applyZoomPatch(prevState);
         stateController.applyZoomPatch(stateStart);
@@ -224,14 +143,6 @@ public class GestureController implements View.OnTouchListener {
         }
     }
 
-    /**
-     * Resets to initial state (default position, min zoom level) and notifies
-     * {@link OnStateChangeListener} listeners.
-     * <p>
-     * Should be called when image size is changed.
-     * <p>
-     * See {@link Settings#setImage(int, int)}.
-     */
     public void resetState() {
         stopAllAnimations();
         boolean reset = stateController.resetState(state);
@@ -242,25 +153,10 @@ public class GestureController implements View.OnTouchListener {
         }
     }
 
-    /**
-     * Animates to correct position withing the bounds.
-     *
-     * @return {@code true} if animation started, {@code false} otherwise. Animation may
-     * not be started if image already withing the bounds.
-     */
-    @SuppressWarnings("WeakerAccess") // Public API
     public boolean animateKeepInBounds() {
         return animateStateTo(state, true);
     }
 
-    /**
-     * Animates current state to provided end state.
-     *
-     * @param endState End state
-     * @return {@code true} if animation started, {@code false} otherwise. Animation may
-     * not be started if end state is {@code null} or equals to current state (after bounds
-     * restrictions are applied).
-     */
     public boolean animateStateTo(@Nullable State endState) {
         return animateStateTo(endState, true);
     }
@@ -279,7 +175,7 @@ public class GestureController implements View.OnTouchListener {
         }
 
         if (endStateRestricted.equals(state)) {
-            return false; // Nothing to animate
+            return false;
         }
 
         stopAllAnimations();
@@ -288,7 +184,6 @@ public class GestureController implements View.OnTouchListener {
         stateStart.set(state);
         stateEnd.set(endStateRestricted);
 
-        // Computing new position of pivot point for correct state interpolation
         if (!Float.isNaN(pivotX) && !Float.isNaN(pivotY)) {
             tmpPointArr[0] = pivotX;
             tmpPointArr[1] = pivotY;
@@ -317,7 +212,6 @@ public class GestureController implements View.OnTouchListener {
         return isAnimatingState() || isAnimatingFling();
     }
 
-    @SuppressWarnings("WeakerAccess") // Public API
     public void stopStateAnimation() {
         if (isAnimatingState()) {
             stateScroller.forceFinished();
@@ -325,7 +219,6 @@ public class GestureController implements View.OnTouchListener {
         }
     }
 
-    @SuppressWarnings("WeakerAccess") // Public API
     public void stopFlingAnimation() {
         if (isAnimatingFling()) {
             flingScroller.forceFinished(true);
@@ -345,7 +238,6 @@ public class GestureController implements View.OnTouchListener {
         notifyStateSourceChanged();
     }
 
-    @SuppressWarnings("WeakerAccess") // Public API (can be overridden)
     protected void onFlingAnimationFinished(boolean forced) {
         if (!forced) {
             animateKeepInBounds();
@@ -353,7 +245,6 @@ public class GestureController implements View.OnTouchListener {
         notifyStateSourceChanged();
     }
 
-    @SuppressWarnings("WeakerAccess") // Public API (can be overridden)
     protected void notifyStateUpdated() {
         prevState.set(state);
         for (OnStateChangeListener listener : stateListeners) {
@@ -384,10 +275,9 @@ public class GestureController implements View.OnTouchListener {
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility") // performClick is called in gestures callbacks
     @Override
     public boolean onTouch(@NonNull View view, @NonNull MotionEvent event) {
-        if (!isInterceptTouchCalled) { // Preventing duplicate events
+        if (!isInterceptTouchCalled) {
             onTouchInternal(view, event);
         }
         isInterceptTouchCalled = false;
@@ -425,8 +315,7 @@ public class GestureController implements View.OnTouchListener {
             animateStateTo(restrictedState, false);
         }
 
-        if (viewportEvent.getActionMasked() == MotionEvent.ACTION_UP
-                || viewportEvent.getActionMasked() == MotionEvent.ACTION_CANCEL) {
+        if (viewportEvent.getActionMasked() == MotionEvent.ACTION_UP || viewportEvent.getActionMasked() == MotionEvent.ACTION_CANCEL) {
             onUpOrCancel(viewportEvent);
             notifyStateSourceChanged();
         }
@@ -449,12 +338,8 @@ public class GestureController implements View.OnTouchListener {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE: {
-                // If view can be panned then parent should not intercept touch events.
-                // We should check it on DOWN event since parent may quickly take control over us
-                // in case of a very fast MOVE action.
                 stateController.getMovementArea(state, tmpRectF);
-                final boolean isPannable = State.compare(tmpRectF.width(), 0f) > 0
-                        || State.compare(tmpRectF.height(), 0f) > 0;
+                final boolean isPannable = State.compare(tmpRectF.width(), 0f) > 0 || State.compare(tmpRectF.height(), 0f) > 0;
 
                 if (isPannable) {
                     return true;
@@ -462,7 +347,6 @@ public class GestureController implements View.OnTouchListener {
                 break;
             }
             case MotionEvent.ACTION_POINTER_DOWN: {
-                // If view can be zoomed or rotated then parent should not intercept touch events.
                 return settings.isZoomEnabled() || settings.isRotationEnabled();
             }
             default:
@@ -497,16 +381,13 @@ public class GestureController implements View.OnTouchListener {
         }
     }
 
-    @SuppressWarnings("WeakerAccess") // Public API (can be overridden)
     protected boolean onSingleTapUp(@NonNull MotionEvent event) {
-        // If double tap is not enabled then it should be safe to propagate click event from here
         if (!settings.isDoubleTapEnabled()) {
             targetView.performClick();
         }
         return gestureListener != null && gestureListener.onSingleTapUp(event);
     }
 
-    @SuppressWarnings("WeakerAccess") // Public API (can be overridden)
     protected void onLongPress(@NonNull MotionEvent event) {
         if (settings.isEnabled()) {
             targetView.performLongClick();
@@ -517,20 +398,15 @@ public class GestureController implements View.OnTouchListener {
         }
     }
 
-    protected boolean onScroll(@NonNull MotionEvent e1, @NonNull MotionEvent e2,
-                               float dx, float dy) {
-
+    protected boolean onScroll(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float dx, float dy) {
         if (isAnimatingState()) {
             return false;
         }
 
         if (!isScrollDetected) {
-            isScrollDetected = Math.abs(e2.getX() - e1.getX()) > touchSlop
-                    || Math.abs(e2.getY() - e1.getY()) > touchSlop;
+            isScrollDetected = Math.abs(e2.getX() - e1.getX()) > touchSlop || Math.abs(e2.getY() - e1.getY()) > touchSlop;
 
-            // First scroll event can stutter a bit, so we will ignore it for smoother scrolling
             if (isScrollDetected) {
-                // By returning false here we give children views a chance to intercept this scroll
                 return false;
             }
         }
@@ -543,8 +419,7 @@ public class GestureController implements View.OnTouchListener {
         return isScrollDetected;
     }
 
-    protected boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2,
-                              float vx, float vy) {
+    protected boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float vx, float vy) {
 
         if (isAnimatingState()) {
             return false;
@@ -552,7 +427,6 @@ public class GestureController implements View.OnTouchListener {
 
         stopFlingAnimation();
 
-        // Fling bounds including current position
         flingBounds.set(state).extend(state.getX(), state.getY());
 
         flingScroller.fling(
@@ -561,10 +435,9 @@ public class GestureController implements View.OnTouchListener {
                 limitFlingVelocity(vy * FLING_COEFFICIENT),
                 Integer.MIN_VALUE, Integer.MAX_VALUE,
                 Integer.MIN_VALUE, Integer.MAX_VALUE);
+
         animationEngine.start();
-
         notifyStateSourceChanged();
-
         return true;
     }
 
@@ -578,12 +451,6 @@ public class GestureController implements View.OnTouchListener {
         }
     }
 
-    /**
-     * @param dx Current X offset in the fling scroll
-     * @param dy Current Y offset in the fling scroll
-     * @return true if state was changed, false otherwise.
-     */
-    @SuppressWarnings("WeakerAccess") // Public API (can be overridden)
     protected boolean onFlingScroll(int dx, int dy) {
         float prevX = state.getX();
         float prevY = state.getY();
@@ -598,9 +465,7 @@ public class GestureController implements View.OnTouchListener {
         return !State.equals(prevX, toX) || !State.equals(prevY, toY);
     }
 
-    @SuppressWarnings("WeakerAccess") // Public API (can be overridden)
     protected boolean onSingleTapConfirmed(MotionEvent event) {
-        // If double tap is enabled we should propagate click only if we aren't in a double tap now
         if (settings.isDoubleTapEnabled()) {
             targetView.performClick();
         }
@@ -620,7 +485,6 @@ public class GestureController implements View.OnTouchListener {
             return false;
         }
 
-        // Let user redefine double tap
         if (gestureListener != null && gestureListener.onDoubleTap(event)) {
             return true;
         }
@@ -634,7 +498,6 @@ public class GestureController implements View.OnTouchListener {
         return isScaleDetected;
     }
 
-    @SuppressWarnings("WeakerAccess") // Public API (can be overridden)
     protected boolean onScale(ScaleGestureDetector detector) {
         if (!settings.isZoomEnabled() || isAnimatingState()) {
             return false;
@@ -660,7 +523,6 @@ public class GestureController implements View.OnTouchListener {
         return isRotationDetected;
     }
 
-    @SuppressWarnings("WeakerAccess") // Public API (can be overridden)
     protected boolean onRotate(RotationGestureDetector detector) {
         if (!settings.isRotationEnabled() || isAnimatingState()) {
             return false;
@@ -679,9 +541,6 @@ public class GestureController implements View.OnTouchListener {
         isRestrictRotationRequested = true;
     }
 
-    /**
-     * Animation engine implementation to animate state changes.
-     */
     private class LocalAnimationEngine extends AnimationEngine {
         LocalAnimationEngine(@NonNull View view) {
             super(view);
@@ -738,139 +597,34 @@ public class GestureController implements View.OnTouchListener {
         }
     }
 
-    /**
-     * State changes listener.
-     */
     public interface OnStateChangeListener {
         void onStateChanged(State state);
 
         void onStateReset(State oldState, State newState);
     }
 
-    /**
-     * State source changes listener.
-     *
-     * @see StateSource
-     */
-    @SuppressWarnings("WeakerAccess") // Public API
     public interface OnStateSourceChangeListener {
         void onStateSourceChanged(StateSource source);
     }
 
-    /**
-     * Source of state changes. Values: {@link #NONE}, {@link #USER}, {@link #ANIMATION}.
-     */
-    @SuppressWarnings("WeakerAccess") // Public API
     public enum StateSource {
         NONE, USER, ANIMATION
     }
 
-    /**
-     * Listener for different touch events.
-     */
-    @SuppressWarnings("WeakerAccess") // Public API
     public interface OnGestureListener {
-        /**
-         * @param event Motion event
-         * @see GestureDetector.OnGestureListener#onDown(MotionEvent)
-         */
         void onDown(@NonNull MotionEvent event);
 
-        /**
-         * @param event Motion event
-         */
         void onUpOrCancel(@NonNull MotionEvent event);
 
-        /**
-         * @param event Motion event
-         * @return true if event was consumed, false otherwise.
-         * @see GestureDetector.OnGestureListener#onSingleTapUp(MotionEvent)
-         */
         boolean onSingleTapUp(@NonNull MotionEvent event);
 
-        /**
-         * @param event Motion event
-         * @return true if event was consumed, false otherwise.
-         * @see GestureDetector.OnDoubleTapListener#onSingleTapConfirmed(MotionEvent)
-         */
         boolean onSingleTapConfirmed(@NonNull MotionEvent event);
 
-        /**
-         * Note, that long press is disabled by default, use {@link View#setLongClickable(boolean)}
-         * to enable it.
-         *
-         * @param event Motion event
-         * @see GestureDetector.OnGestureListener#onLongPress(MotionEvent)
-         */
         void onLongPress(@NonNull MotionEvent event);
 
-        /**
-         * @param event Motion event
-         * @return true if event was consumed, false otherwise.
-         * @see GestureDetector.OnDoubleTapListener#onDoubleTap(MotionEvent)
-         */
         boolean onDoubleTap(@NonNull MotionEvent event);
     }
 
-    /**
-     * Simple implementation of {@link GestureController.OnGestureListener}.
-     */
-    @SuppressWarnings("WeakerAccess") // Public API
-    public static class SimpleOnGestureListener implements OnGestureListener {
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void onDown(@NonNull MotionEvent event) {
-            // no-op
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void onUpOrCancel(@NonNull MotionEvent event) {
-            // no-op
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean onSingleTapUp(@NonNull MotionEvent event) {
-            return false;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean onSingleTapConfirmed(@NonNull MotionEvent event) {
-            return false;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void onLongPress(@NonNull MotionEvent event) {
-            // no-op
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public boolean onDoubleTap(@NonNull MotionEvent event) {
-            return false;
-        }
-    }
-
-
-    /**
-     * All listeners in one class.
-     * It will also allow us to make all methods protected to cleanup public API.
-     */
     private class InternalGesturesListener implements
             GestureDetector.OnGestureListener,
             GestureDetector.OnDoubleTapListener,
@@ -899,7 +653,6 @@ public class GestureController implements View.OnTouchListener {
 
         @Override
         public void onShowPress(@NonNull MotionEvent event) {
-            // No-op
         }
 
         @Override
@@ -908,8 +661,7 @@ public class GestureController implements View.OnTouchListener {
         }
 
         @Override
-        public boolean onScroll(@NonNull MotionEvent e1, @NonNull MotionEvent e2,
-                                float distanceX, float distanceY) {
+        public boolean onScroll(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {
             return GestureController.this.onScroll(e1, e2, distanceX, distanceY);
         }
 
@@ -919,8 +671,7 @@ public class GestureController implements View.OnTouchListener {
         }
 
         @Override
-        public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2,
-                               float velocityX, float velocityY) {
+        public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
             return GestureController.this.onFling(e1, e2, velocityX, velocityY);
         }
 

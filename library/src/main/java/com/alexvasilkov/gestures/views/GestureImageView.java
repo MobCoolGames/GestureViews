@@ -1,6 +1,5 @@
 package com.alexvasilkov.gestures.views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -21,11 +20,6 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-/**
- * {@link ImageView} implementation controlled by {@link GestureController}
- * ({@link #getController()}).
- * <p>
- */
 public class GestureImageView extends ImageView implements GestureView, ClipView {
 
     private GestureController controller;
@@ -76,23 +70,16 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
         clipBoundsHelper.onPostDraw(canvas);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public GestureController getController() {
         return controller;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void clipView(@Nullable RectF rect, float rotation) {
         clipViewHelper.clipView(rect, rotation);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         return controller.onTouch(this, event);
@@ -101,8 +88,7 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
     @Override
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
         super.onSizeChanged(width, height, oldWidth, oldHeight);
-        controller.getSettings().setViewport(width - getPaddingLeft() - getPaddingRight(),
-                height - getPaddingTop() - getPaddingBottom());
+        controller.getSettings().setViewport(width - getPaddingLeft() - getPaddingRight(), height - getPaddingTop() - getPaddingBottom());
         controller.resetState();
     }
 
@@ -115,17 +101,13 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
     public void setImageDrawable(Drawable drawable) {
         super.setImageDrawable(drawable);
 
-        // Method setImageDrawable can be called from super constructor,
-        // so we have to ensure controller instance is created at this point.
         ensureControllerCreated();
 
         Settings settings = controller.getSettings();
 
-        // Saving old image size
         float oldWidth = settings.getImageW();
         float oldHeight = settings.getImageH();
 
-        // Setting image size
         if (drawable == null) {
             settings.setImage(0, 0);
         } else if (drawable.getIntrinsicWidth() == -1 || drawable.getIntrinsicHeight() == -1) {
@@ -134,7 +116,6 @@ public class GestureImageView extends ImageView implements GestureView, ClipView
             settings.setImage(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
 
-        // Getting new image size
         float newWidth = settings.getImageW();
         float newHeight = settings.getImageH();
 

@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 
 public class StateController {
 
-    // Temporary objects
     private static final State tmpState = new State();
     private static final Rect tmpRect = new Rect();
     private static final RectF tmpRectF = new RectF();

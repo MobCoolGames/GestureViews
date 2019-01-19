@@ -89,7 +89,7 @@ public class StateController {
 
         if (restrictRotation) {
             float rotation = Math.round(state.getRotation() / 90f) * 90f;
-            if (!State.equals(rotation, state.getRotation())) {
+            if (!State.Companion.equals(rotation, state.getRotation())) {
                 state.rotateTo(rotation, pivotX, pivotY);
                 isStateChanged = true;
             }
@@ -106,7 +106,7 @@ public class StateController {
             zoom = applyZoomResilience(zoom, prevState.getZoom(), minZoom, maxZoom, extraZoom);
         }
 
-        if (!State.equals(zoom, state.getZoom())) {
+        if (!State.Companion.equals(zoom, state.getZoom())) {
             state.zoomTo(zoom, pivotX, pivotY);
             isStateChanged = true;
         }
@@ -137,7 +137,7 @@ public class StateController {
             newY = applyTranslationResilience(newY, prevState.getY(), tmpRectF.top, tmpRectF.bottom, extraY);
         }
 
-        if (!State.equals(newX, state.getX()) || !State.equals(newY, state.getY())) {
+        if (!State.Companion.equals(newX, state.getX()) || !State.Companion.equals(newY, state.getY())) {
             state.translateTo(newX, newY);
             isStateChanged = true;
         }

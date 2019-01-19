@@ -294,7 +294,7 @@ public class GestureController implements View.OnTouchListener {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE: {
                 stateController.getMovementArea(state, tmpRectF);
-                final boolean isPannable = State.compare(tmpRectF.width()) > 0 || State.compare(tmpRectF.height()) > 0;
+                final boolean isPannable = State.Companion.compare(tmpRectF.width()) > 0 || State.Companion.compare(tmpRectF.height()) > 0;
 
                 if (isPannable) {
                     return true;
@@ -413,7 +413,7 @@ public class GestureController implements View.OnTouchListener {
         toY = tmpPointF.y;
 
         state.translateTo(toX, toY);
-        return !State.equals(prevX, toX) || !State.equals(prevY, toY);
+        return !State.Companion.equals(prevX, toX) || !State.Companion.equals(prevY, toY);
     }
 
     private boolean onSingleTapConfirmed(MotionEvent event) {

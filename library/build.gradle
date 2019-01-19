@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 28
@@ -6,8 +8,13 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode VERSION_CODE.toInteger()
-        versionName VERSION_NAME
+
+        versionCode 1
+        versionName '2.5.2'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
@@ -15,4 +22,5 @@ dependencies {
     compileOnly 'androidx.annotation:annotation:1.0.1'
     compileOnly 'androidx.viewpager:viewpager:1.0.0'
     compileOnly 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

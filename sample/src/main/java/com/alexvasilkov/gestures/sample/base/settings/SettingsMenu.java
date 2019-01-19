@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import com.alexvasilkov.android.commons.state.InstanceState;
 import com.alexvasilkov.android.commons.state.InstanceStateManager;
 import com.alexvasilkov.gestures.sample.R;
-import com.alexvasilkov.gestures.views.interfaces.GestureView;
+import com.alexvasilkov.gestures.GestureView;
 
 import androidx.annotation.StringRes;
 

@@ -5,9 +5,6 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
-import com.alexvasilkov.gestures.internal.MovementBounds;
-import com.alexvasilkov.gestures.internal.ZoomBounds;
-
 import androidx.annotation.Nullable;
 
 public class StateController {

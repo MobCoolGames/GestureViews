@@ -11,8 +11,6 @@ import android.view.ViewConfiguration;
 import android.view.ViewParent;
 import android.widget.OverScroller;
 
-import com.alexvasilkov.gestures.internal.MovementBounds;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -14,7 +14,7 @@ import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.State;
 import com.alexvasilkov.gestures.ClipHelper;
 import com.alexvasilkov.gestures.views.interfaces.ClipView;
-import com.alexvasilkov.gestures.views.interfaces.GestureView;
+import com.alexvasilkov.gestures.GestureView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

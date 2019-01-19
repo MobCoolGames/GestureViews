@@ -14,9 +14,6 @@ public class GlideHelper {
     private GlideHelper() {
     }
 
-    /**
-     * Loads thumbnail and then replaces it with full image.
-     */
     public static void loadFull(ImageView image, int imageId, int thumbId) {
         // We don't want Glide to crop or resize our image
         final RequestOptions options = new RequestOptions()

@@ -10,9 +10,6 @@ import com.alexvasilkov.gestures.sample.ex.utils.GlideHelper;
 import com.alexvasilkov.gestures.sample.ex.utils.Painting;
 import com.alexvasilkov.gestures.views.GestureImageView;
 
-/**
- * This example demonstrates basic usage of {@link GestureImageView}.
- */
 public class ImageViewerActivity extends BaseSettingsActivity {
 
     private static final int PAINTING_ID = 1;
@@ -26,20 +23,13 @@ public class ImageViewerActivity extends BaseSettingsActivity {
         setContentView(R.layout.image_viewer_screen);
         setInfoText(R.string.info_image_viewer);
 
-        // Initializing image viewer
         imageViewer = findViewById(R.id.image_viewer);
 
-        // Applying custom settings (note, that all settings can be also set in XML)
         Settings settings = imageViewer.getController().getSettings();
         settings.setMaxZoom(6f);
         settings.setDoubleTapZoom(3f);
 
         imageViewer.setOnClickListener(view -> showToast("Single click"));
-
-        imageViewer.setOnLongClickListener(view -> {
-            showToast("Long click");
-            return true;
-        });
 
         final Painting painting = Painting.list(getResources())[PAINTING_ID];
         GlideHelper.loadFull(imageViewer, painting.imageId, painting.thumbId);
@@ -51,11 +41,7 @@ public class ImageViewerActivity extends BaseSettingsActivity {
 
     @Override
     protected void onSettingsChanged() {
-        // Applying settings from toolbar menu, see BaseExampleActivity
         getSettingsController().apply(imageViewer);
-
-        // Resetting to initial image state
         imageViewer.getController().resetState();
     }
-
 }

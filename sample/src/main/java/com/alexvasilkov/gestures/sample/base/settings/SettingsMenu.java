@@ -6,8 +6,9 @@ import android.view.MenuItem;
 
 import com.alexvasilkov.android.commons.state.InstanceState;
 import com.alexvasilkov.android.commons.state.InstanceStateManager;
-import com.alexvasilkov.gestures.sample.R;
 import com.alexvasilkov.gestures.GestureView;
+import com.alexvasilkov.gestures.Settings;
+import com.alexvasilkov.gestures.sample.R;
 
 import androidx.annotation.StringRes;
 
@@ -54,8 +55,8 @@ public class SettingsMenu implements SettingsController {
 
     @Override
     public void apply(GestureView view) {
-        view.getController().getSettings()
-                .setZoomEnabled(isZoomEnabled)
-                .setRotationEnabled(isRotationEnabled);
+        Settings settings = view.getController().getSettings();
+        settings.setZoomEnabled(isZoomEnabled);
+        settings.setRotationEnabled(isRotationEnabled);
     }
 }

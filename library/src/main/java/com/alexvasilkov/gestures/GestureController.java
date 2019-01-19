@@ -242,7 +242,7 @@ public class GestureController implements View.OnTouchListener {
             onTouchInternal(view, event);
         }
         isInterceptTouchCalled = false;
-        return settings.isEnabled();
+        return settings.getIsEnabled();
     }
 
     private void onTouchInternal(@NonNull View view, @NonNull MotionEvent event) {
@@ -344,7 +344,7 @@ public class GestureController implements View.OnTouchListener {
     }
 
     private void onLongPress(@NonNull MotionEvent event) {
-        if (settings.isEnabled()) {
+        if (settings.getIsEnabled()) {
             targetView.performLongClick();
 
             if (gestureListener != null) {

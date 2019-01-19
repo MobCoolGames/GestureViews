@@ -3,6 +3,7 @@ package com.alexvasilkov.gestures.sample.ex.image.viewer;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.sample.R;
 import com.alexvasilkov.gestures.sample.base.BaseSettingsActivity;
 import com.alexvasilkov.gestures.sample.ex.utils.GlideHelper;
@@ -29,9 +30,9 @@ public class ImageViewerActivity extends BaseSettingsActivity {
         imageViewer = findViewById(R.id.image_viewer);
 
         // Applying custom settings (note, that all settings can be also set in XML)
-        imageViewer.getController().getSettings()
-                .setMaxZoom(6f)
-                .setDoubleTapZoom(3f);
+        Settings settings = imageViewer.getController().getSettings();
+        settings.setMaxZoom(6f);
+        settings.setDoubleTapZoom(3f);
 
         imageViewer.setOnClickListener(view -> showToast("Single click"));
 

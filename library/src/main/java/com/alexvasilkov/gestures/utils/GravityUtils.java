@@ -17,7 +17,6 @@ public class GravityUtils {
     private static final Rect tmpRect1 = new Rect();
     private static final Rect tmpRect2 = new Rect();
 
-
     public static void getImagePosition(State state, Settings settings, Rect out) {
         state.get(tmpMatrix);
         getImagePosition(tmpMatrix, settings, out);

@@ -11,10 +11,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewParent;
 import android.widget.OverScroller;
 
-import com.alexvasilkov.gestures.internal.AnimationEngine;
 import com.alexvasilkov.gestures.internal.MovementBounds;
-import com.alexvasilkov.gestures.internal.detectors.RotationGestureDetector;
-import com.alexvasilkov.gestures.internal.detectors.ScaleGestureDetectorFixed;
 import com.alexvasilkov.gestures.utils.FloatScroller;
 import com.alexvasilkov.gestures.utils.MathUtils;
 

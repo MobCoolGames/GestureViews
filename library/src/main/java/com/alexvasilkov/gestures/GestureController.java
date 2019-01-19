@@ -12,8 +12,6 @@ import android.view.ViewParent;
 import android.widget.OverScroller;
 
 import com.alexvasilkov.gestures.internal.MovementBounds;
-import com.alexvasilkov.gestures.utils.FloatScroller;
-import com.alexvasilkov.gestures.utils.MathUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,7 +175,7 @@ public class GestureController implements View.OnTouchListener {
         if (!Float.isNaN(pivotX) && !Float.isNaN(pivotY)) {
             tmpPointArr[0] = pivotX;
             tmpPointArr[1] = pivotY;
-            MathUtils.computeNewPosition(tmpPointArr, stateStart, stateEnd);
+            MathUtils.INSTANCE.computeNewPosition(tmpPointArr, stateStart, stateEnd);
             endPivotX = tmpPointArr[0];
             endPivotY = tmpPointArr[1];
         }
@@ -528,9 +526,9 @@ public class GestureController implements View.OnTouchListener {
                 float factor = stateScroller.getCurr();
 
                 if (Float.isNaN(pivotX) || Float.isNaN(pivotY) || Float.isNaN(endPivotX) || Float.isNaN(endPivotY)) {
-                    MathUtils.interpolate(state, stateStart, stateEnd, factor);
+                    MathUtils.INSTANCE.interpolate(state, stateStart, stateEnd, factor);
                 } else {
-                    MathUtils.interpolate(state, stateStart, pivotX, pivotY, stateEnd, endPivotX, endPivotY, factor);
+                    MathUtils.INSTANCE.interpolate(state, stateStart, pivotX, pivotY, stateEnd, endPivotX, endPivotY, factor);
                 }
 
                 shouldProceed = true;

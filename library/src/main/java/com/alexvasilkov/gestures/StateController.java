@@ -7,7 +7,6 @@ import android.graphics.RectF;
 
 import com.alexvasilkov.gestures.internal.MovementBounds;
 import com.alexvasilkov.gestures.internal.ZoomBounds;
-import com.alexvasilkov.gestures.utils.GravityUtils;
 
 import androidx.annotation.Nullable;
 
@@ -41,7 +40,7 @@ public class StateController {
     boolean updateState(State state) {
         if (isResetRequired) {
             state.set(0f, 0f, zoomBounds.set(state).getFitZoom(), 0f);
-            GravityUtils.getImagePosition(state, settings, tmpRect);
+            GravityUtils.INSTANCE.getImagePosition(state, settings, tmpRect);
             state.translateTo(tmpRect.left, tmpRect.top);
 
             isResetRequired = !settings.hasImageSize() || !settings.hasViewportSize();
@@ -84,7 +83,7 @@ public class StateController {
 
     boolean restrictStateBounds(State state, State prevState, float pivotX, float pivotY, boolean allowOverzoom, boolean restrictRotation) {
         if (Float.isNaN(pivotX) || Float.isNaN(pivotY)) {
-            GravityUtils.getDefaultPivot(settings, tmpPoint);
+            GravityUtils.INSTANCE.getDefaultPivot(settings, tmpPoint);
             pivotX = tmpPoint.x;
             pivotY = tmpPoint.y;
         }

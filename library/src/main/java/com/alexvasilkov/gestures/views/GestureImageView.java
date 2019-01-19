@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import com.alexvasilkov.gestures.GestureController;
 import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.State;
-import com.alexvasilkov.gestures.utils.ClipHelper;
+import com.alexvasilkov.gestures.ClipHelper;
 import com.alexvasilkov.gestures.views.interfaces.ClipView;
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
 

@@ -7,8 +7,8 @@ import android.graphics.RectF;
 
 import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.State;
-import com.alexvasilkov.gestures.utils.GravityUtils;
-import com.alexvasilkov.gestures.utils.MathUtils;
+import com.alexvasilkov.gestures.GravityUtils;
+import com.alexvasilkov.gestures.MathUtils;
 
 public class MovementBounds {
 
@@ -30,7 +30,7 @@ public class MovementBounds {
 
     public MovementBounds set(State state) {
         RectF area = tmpRectF;
-        GravityUtils.getMovementAreaPosition(settings, tmpRect);
+        GravityUtils.INSTANCE.getMovementAreaPosition(settings, tmpRect);
         area.set(tmpRect);
 
         final Rect pos = tmpRect;
@@ -42,7 +42,7 @@ public class MovementBounds {
         if (!State.equals(boundsRotation, 0f)) {
             tmpMatrix.postRotate(-boundsRotation, boundsPivotX, boundsPivotY);
         }
-        GravityUtils.getImagePosition(tmpMatrix, settings, pos);
+        GravityUtils.INSTANCE.getImagePosition(tmpMatrix, settings, pos);
 
         calculateNormalBounds(area, pos);
 
@@ -107,8 +107,8 @@ public class MovementBounds {
             tmpMatrix.mapPoints(tmpPointArr);
         }
 
-        tmpPointArr[0] = MathUtils.restrict(tmpPointArr[0], bounds.left - extraX, bounds.right + extraX);
-        tmpPointArr[1] = MathUtils.restrict(tmpPointArr[1], bounds.top - extraY, bounds.bottom + extraY);
+        tmpPointArr[0] = MathUtils.INSTANCE.restrict(tmpPointArr[0], bounds.left - extraX, bounds.right + extraX);
+        tmpPointArr[1] = MathUtils.INSTANCE.restrict(tmpPointArr[1], bounds.top - extraY, bounds.bottom + extraY);
 
         if (boundsRotation != 0f) {
             tmpMatrix.setRotate(boundsRotation, boundsPivotX, boundsPivotY);

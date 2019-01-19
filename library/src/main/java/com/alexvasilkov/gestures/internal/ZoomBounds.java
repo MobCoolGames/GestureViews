@@ -5,7 +5,7 @@ import android.graphics.RectF;
 
 import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.State;
-import com.alexvasilkov.gestures.utils.MathUtils;
+import com.alexvasilkov.gestures.MathUtils;
 
 public class ZoomBounds {
 
@@ -82,6 +82,6 @@ public class ZoomBounds {
     }
 
     public float restrict(float zoom, float extraZoom) {
-        return MathUtils.restrict(zoom, minZoom / extraZoom, maxZoom * extraZoom);
+        return MathUtils.INSTANCE.restrict(zoom, minZoom / extraZoom, maxZoom * extraZoom);
     }
 }

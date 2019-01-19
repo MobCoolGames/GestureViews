@@ -1,4 +1,4 @@
-package com.alexvasilkov.gestures.sample.base.settings
+package com.alexvasilkov.gestures.sample
 
 import com.alexvasilkov.gestures.GestureView
 

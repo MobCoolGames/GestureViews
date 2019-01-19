@@ -1,11 +1,7 @@
-package com.alexvasilkov.gestures.sample.ex.image.viewer
+package com.alexvasilkov.gestures.sample
 
 import android.os.Bundle
 import android.widget.Toast
-import com.alexvasilkov.gestures.sample.R
-import com.alexvasilkov.gestures.sample.base.BaseSettingsActivity
-import com.alexvasilkov.gestures.sample.ex.utils.GlideHelper
-import com.alexvasilkov.gestures.sample.ex.utils.Painting
 import kotlinx.android.synthetic.main.image_viewer_screen.*
 
 class ImageViewerActivity : BaseSettingsActivity() {

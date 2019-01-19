@@ -1,4 +1,4 @@
-package com.alexvasilkov.gestures.sample.ex.utils
+package com.alexvasilkov.gestures.sample
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -8,7 +8,6 @@ import com.bumptech.glide.request.target.Target
 
 object GlideHelper {
     fun loadFull(image: ImageView, imageId: Int, thumbId: Int) {
-        // We don't want Glide to crop or resize our image
         val options = RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .override(Target.SIZE_ORIGINAL)

@@ -1,4 +1,4 @@
-package com.alexvasilkov.gestures.views.interfaces
+package com.alexvasilkov.gestures
 
 import android.graphics.RectF
 

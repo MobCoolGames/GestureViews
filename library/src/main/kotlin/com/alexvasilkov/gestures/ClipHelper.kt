@@ -5,8 +5,6 @@ import android.graphics.Matrix
 import android.graphics.RectF
 import android.view.View
 
-import com.alexvasilkov.gestures.views.interfaces.ClipView
-
 class ClipHelper(private val view: View) : ClipView {
     companion object {
         private val tmpMatrix = Matrix()

@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.ImageView
-import com.alexvasilkov.gestures.views.interfaces.ClipView
 
 class GestureImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : ImageView(context, attrs, defStyle), ClipView {
     private val clipViewHelper = ClipHelper(this)

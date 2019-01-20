@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="GestureView">
-        <attr name="gest_maxZoom" format="reference|float"/>
-        <attr name="gest_doubleTapZoom" format="reference|float"/>
-        <attr name="gest_zoomEnabled" format="reference|boolean"/>
-        <attr name="gest_rotationEnabled" format="reference|boolean"/>
-    </declare-styleable>
-
-    <!-- Added copy with GestureImageView name to enable autocomplete in AS -->
     <declare-styleable name="GestureImageView">
-        <attr name="gest_maxZoom"/>
-        <attr name="gest_doubleTapZoom"/>
-        <attr name="gest_zoomEnabled"/>
-        <attr name="gest_rotationEnabled"/>
+        <attr name="gest_maxZoom" format="float"/>
+        <attr name="gest_doubleTapZoom" format="float"/>
+        <attr name="gest_zoomEnabled" format="boolean"/>
+        <attr name="gest_rotationEnabled" format="boolean"/>
     </declare-styleable>
 </resources>

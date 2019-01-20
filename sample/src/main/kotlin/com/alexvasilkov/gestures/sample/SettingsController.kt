@@ -1,7 +1,7 @@
 package com.alexvasilkov.gestures.sample
 
-import com.alexvasilkov.gestures.GestureView
+import com.alexvasilkov.gestures.GestureImageView
 
 interface SettingsController {
-    fun apply(view: GestureView)
+    fun apply(view: GestureImageView)
 }

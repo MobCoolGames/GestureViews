@@ -6,7 +6,7 @@ import android.view.MenuItem
 import androidx.annotation.StringRes
 import com.alexvasilkov.android.commons.state.InstanceState
 import com.alexvasilkov.android.commons.state.InstanceStateManager
-import com.alexvasilkov.gestures.GestureView
+import com.alexvasilkov.gestures.GestureImageView
 
 class SettingsMenu : SettingsController {
     @InstanceState
@@ -43,7 +43,7 @@ class SettingsMenu : SettingsController {
         return true
     }
 
-    override fun apply(view: GestureView) {
+    override fun apply(view: GestureImageView) {
         val settings = view.controller.settings
         settings.isZoomEnabled = isZoomEnabled
         settings.isRotationEnabled = isRotationEnabled

@@ -27,11 +27,11 @@ class Settings {
             return
         }
 
-        context.obtainStyledAttributes(attrs, R.styleable.GestureView).apply {
-            maxZoom = getFloat(R.styleable.GestureView_gest_maxZoom, maxZoom)
-            doubleTapZoom = getFloat(R.styleable.GestureView_gest_doubleTapZoom, doubleTapZoom)
-            isZoomEnabled = getBoolean(R.styleable.GestureView_gest_zoomEnabled, isZoomEnabled)
-            isRotationEnabled = getBoolean(R.styleable.GestureView_gest_rotationEnabled, isRotationEnabled)
+        context.obtainStyledAttributes(attrs, R.styleable.GestureImageView).apply {
+            maxZoom = getFloat(R.styleable.GestureImageView_gest_maxZoom, maxZoom)
+            doubleTapZoom = getFloat(R.styleable.GestureImageView_gest_doubleTapZoom, doubleTapZoom)
+            isZoomEnabled = getBoolean(R.styleable.GestureImageView_gest_zoomEnabled, isZoomEnabled)
+            isRotationEnabled = getBoolean(R.styleable.GestureImageView_gest_rotationEnabled, isRotationEnabled)
             recycle()
         }
     }

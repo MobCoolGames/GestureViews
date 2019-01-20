@@ -1,17 +1,13 @@
 package com.alexvasilkov.gestures
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Matrix
-import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.ImageView
 
-class GestureImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : ImageView(context, attrs, defStyle), ClipView {
-    private val clipViewHelper = ClipHelper(this)
-    private val clipBoundsHelper = ClipHelper(this)
+class GestureImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : ImageView(context, attrs, defStyle) {
     private val imageViewMatrix = Matrix()
     var controller = GestureController(this)
 
@@ -28,18 +24,6 @@ class GestureImageView @JvmOverloads constructor(context: Context, attrs: Attrib
         })
 
         scaleType = ImageView.ScaleType.MATRIX
-    }
-
-    override fun draw(canvas: Canvas) {
-        clipBoundsHelper.onPreDraw(canvas)
-        clipViewHelper.onPreDraw(canvas)
-        super.draw(canvas)
-        clipViewHelper.onPostDraw(canvas)
-        clipBoundsHelper.onPostDraw(canvas)
-    }
-
-    override fun clipView(rect: RectF?, rotation: Float) {
-        clipViewHelper.clipView(rect, rotation)
     }
 
     override fun onTouchEvent(event: MotionEvent) = controller.onTouch(this, event)

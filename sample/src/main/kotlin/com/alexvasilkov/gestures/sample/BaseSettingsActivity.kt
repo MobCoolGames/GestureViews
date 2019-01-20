@@ -1,24 +1,10 @@
 package com.alexvasilkov.gestures.sample
 
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 
 abstract class BaseSettingsActivity : BaseActivity() {
-    private val settingsMenu = SettingsMenu()
-
-    protected val settingsController: SettingsController
-        get() = settingsMenu
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        settingsMenu.onRestoreInstanceState(savedInstanceState)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        settingsMenu.onSaveInstanceState(outState)
-        super.onSaveInstanceState(outState)
-    }
+    val settingsMenu = SettingsMenu()
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)

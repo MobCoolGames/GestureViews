@@ -19,8 +19,7 @@ class ImageViewerActivity : BaseSettingsActivity() {
             showToast("Single click")
         }
 
-        val painting = Painting(R.drawable.painting_01, R.drawable.painting_thumb_01)
-        GlideHelper.loadFull(image_viewer, painting.imageId, painting.thumbId)
+        GlideHelper.loadFull(image_viewer, R.drawable.painting_01, R.drawable.painting_thumb_01)
     }
 
     private fun showToast(text: String) {
@@ -28,7 +27,7 @@ class ImageViewerActivity : BaseSettingsActivity() {
     }
 
     override fun onSettingsChanged() {
-        settingsController.apply(image_viewer)
+        settingsMenu.apply(image_viewer)
         image_viewer.controller.resetState()
     }
 }

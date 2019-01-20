@@ -1,26 +1,13 @@
 package com.alexvasilkov.gestures.sample
 
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.StringRes
-import com.alexvasilkov.android.commons.state.InstanceState
-import com.alexvasilkov.android.commons.state.InstanceStateManager
 import com.alexvasilkov.gestures.GestureImageView
 
 class SettingsMenu : SettingsController {
-    @InstanceState
     private var isZoomEnabled = true
-    @InstanceState
     private var isRotationEnabled = false
-
-    fun onSaveInstanceState(outState: Bundle) {
-        InstanceStateManager.saveInstanceState(this, outState)
-    }
-
-    fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        InstanceStateManager.restoreInstanceState(this, savedInstanceState)
-    }
 
     fun onCreateOptionsMenu(menu: Menu) {
         addBoolMenu(menu, isZoomEnabled, R.string.menu_enable_zoom)

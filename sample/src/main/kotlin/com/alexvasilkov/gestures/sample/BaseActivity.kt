@@ -1,39 +1,14 @@
 package com.alexvasilkov.gestures.sample
 
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.alexvasilkov.android.commons.state.InstanceStateManager
-import com.alexvasilkov.android.commons.ui.Views
-import com.alexvasilkov.events.Events
 
 abstract class BaseActivity : AppCompatActivity() {
     private var infoTextId = 0
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        InstanceStateManager.restoreInstanceState(this, savedInstanceState)
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        Events.register(this)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        InstanceStateManager.saveInstanceState(this, outState)
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Events.unregister(this)
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         if (infoTextId != 0) {
@@ -60,9 +35,8 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun showInfoDialog() {
-        val layout = Views.inflate<View>(this, R.layout.info_dialog)
-        val text = layout.findViewById<TextView>(R.id.info_text)
-        text.text = getText(infoTextId)
+        val layout = layoutInflater.inflate(R.layout.info_dialog, null)
+        layout.findViewById<TextView>(R.id.info_text).text = getText(infoTextId)
 
         AlertDialog.Builder(this)
                 .setView(layout)

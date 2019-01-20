@@ -69,12 +69,12 @@ class StateController internal constructor(private val settings: Settings) {
     }
 
     fun restrictStateBounds(state: State, prevState: State?, pivotX: Float, pivotY: Float, allowOverzoom: Boolean, restrictRotation: Boolean): Boolean {
-        var pivotX = pivotX
-        var pivotY = pivotY
-        if (java.lang.Float.isNaN(pivotX) || java.lang.Float.isNaN(pivotY)) {
+        var newPivotX = pivotX
+        var newPivotY = pivotY
+        if (java.lang.Float.isNaN(newPivotX) || java.lang.Float.isNaN(newPivotY)) {
             GravityUtils.getDefaultPivot(settings, tmpPoint)
-            pivotX = tmpPoint.x.toFloat()
-            pivotY = tmpPoint.y.toFloat()
+            newPivotX = tmpPoint.x.toFloat()
+            newPivotY = tmpPoint.y.toFloat()
         }
 
         var isStateChanged = false
@@ -82,7 +82,7 @@ class StateController internal constructor(private val settings: Settings) {
         if (restrictRotation) {
             val rotation = Math.round(state.rotation / 90f) * 90f
             if (!State.equals(rotation, state.rotation)) {
-                state.rotateTo(rotation, pivotX, pivotY)
+                state.rotateTo(rotation, newPivotX, newPivotY)
                 isStateChanged = true
             }
         }
@@ -99,7 +99,7 @@ class StateController internal constructor(private val settings: Settings) {
         }
 
         if (!State.equals(zoom, state.zoom)) {
-            state.zoomTo(zoom, pivotX, pivotY)
+            state.zoomTo(zoom, newPivotX, newPivotY)
             isStateChanged = true
         }
 

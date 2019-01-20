@@ -80,7 +80,6 @@ class MovementBounds(private val settings: Settings) {
         bounds.union(tmpPointArr[0], tmpPointArr[1])
     }
 
-
     fun getExternalBounds(out: RectF) {
         if (boundsRotation == 0f) {
             out.set(bounds)

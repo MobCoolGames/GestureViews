@@ -54,27 +54,27 @@ class State {
     }
 
     operator fun set(x: Float, y: Float, zoom: Float, rotation: Float) {
-        var rotation = rotation
-        while (rotation < -180f) {
-            rotation += 360f
+        var newRotation = rotation
+        while (newRotation < -180f) {
+            newRotation += 360f
         }
 
-        while (rotation > 180f) {
-            rotation -= 360f
+        while (newRotation > 180f) {
+            newRotation -= 360f
         }
 
         this.x = x
         this.y = y
         this.zoom = zoom
-        this.rotation = rotation
+        this.rotation = newRotation
 
         matrix.reset()
         if (zoom != 1f) {
             matrix.postScale(zoom, zoom)
         }
 
-        if (rotation != 0f) {
-            matrix.postRotate(rotation)
+        if (newRotation != 0f) {
+            matrix.postRotate(newRotation)
         }
         matrix.postTranslate(x, y)
     }

@@ -201,6 +201,7 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
         if (!isInterceptTouchCalled) {
             onTouchInternal(view, event)
         }
+
         isInterceptTouchCalled = false
         return settings.getIsEnabled()
     }

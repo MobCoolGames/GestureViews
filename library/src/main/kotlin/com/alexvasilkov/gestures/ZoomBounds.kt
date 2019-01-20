@@ -14,8 +14,8 @@ class ZoomBounds(private val settings: Settings) {
     var fitZoom = 0f
 
     fun set(state: State): ZoomBounds {
-        var imageWidth = settings.imageWidth.toFloat()
-        var imageHeight = settings.imageHeight.toFloat()
+        var imageWidth = settings.imageWidth
+        var imageHeight = settings.imageHeight
 
         val areaWidth = settings.viewportWidth.toFloat()
         val areaHeight = settings.viewportHeight.toFloat()

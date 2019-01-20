@@ -24,12 +24,11 @@ class MovementBounds(private val settings: Settings) {
         area.set(tmpRect)
 
         val pos = tmpRect
-
         boundsRotation = 0f
         boundsPivotY = 0f
         boundsPivotX = boundsPivotY
 
-        state.get(tmpMatrix)
+        state[tmpMatrix]
         if (!State.equals(boundsRotation, 0f)) {
             tmpMatrix.postRotate(-boundsRotation, boundsPivotX, boundsPivotY)
         }
@@ -37,10 +36,10 @@ class MovementBounds(private val settings: Settings) {
 
         calculateNormalBounds(area, pos)
 
-        state.get(tmpMatrix)
+        state[tmpMatrix]
 
         val imageRect = tmpRectF
-        imageRect.set(0f, 0f, settings.imageWidth.toFloat(), settings.imageHeight.toFloat())
+        imageRect.set(0f, 0f, settings.imageWidth, settings.imageHeight)
         tmpMatrix.mapRect(imageRect)
 
         tmpPointArr[1] = 0f

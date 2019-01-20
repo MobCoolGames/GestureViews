@@ -54,10 +54,6 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
     val state = State()
     val stateController: StateController
 
-    private fun getIsAnimatingState() = !stateScroller.isFinished
-
-    private fun getIsAnimatingFling() = !flingScroller.isFinished
-
     init {
         val context = targetView.context
         settings = Settings()
@@ -157,14 +153,14 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
     }
 
     private fun stopStateAnimation() {
-        if (getIsAnimatingState()) {
+        if (!stateScroller.isFinished) {
             stateScroller.forceFinished()
             onStateAnimationFinished()
         }
     }
 
     private fun stopFlingAnimation() {
-        if (getIsAnimatingFling()) {
+        if (!flingScroller.isFinished) {
             flingScroller.forceFinished(true)
             onFlingAnimationFinished(true)
         }
@@ -280,7 +276,7 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
         isScaleDetected = false
         isRotationDetected = false
 
-        if (!getIsAnimatingFling() && !isAnimatingInBounds) {
+        if (flingScroller.isFinished && !isAnimatingInBounds) {
             animateKeepInBounds()
         }
 
@@ -303,7 +299,7 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
     }
 
     private fun onScroll(e1: MotionEvent, e2: MotionEvent, dx: Float, dy: Float): Boolean {
-        if (getIsAnimatingState()) {
+        if (!stateScroller.isFinished) {
             return false
         }
 
@@ -324,7 +320,7 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
     }
 
     private fun onFling(vx: Float, vy: Float): Boolean {
-        if (getIsAnimatingState()) {
+        if (!stateScroller.isFinished) {
             return false
         }
 
@@ -398,7 +394,7 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
     }
 
     private fun onScale(detector: ScaleGestureDetector): Boolean {
-        if (!settings.isZoomEnabled || getIsAnimatingState()) {
+        if (!settings.isZoomEnabled || !stateScroller.isFinished) {
             return false
         }
 
@@ -421,7 +417,7 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
     }
 
     private fun onRotate(detector: RotationGestureDetector): Boolean {
-        if (!settings.isRotationEnabled || getIsAnimatingState()) {
+        if (!settings.isRotationEnabled || !stateScroller.isFinished) {
             return false
         }
 
@@ -443,7 +439,7 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
         fun onStep(): Boolean {
             var shouldProceed = false
 
-            if (getIsAnimatingFling()) {
+            if (!flingScroller.isFinished) {
                 val prevX = flingScroller.currX
                 val prevY = flingScroller.currY
 
@@ -458,12 +454,12 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
                     shouldProceed = true
                 }
 
-                if (!getIsAnimatingFling()) {
+                if (flingScroller.isFinished) {
                     onFlingAnimationFinished(false)
                 }
             }
 
-            if (getIsAnimatingState()) {
+            if (!stateScroller.isFinished) {
                 stateScroller.computeScroll()
                 val factor = stateScroller.curr
 
@@ -475,7 +471,7 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
 
                 shouldProceed = true
 
-                if (!getIsAnimatingState()) {
+                if (stateScroller.isFinished) {
                     onStateAnimationFinished()
                 }
             }

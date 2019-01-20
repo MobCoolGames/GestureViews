@@ -38,19 +38,19 @@ class GestureImageView @JvmOverloads constructor(context: Context, attrs: Attrib
         super.setImageDrawable(drawable)
 
         val settings = controller.settings
-        val oldWidth = settings.imageWidth.toFloat()
-        val oldHeight = settings.imageHeight.toFloat()
+        val oldWidth = settings.imageWidth
+        val oldHeight = settings.imageHeight
 
         if (drawable == null) {
-            settings.setImage(0, 0)
+            settings.setImage(0f, 0f)
         } else if (drawable.intrinsicWidth == -1 || drawable.intrinsicHeight == -1) {
-            settings.setImage(settings.viewportWidth, settings.viewportHeight)
+            settings.setImage(settings.viewportWidth.toFloat(), settings.viewportHeight.toFloat())
         } else {
-            settings.setImage(drawable.intrinsicWidth, drawable.intrinsicHeight)
+            settings.setImage(drawable.intrinsicWidth.toFloat(), drawable.intrinsicHeight.toFloat())
         }
 
-        val newWidth = settings.imageWidth.toFloat()
-        val newHeight = settings.imageHeight.toFloat()
+        val newWidth = settings.imageWidth
+        val newHeight = settings.imageHeight
 
         if (newWidth > 0f && newHeight > 0f && oldWidth > 0f && oldHeight > 0f) {
             val scaleFactor = Math.min(oldWidth / newWidth, oldHeight / newHeight)

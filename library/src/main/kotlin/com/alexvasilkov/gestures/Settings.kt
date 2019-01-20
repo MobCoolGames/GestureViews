@@ -13,8 +13,8 @@ class Settings {
 
     var viewportWidth = 0
     var viewportHeight = 0
-    var imageWidth = 0
-    var imageHeight = 0
+    var imageWidth = 0f
+    var imageHeight = 0f
     var maxZoom = MAX_ZOOM
     var doubleTapZoom = DOUBLE_TAP_ZOOM
     var isZoomEnabled = true
@@ -41,14 +41,14 @@ class Settings {
         viewportHeight = height
     }
 
-    fun setImage(width: Int, height: Int) {
+    fun setImage(width: Float, height: Float) {
         imageWidth = width
         imageHeight = height
     }
 
     fun isDoubleTapEnabled() = isZoomEnabled
 
-    fun hasImageSize() = imageWidth != 0 && imageHeight != 0
+    fun hasImageSize() = imageWidth != 0f && imageHeight != 0f
 
     fun hasViewportSize() = viewportWidth != 0 && viewportHeight != 0
 }

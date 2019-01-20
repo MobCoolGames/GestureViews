@@ -13,12 +13,12 @@ object GravityUtils {
     private val tmpRect2 = Rect()
 
     fun getImagePosition(state: State, settings: Settings, out: Rect) {
-        state.get(tmpMatrix)
+        state[tmpMatrix]
         getImagePosition(tmpMatrix, settings, out)
     }
 
     fun getImagePosition(matrix: Matrix, settings: Settings, out: Rect) {
-        tmpRectF.set(0f, 0f, settings.imageWidth.toFloat(), settings.imageHeight.toFloat())
+        tmpRectF.set(0f, 0f, settings.imageWidth, settings.imageHeight)
 
         matrix.mapRect(tmpRectF)
 

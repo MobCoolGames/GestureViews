@@ -63,7 +63,7 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
         settings = Settings()
         stateController = StateController(settings)
 
-        animationEngine = LocalAnimationEngine(targetView)
+        animationEngine = AnimationEngine(targetView)
         val internalListener = InternalGesturesListener()
         gestureDetector = GestureDetector(context, internalListener)
         scaleDetector = ScaleGestureDetectorFixed(context, internalListener)
@@ -154,7 +154,6 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
 
         stateScroller.startScroll(0f, 1f)
         animationEngine.start()
-
     }
 
     private fun stopStateAnimation() {
@@ -438,9 +437,10 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
         isRestrictRotationRequested = true
     }
 
-    private inner class LocalAnimationEngine internal constructor(view: View) : AnimationEngine(view) {
+    private inner class AnimationEngine(val view: View) : Runnable {
+        private val FRAME_TIME = 10L
 
-        override fun onStep(): Boolean {
+        fun onStep(): Boolean {
             var shouldProceed = false
 
             if (getIsAnimatingFling()) {
@@ -485,6 +485,21 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
             }
 
             return shouldProceed
+        }
+
+        override fun run() {
+            if (onStep()) {
+                scheduleNextStep()
+            }
+        }
+
+        private fun scheduleNextStep() {
+            view.removeCallbacks(this)
+            view.postOnAnimationDelayed(this, FRAME_TIME)
+        }
+
+        fun start() {
+            scheduleNextStep()
         }
     }
 

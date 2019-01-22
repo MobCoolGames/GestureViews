@@ -50,10 +50,10 @@ object MathUtils {
     }
 
     fun computeNewPosition(@Size(2) point: FloatArray, initialState: State, finalState: State) {
-        initialState.get(tmpMatrix)
+        initialState[tmpMatrix]
         tmpMatrix.invert(tmpMatrixInverse)
         tmpMatrixInverse.mapPoints(point)
-        finalState.get(tmpMatrix)
+        finalState[tmpMatrix]
         tmpMatrix.mapPoints(point)
     }
 }

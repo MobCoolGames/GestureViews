@@ -17,10 +17,6 @@ class GestureImageView @JvmOverloads constructor(context: Context, attrs: Attrib
             override fun onStateChanged(state: State) {
                 applyState(state)
             }
-
-            override fun onStateReset(oldState: State, newState: State) {
-                applyState(newState)
-            }
         })
 
         scaleType = ImageView.ScaleType.MATRIX

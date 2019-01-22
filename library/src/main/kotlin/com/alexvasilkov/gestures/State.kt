@@ -76,6 +76,7 @@ class State {
         if (newRotation != 0f) {
             matrix.postRotate(newRotation)
         }
+
         matrix.postTranslate(x, y)
     }
 
@@ -110,6 +111,7 @@ class State {
         if (this === obj) {
             return true
         }
+
         if (obj == null || javaClass != obj.javaClass) {
             return false
         }

@@ -185,14 +185,14 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
 
     private fun notifyStateUpdated() {
         prevState.set(state)
-        for (listener in stateListeners) {
-            listener.onStateChanged(state)
+        stateListeners.forEach {
+            it.onStateChanged(state)
         }
     }
 
     private fun notifyStateReset() {
-        for (listener in stateListeners) {
-            listener.onStateReset(prevState, state)
+        stateListeners.forEach {
+            it.onStateChanged(state)
         }
         notifyStateUpdated()
     }
@@ -502,8 +502,6 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
 
     interface OnStateChangeListener {
         fun onStateChanged(state: State)
-
-        fun onStateReset(oldState: State, newState: State)
     }
 
     interface OnGestureListener {

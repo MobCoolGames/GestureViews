@@ -197,6 +197,11 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
         notifyStateUpdated()
     }
 
+    fun onInterceptTouch(view: View, event: MotionEvent): Boolean {
+        isInterceptTouchCalled = true
+        return onTouchInternal(view, event)
+    }
+
     override fun onTouch(view: View, event: MotionEvent): Boolean {
         if (!isInterceptTouchCalled) {
             onTouchInternal(view, event)
@@ -206,14 +211,15 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
         return settings.getIsEnabled()
     }
 
-    private fun onTouchInternal(view: View, event: MotionEvent) {
+    private fun onTouchInternal(view: View, event: MotionEvent): Boolean {
         val viewportEvent = MotionEvent.obtain(event)
         viewportEvent.offsetLocation((-view.paddingLeft).toFloat(), (-view.paddingTop).toFloat())
 
         gestureDetector.setIsLongpressEnabled(view.isLongClickable)
-        gestureDetector.onTouchEvent(viewportEvent)
+        var result = gestureDetector.onTouchEvent(viewportEvent)
         scaleDetector.onTouchEvent(viewportEvent)
         rotateDetector.onTouchEvent(viewportEvent)
+        result = result || isScaleDetected || isRotationDetected;
 
         if (isStateChangedDuringTouch) {
             isStateChangedDuringTouch = false
@@ -244,7 +250,7 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
         }
 
         viewportEvent.recycle()
-
+        return result
     }
 
     private fun shouldDisallowInterceptTouch(event: MotionEvent): Boolean {

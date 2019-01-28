@@ -7,6 +7,6 @@
         android:id="@+id/image_viewer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:src="@drawable/painting_02" />
+        tools:src="@drawable/painting_01" />
 
 </merge>

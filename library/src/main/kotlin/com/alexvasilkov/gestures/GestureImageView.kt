@@ -12,7 +12,6 @@ class GestureImageView @JvmOverloads constructor(context: Context, attrs: Attrib
     var controller = GestureController(this)
 
     init {
-        controller.settings.initFromAttributes(context, attrs)
         controller.addOnStateChangeListener(object : GestureController.OnStateChangeListener {
             override fun onStateChanged(state: State) {
                 applyState(state)

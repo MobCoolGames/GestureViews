@@ -30,7 +30,6 @@ class GestureFrameLayout @JvmOverloads constructor(context: Context, attrs: Attr
     private var currentMotionEvent: MotionEvent? = null
 
     init {
-        controller.settings.initFromAttributes(context, attrs)
         controller.addOnStateChangeListener(object : GestureController.OnStateChangeListener {
             override fun onStateChanged(state: State) {
                 applyState(state)

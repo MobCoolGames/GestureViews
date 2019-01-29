@@ -1,8 +1,5 @@
 package com.alexvasilkov.gestures
 
-import android.content.Context
-import android.util.AttributeSet
-
 class Settings {
     companion object {
         private const val MAX_ZOOM = 5f
@@ -21,20 +18,6 @@ class Settings {
     var isRotationEnabled = false
 
     fun getIsEnabled() = isZoomEnabled || isRotationEnabled
-
-    fun initFromAttributes(context: Context, attrs: AttributeSet?) {
-        if (attrs == null) {
-            return
-        }
-
-        context.obtainStyledAttributes(attrs, R.styleable.GestureImageView).apply {
-            maxZoom = getFloat(R.styleable.GestureImageView_gest_maxZoom, maxZoom)
-            doubleTapZoom = getFloat(R.styleable.GestureImageView_gest_doubleTapZoom, doubleTapZoom)
-            isZoomEnabled = getBoolean(R.styleable.GestureImageView_gest_zoomEnabled, isZoomEnabled)
-            isRotationEnabled = getBoolean(R.styleable.GestureImageView_gest_rotationEnabled, isRotationEnabled)
-            recycle()
-        }
-    }
 
     fun setViewport(width: Int, height: Int) {
         viewportWidth = width

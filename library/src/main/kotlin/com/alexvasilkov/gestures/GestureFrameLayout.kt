@@ -3,13 +3,10 @@ package com.alexvasilkov.gestures
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Matrix
-import android.graphics.Rect
-import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
 import android.widget.FrameLayout
 
 class GestureFrameLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : FrameLayout(context, attrs, defStyle) {
@@ -28,7 +25,6 @@ class GestureFrameLayout @JvmOverloads constructor(context: Context, attrs: Attr
     private val viewMatrix = Matrix()
     private val matrixInverse = Matrix()
 
-    private val tmpFloatRect = RectF()
     private val tmpPointArray = FloatArray(2)
 
     private var currentMotionEvent: MotionEvent? = null
@@ -50,11 +46,6 @@ class GestureFrameLayout @JvmOverloads constructor(context: Context, attrs: Attr
         } finally {
             invertedEvent.recycle()
         }
-    }
-
-    override fun invalidateChildInParent(location: IntArray, dirty: Rect): ViewParent {
-        applyMatrix(dirty, viewMatrix)
-        return super.invalidateChildInParent(location, dirty)
     }
 
     override fun requestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
@@ -143,12 +134,5 @@ class GestureFrameLayout @JvmOverloads constructor(context: Context, attrs: Attr
         val copy = MotionEvent.obtain(event)
         copy.setLocation(tmpPointArray[0], tmpPointArray[1])
         return copy
-    }
-
-    private fun applyMatrix(rect: Rect, matrix: Matrix) {
-        tmpFloatRect.set(rect.left.toFloat(), rect.top.toFloat(), rect.right.toFloat(), rect.bottom.toFloat())
-        matrix.mapRect(tmpFloatRect)
-        rect.set(Math.round(tmpFloatRect.left), Math.round(tmpFloatRect.top),
-                Math.round(tmpFloatRect.right), Math.round(tmpFloatRect.bottom))
     }
 }

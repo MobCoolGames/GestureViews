@@ -167,7 +167,6 @@ class StateController internal constructor(private val settings: Settings) {
         }
 
         var resilience = 0f
-
         val avg = (value + prevValue) * 0.5f
 
         if (avg < boundsMin && value < prevValue) {

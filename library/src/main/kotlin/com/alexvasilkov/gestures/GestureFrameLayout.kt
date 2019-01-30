@@ -91,7 +91,7 @@ class GestureFrameLayout @JvmOverloads constructor(context: Context, attrs: Attr
         }
 
         if (child != null) {
-            controller.settings.setImage(child.measuredWidth.toFloat(), child.measuredHeight.toFloat())
+            controller.settings.setImageSize(child.measuredWidth.toFloat(), child.measuredHeight.toFloat())
             controller.updateState()
         }
     }

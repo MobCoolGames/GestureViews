@@ -24,7 +24,7 @@ class Settings {
         viewportHeight = height
     }
 
-    fun setImage(width: Float, height: Float) {
+    fun setImageSize(width: Float, height: Float) {
         imageWidth = width
         imageHeight = height
     }

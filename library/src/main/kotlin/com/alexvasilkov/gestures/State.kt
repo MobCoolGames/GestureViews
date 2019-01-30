@@ -128,4 +128,6 @@ class State {
         result = 31 * result + if (rotation != 0f) java.lang.Float.floatToIntBits(rotation) else 0
         return result
     }
+
+    override fun toString() = "State(x=$x, y=$y, zoom=$zoom, rotation=$rotation)"
 }

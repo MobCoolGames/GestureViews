@@ -2,12 +2,14 @@ package com.alexvasilkov.gestures
 
 import android.graphics.PointF
 import android.graphics.RectF
+import android.os.Handler
 import android.view.*
 import android.widget.OverScroller
 import java.util.*
 
 class GestureController(private val targetView: View) : View.OnTouchListener {
     companion object {
+        private const val STATE_CHANGE_IDLE_DURATION = 200L     // refocus on the image at dragging too, if the finger hasnt moved for this long
         private const val FLING_COEFFICIENT = 0.9f
         private val tmpPointF = PointF()
         private val tmpRectF = RectF()
@@ -50,6 +52,7 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
     private val stateStart = State()
     private val stateEnd = State()
     private val prevState = State()
+    private val stateChangeHandler = Handler()
     val settings: Settings
     val state = State()
     val stateController: StateController
@@ -181,6 +184,7 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
         if (!forced) {
             animateKeepInBounds()
         }
+        stateChanged()
     }
 
     private fun notifyStateUpdated() {
@@ -195,6 +199,10 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
             it.onStateChanged(state)
         }
         notifyStateUpdated()
+    }
+
+    private fun stateChanged() {
+        stateChangeHandler.removeCallbacksAndMessages(null)
     }
 
     fun onInterceptTouch(view: View, event: MotionEvent): Boolean {
@@ -219,7 +227,14 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
         var result = gestureDetector.onTouchEvent(viewportEvent)
         scaleDetector.onTouchEvent(viewportEvent)
         rotateDetector.onTouchEvent(viewportEvent)
-        result = result || isScaleDetected || isRotationDetected;
+        result = result || isScaleDetected || isRotationDetected
+
+        stateChangeHandler.removeCallbacksAndMessages(null)
+        stateChangeHandler.postDelayed({
+            if (flingScroller.isFinished) {
+                stateChanged()
+            }
+        }, STATE_CHANGE_IDLE_DURATION)
 
         if (isStateChangedDuringTouch) {
             isStateChangedDuringTouch = false
@@ -240,6 +255,9 @@ class GestureController(private val targetView: View) : View.OnTouchListener {
 
         if (viewportEvent.actionMasked == MotionEvent.ACTION_UP || viewportEvent.actionMasked == MotionEvent.ACTION_CANCEL) {
             onUpOrCancel(viewportEvent)
+            if (flingScroller.isFinished) {
+                stateChanged()
+            }
         }
 
         if (!isInterceptTouchDisallowed && shouldDisallowInterceptTouch(viewportEvent)) {
